@@ -29,3 +29,12 @@ In order to test the solver, we can run the following commands.
     wget https://wwwproxy.iwr.uni-heidelberg.de/groups/comopt/software/TSPLIB95/tsp/a280.tsp.gz
     gunzip a280.tsp.gz
     ./concorde a280.tsp
+    
+## How to install Flask on a Linux Machine
+
+Just run one of the following commands (depending on your package manager):
+	
+    npm install Flask
+    sudo apt-get install Flask
+    sudo pip install Flask
+    sudo pip3 install Flask
