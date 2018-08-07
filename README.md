@@ -30,6 +30,13 @@ In order to test the solver, we can run the following commands.
     gunzip a280.tsp.gz
     ./concorde a280.tsp
     
+   
+## How to install Pygraphviz on a Linux Machine
+	npm install graphviz
+	python3 -m pip install setuptools --user
+	python3 -m pip install pygraphviz --user --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/" 
+
+
 ## How to install Flask on a Linux Machine
 
 Just run one of the following commands (depending on your package manager):
