@@ -1,8 +1,12 @@
+import os
 import pygraphviz as pgv
+import shutil
 
 
 class GraphDrawer:
     def __init__(self, strings):
+        self.__file_number__ = 1
+
         assert len(strings)
         self.strings = list(strings)
         self.__empty_string_name__ = "eps"
@@ -25,31 +29,35 @@ class GraphDrawer:
         fixed_length_strings[0].append(self.__empty_string_name__)
 
         for string in strings:
-            fixed_length_strings[len(string)].append(string)
+            for i in range(len(string)):
+                for j in range(i + 1, len(string) + 1):
+                    substring = string[i:j]
+                    assert len(substring)
+                    if not self.HG.has_node(substring):
+                        self.HG.add_node(substring)
+                        fixed_length_strings[len(substring)].append(substring)
 
-            for pref_length in range(len(string)):
-                pref = string[:pref_length]
-                if pref != "":
-                    fixed_length_strings[len(pref)].append(pref)
-                else:
-                    pref = self.__empty_string_name__
-                next_pref = string[:pref_length + 1]
-                self.HG.add_edge(pref, next_pref, constraint='false')
-
-            for suf_length in range(len(string)):
-                suf = string[suf_length:]
-                next_suf = string[suf_length + 1:]
-                if next_suf != "":
-                    fixed_length_strings[len(next_suf)].append(next_suf)
-                else:
-                    next_suf = self.__empty_string_name__
-                self.HG.add_edge(suf, next_suf, constraint='true')
+        for node in self.HG.nodes():
+            if node != self.__empty_string_name__ and not (node.isdigit()):
+                pref = node[:-1] if len(node) > 1 else self.__empty_string_name__
+                suf = node[1:] if len(node) > 1 else self.__empty_string_name__
+                self.HG.add_edge(pref, node, constraint='false', color='grey')
+                self.HG.add_edge(node, suf, constraint='true', color='grey')
 
         # highlight input strings
         for string in strings:
             self.HG.get_node(string).attr['shape'] = 'rectangle'
             self.HG.get_node(string).attr['style'] = 'filled'
-            self.HG.get_node(string).attr['fillcolor'] = 'red'
+            self.HG.get_node(string).attr['fillcolor'] = 'white'
+
+        # add placeholder for description text
+        self.__description_node__ = "description"
+        fixed_length_strings[0].append(self.__description_node__)
+        self.HG.add_node(self.__description_node__)
+        self.HG.get_node(self.__description_node__).attr['color'] = 'white'
+        self.HG.get_node(self.__description_node__).attr['shape'] = 'rectangle'
+        self.HG.get_node(self.__description_node__).attr['width'] = 8
+        self.HG.get_node(self.__description_node__).attr['label'] = ''
 
         # stick nodes to appropriate layers
         for layer in range(max_length + 1):
@@ -61,28 +69,29 @@ class GraphDrawer:
             else:
                 sub_graph.graph_attr['rank'] = 'same'
 
-    def __get_node_name__(self, node_name):
-        return node_name if node_name != "" else self.__empty_string_name__
-
-    def draw(self, file_name, description=None):
-        assert description != ""
-
-        text = description if description else "" * 30
-        self.HG.add_node(text)
-
-        self.HG.get_node(text).attr['color'] = 'white'
-        if not description:
-            self.HG.get_node(text).attr['fontcolor'] = 'white'
-
-        sub_graph = self.HG.add_subgraph([self.__empty_string_name__, description], name="description")
-        sub_graph.graph_attr['rank'] = 'same'
-
         self.HG.layout(prog='dot')
-        self.HG.draw("{}.png".format(file_name))
 
-gd = GraphDrawer(["ab", "ba"])
-gd.draw(file_name="output", description="This is hierarchical graph")
+        self.__output_dir__ = "output"
+        if not os.path.exists(self.__output_dir__):
+            os.makedirs(self.__output_dir__)
+        else:
+            shutil.rmtree(self.__output_dir__)
+            os.makedirs(self.__output_dir__)
 
+    def draw(self, description="", highlighted_node=None):
+        if highlighted_node:
+            assert self.HG.has_node(highlighted_node)
+            self.HG.get_node(highlighted_node).attr['style'] = 'filled'
+            self.HG.get_node(highlighted_node).attr['fillcolor'] = 'turquoise'
 
-gd = GraphDrawer(["abc", "bac", "cab"])
-gd.draw(file_name="output2", description="Another one")
+        self.HG.get_node(self.__description_node__).attr['label'] = description
+        self.HG.draw("output/{}{}.png".format("0" * (3 - len(str(self.__file_number__))), self.__file_number__))
+        self.__file_number__ += 1
+
+        # if highlighted_node:
+        #     self.HG.get_node(highlighted_node).attr['fillcolor'] = 'white'
+
+    def highlight_edge(self, from_node, to_node, color="turquoise"):
+        assert self.HG.has_node(from_node)
+        assert self.HG.has_node(to_node)
+        self.HG.get_edge(from_node, to_node).attr['color'] += ":" + color
