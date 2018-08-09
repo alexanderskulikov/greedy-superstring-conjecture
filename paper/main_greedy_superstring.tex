@@ -59,6 +59,28 @@ according to various distributions).
 We then support the Collapsing Superstring Conjecture by 
 proving that it holds for a~special case when the input strings have length~3.
 
-The Collapsing Superstring Conjecture implies immediately that the Greedy Hierarchical Algorithm is 2-approximate. Surprisingly, it seems to be much stronger in the following sense. Let $GS$ be the set of edges of a~greedy solution and let $DOS$ be the set of edges of a~collapsed double optimal solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. One way of showing this is to prove that $GS \subseteq DOS$. The conjecture, at the same time, states that this inclusion holds with equality.
+The Collapsing Superstring Conjecture implies immediately that the Greedy
+Hierarchical Algorithm is 2-approximate. Surprisingly, it seems to be much
+stronger in the following sense. Let $GS$ be the set of edges of a~greedy
+solution and let $DOS$ be the set of edges of a~collapsed double optimal
+solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. 
+One way of showing this is to prove that $GS \subseteq DOS$. 
+The conjecture, at the same time, states that this inclusion holds with equality.
+
+\section{Further Directions and Open Problems}
+The natural open problem is to prove the Collapsing Superstring Conjecture.
+It would also be interesting to find other applications of the 
+hierarchical graphs. We list two such potential applications below.
+\begin{description}
+\item[Genome assembly.] As we illustrated, the hierarchical graph in a~sense
+generalizes de Bruijn graph. The latter one is used heavily 
+in genome assembly~\cite{}.
+Can one adopt the hierarchical graph for this task? For this, one
+would need to come up with a~compact representation of the graph
+(as datasets in genome assembly are massive) as well as with a~way of
+handling errors in the input data.
+
+\item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
+\end{description}
 
 \end{document}
