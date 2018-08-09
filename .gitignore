@@ -1,3 +1,10 @@
+.idea/*
+*.out
+*.aux
+*.synctex.gz
+*.tdo
+*.tex.bak
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
