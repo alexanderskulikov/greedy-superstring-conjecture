@@ -4,6 +4,8 @@ Here we describe how to deploy this webpage and the required applications on a m
 
 ## Installing Concorde on a Linux Machine
 
+In order to find an optimal solution to the Shortest Common Superstring problem (SCS), we use the [**Concorde** Traveling Salesman Solver](http://www.math.uwaterloo.ca/tsp/concorde.html).
+
 First we download the [**QSopt** Linear Programming Solver](https://www.math.uwaterloo.ca/~bico/qsopt/).
 
 	mkdir qsopt
