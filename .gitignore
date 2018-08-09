@@ -1,4 +1,7 @@
-.idea/*
+# idea files
+.idea/
+
+# LaTeX files
 *.out
 *.aux
 *.synctex.gz
