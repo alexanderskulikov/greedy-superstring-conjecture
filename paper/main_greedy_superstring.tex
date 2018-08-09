@@ -1,0 +1,64 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{fullpage}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage[hidelinks]{hyperref}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{claim}{Claim}
+
+\begin{document}
+\sloppy
+\author{}
+\title{Collapsing Superstring Conjecture}
+\maketitle
+
+\section{Introduction}
+The {\em shortest common superstring problem} (abbreviated as SCS) is:
+given a~set of strings, find a~shortest string that contains all of them as
+substrings. The currently record known approximation ratio is 
+$2\frac{11}{23}$ due to Mucha~\cite{}.
+The corresponding algorithm and its analysis are complicated.
+At the same time, an~intriguing {\em greedy conjecture} remains open
+for about 40 years already. It states that the following simple 
+greedy algorithm is 2-approximate: while there are more than two strings 
+in the set, take two of them with the maximum overlap and replace them
+with their shortest superstring.
+
+Most of the approaches for approximating SCS are based on an
+{\em overlap graph}: it has input strings as nodes, any two nodes 
+are joined by an~edge of weight equal to their overlap.  
+While it is a~convenient graph structure, it does not seem to be sufficient
+for proving the greedy conjecture.
+
+In this paper, we continue the study of the so-called {\em hierarchical graph}
+introduced by Golovnev et al.~\cite{}. This graph is designed specifically 
+for the SCS problem and contains more useful information about input strings
+that just all pairwise overlaps. We present simple and natural greedy algorithm
+in the hierarchical graph. 
+We demonstrate its usefulness by showing that it finds an optimal solution 
+in two well-known polynomially solvable special cases: strings of length~2 and
+a~$k$-spectrum of a~string.
+
+We then conjecture that this greedy algorithm is 2-approximate. For this, we introduce an {\em even stronger} conjecture that we call 
+{\em Collapsing Superstring Conjecture}. 
+Roughly, it says that it is possible to transform a~doubled optimal 
+solution into a~greedy solution. 
+The corresponding transformation, that we call {\em collapsing}, 
+is just replacing two edges $a\alpha \to a\alpha b \to \alpha b$ 
+by two edges $a\alpha \to \alpha \to \alpha b$. 
+We report on computational experiments that verified the 
+conjecture on many datasets (both hand-crafted and generated randomly
+according to various distributions). 
+We then support the Collapsing Superstring Conjecture by 
+proving that it holds for a~special case when the input strings have length~3.
+
+The Collapsing Superstring Conjecture implies immediately that the Greedy Hierarchical Algorithm is 2-approximate. Surprisingly, it seems to be much stronger in the following sense. Let $GS$ be the set of edges of a~greedy solution and let $DOS$ be the set of edges of a~collapsed double optimal solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. One way of showing this is to prove that $GS \subseteq DOS$. The conjecture, at the same time, states that this inclusion holds with equality.
+
+\end{document}
