@@ -67,6 +67,22 @@ solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS
 One way of showing this is to prove that $GS \subseteq DOS$. 
 The conjecture, at the same time, states that this inclusion holds with equality.
 
+\clearpage
+\section{Greedy Hierarchical Algorithm}
+{\sc GreedyHierarchicalAlgorithm}(${\cal S}$):\\
+$V \gets \text{set of nodes of $HG({\cal S})$}$\\
+$E \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s) \colon s \in {\cal S})\}$\\
+$\textsl{maxlevel} \gets \max\{|s| \colon s \in {\cal S}\}$\\
+for \textsl{level} from \textsl{maxlevel} downto 1:\\
+\null\quad if $\operatorname{upper-indegree}(v, E) \neq \operatorname{upper-outdegree}(v, E)$:\\
+\null\quad\quad balance the total degree of $v$ in $E$ by adding an appropriate number of lower edges \\
+\null\quad else:\\
+\null\quad\quad ${\cal C} \gets \text{weakly connected component of $v$ in $E$}$\\
+\null\quad\quad $u \gets \text{the lexicographically largest string among shortest strings in ${\cal C}$}$\\
+\null\quad\quad if ${\cal C}$ is Eulerian, $\varepsilon \not \in {\cal C}$, and $v = u$:\\
+\null\quad\quad\quad $E \gets E \cup \{(\operatorname{pref}(v), v), (v, \operatorname{suf}(v))\}$\\
+return $E$
+
 \section{Further Directions and Open Problems}
 The natural open problem is to prove the Collapsing Superstring Conjecture.
 It would also be interesting to find other applications of the 
