@@ -1,0 +1,11 @@
+body {
+    background: #fff;
+}
+
+.ekko-lightbox-nav-overlay a{color:black}
+
+.carousel-caption {
+    position: relative;
+    left: auto;
+    right: auto;
+}
