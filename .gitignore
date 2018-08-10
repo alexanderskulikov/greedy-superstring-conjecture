@@ -10,7 +10,10 @@
 *.pdf
 
 # scripts output
-output/
+/code/output/
+/web/static/output/*
+!/web/static/output/std
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
