@@ -1,5 +1,6 @@
 import networkx as nx
-import graph_drawer
+from . import graph_drawer
+#import graph_drawer
 
 __empty_node_name__ = "eps"
 debug_print = False
@@ -53,9 +54,11 @@ def get_lower_outdegree(G, v):
     return lower_outdegree
 
 
-def construct_greedy_solution(S):
+def construct_greedy_solution(S, print_description=True, output_folder='output'):
     strings = S
     drawer = graph_drawer.GraphDrawer(strings)
+    drawer.set_print_description(print_description)
+    drawer.set_output_folder(output_folder)
     drawer.draw("initial hierarchical graph")
     drawer.draw("we first process input strings")
 
@@ -146,7 +149,10 @@ def construct_greedy_solution(S):
                     drawer.draw("{} is balanced, skip it".format(v))
 
     drawer.draw("Done!")
+    drawer.draw_solution()
+    return list(zip(drawer.paths, drawer.descriptions))
 
 
 
 construct_greedy_solution(["ccabab", "ababab", "babacc"])
+#construct_greedy_solution(["a","b","c"])

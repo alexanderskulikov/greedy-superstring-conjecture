@@ -44,3 +44,7 @@ Just run one of the following commands (depending on your package manager):
     sudo apt-get install Flask
     sudo pip install Flask
     sudo pip3 install Flask
+
+For ease of running Flask install the python-dotenv package
+
+    pip install python-dotenv
