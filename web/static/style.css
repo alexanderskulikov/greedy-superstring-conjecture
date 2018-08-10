@@ -1,0 +1,92 @@
+body {
+    background: #fff;
+    font-family: 'Raleway', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    color: #f2af00;
+}
+
+h4 {
+    text-align: center;
+    border-left: 2px solid #f2af00;
+    display: inline-block;
+    padding: 20px;
+}
+
+.spacer {
+
+}
+
+.buffer { 
+    margin-bottom: 20%;
+}
+
+.ekko-lightbox-nav-overlay a{
+    color:black
+}
+
+.ekko-lightbox .modal-footer {
+    text-align: center;
+}
+
+.modal-footer{
+    height: 100px;
+}
+
+.carousel-caption {
+    color:black;
+    text-align: center;
+    top: -60px;
+    z-index: 15;
+    max-width: 100%;
+}
+
+.carousel-caption p {
+    font-weight: normal;
+    text-shadow: none;
+}
+
+.item {
+    margin-top:50px;
+}
+
+.item.active {
+    margin-top:50px;
+}
+
+.carousel-inner {
+}
+
+.carousel-indicators li{
+    background-color: #aaa;
+}
+
+.carousel-indicators .active{
+    background-color: #aaa;
+}
+
+.carousel-indicators {
+    bottom: -20%;
+}
+
+.carousel-inner > .item > img {
+    margin: 0 auto;
+}
+
+.left.carousel-control {
+    background-image: none;
+}
+
+.right.carousel-control {
+    background-image: none;
+}
+
+.glyphicon.glyphicon-chevron-left {
+    color: black;
+}
+
+.glyphicon.glyphicon-chevron-right {
+    color: black;
+}
