@@ -58,7 +58,7 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
     strings = S
     drawer = graph_drawer.GraphDrawer(strings)
     drawer.set_print_description(print_description)
-    drawer.set_output_folder(output_folder)
+    drawer.set_output_dir(output_folder)
     drawer.draw("initial hierarchical graph")
     drawer.draw("we first process input strings")
 
@@ -152,7 +152,5 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
     drawer.draw_solution()
     return list(zip(drawer.paths, drawer.descriptions))
 
-
-
-construct_greedy_solution(["ccabab", "ababab", "babacc"])
+#construct_greedy_solution(["ccabab", "ababab", "babacc"])
 #construct_greedy_solution(["a","b","c"])

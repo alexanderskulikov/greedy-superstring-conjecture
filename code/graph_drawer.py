@@ -8,7 +8,7 @@ class GraphDrawer:
         self.__file_number__ = 1
 
         self.print_description = True
-        self.output_folder = 'output'
+        self.output_dir = 'output'
 
         assert len(strings)
         self.strings = list(strings)
@@ -76,14 +76,16 @@ class GraphDrawer:
 
         self.HG.layout(prog='dot')
 
-        self.__output_dir__ = "output"
-        if not os.path.exists(self.__output_dir__):
-            os.makedirs(self.__output_dir__)
+    def create_output_folders(self):
+        if not os.path.exists(self.output_dir):
+            os.makedirs(self.output_dir)
         else:
-            shutil.rmtree(self.__output_dir__)
-            os.makedirs(self.__output_dir__)
+            shutil.rmtree(self.output_dir)
+            os.makedirs(self.output_dir)
 
     def draw(self, description=" ", highlighted_node=None):
+        if self.__file_number__ == 1:
+            self.create_output_folders()
         if highlighted_node:
             assert self.HG.has_node(highlighted_node)
             self.HG.get_node(highlighted_node).attr['style'] = 'filled'
@@ -94,7 +96,7 @@ class GraphDrawer:
         elif self.HG.has_node(self.__description_node__):
             self.HG.remove_node(self.__description_node__)
 
-        output_path = "{}/{}{}.jpg".format(self.output_folder, "0" * (3 - len(str(self.__file_number__))), self.__file_number__)
+        output_path = "{}/{}{}.jpg".format(self.output_dir, "0" * (3 - len(str(self.__file_number__))), self.__file_number__)
         self.HG.draw(output_path)
         self.__file_number__ += 1
         self.descriptions.append(description)
@@ -120,16 +122,19 @@ class GraphDrawer:
     def set_print_description(self, print_description):
         self.print_description = print_description
 
-    def set_output_folder(self, output_folder):
-        self.output_folder = output_folder
+    def set_output_dir(self, output_dir):
+        self.output_dir = output_dir
 
-    def get_solution(self):
-        result = ''
+    def get_highlighted_graph(self):
         graph = pgv.AGraph(strict=False, directed=True)
         for edge in self.HG.edges():
-            if edge.attr['color'] == "grey:turquoise":
+            repetitions = edge.attr['color'].count("turquoise")
+            for _ in range(repetitions):
                 graph.add_edge(edge)
+        return graph
 
+    def get_solution(self):
+        graph = self.get_highlighted_graph()
         cycle = []
         self.euler_cycle(graph, cycle)
         result = ''
@@ -141,7 +146,7 @@ class GraphDrawer:
         return result
 
     def draw_solution(self):
-        output_path = "{}/{}{}.jpg".format(self.output_folder, "0" * (3 - len(str(0))), 0)
+        output_path = "{}/{}{}.jpg".format(self.output_dir, "0" * (3 - len(str(0))), 0)
         description = self.get_solution()
         if self.print_description:
             self.HG.get_node(self.__description_node__).attr['label'] = description
