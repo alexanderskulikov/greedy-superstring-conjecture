@@ -1,0 +1,55 @@
+ccabababacc
+initial hierarchical graph
+we first process input strings
+ababab is an input string hence we add two bottom edges to it: ababa->ababab->babab
+ 
+babacc is an input string hence we add two bottom edges to it: babac->babacc->abacc
+ 
+ccabab is an input string hence we add two bottom edges to it: ccaba->ccabab->cabab
+ 
+we now process nodes from top to bottom in lexicographical ordering
+consider node ababa
+to balance ababa, add edge abab->ababa
+ 
+consider node abacc
+to balance abacc, add edge abacc->bacc
+ 
+consider node babab
+to balance babab, add edge babab->abab
+ 
+consider node babac
+to balance babac, add edge baba->babac
+ 
+consider node cabab
+to balance cabab, add edge cabab->abab
+ 
+consider node ccaba
+to balance ccaba, add edge ccab->ccaba
+ 
+consider node abab
+to balance abab, add edge abab->bab
+ 
+consider node baba
+to balance baba, add edge bab->baba
+ 
+consider node bacc
+to balance bacc, add edge bacc->acc
+ 
+consider node ccab
+to balance ccab, add edge cca->ccab
+ 
+consider node acc
+to balance acc, add edge acc->cc
+ 
+consider node bab
+bab is balanced, skip it
+consider node cca
+to balance cca, add edge cc->cca
+ 
+consider node cc
+adding edges c->cc->c to connect the component to eps
+ 
+consider node c
+adding edges eps->c->eps to connect the component to eps
+ 
+Done!
