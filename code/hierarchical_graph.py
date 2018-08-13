@@ -154,3 +154,4 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
 
 #construct_greedy_solution(["ccabab", "ababab", "babacc"])
 #construct_greedy_solution(["a","b","c"])
+#construct_greedy_solution(["asd","d","www"])
