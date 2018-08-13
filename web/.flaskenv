@@ -1,1 +1,1 @@
-FLASK_APP=csc.py
+FLASK_APP=csc

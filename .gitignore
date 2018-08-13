@@ -12,7 +12,7 @@
 # scripts output
 /code/output/
 /web/static/output/*
-!/web/static/output/std
+!/web/static/std
 
 
 # Byte-compiled / optimized / DLL files

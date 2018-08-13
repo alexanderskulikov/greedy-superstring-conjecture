@@ -47,4 +47,4 @@ Just run one of the following commands (depending on your package manager):
 
 For ease of running Flask install the python-dotenv package
 
-    pip install python-dotenv
+    pip3 install python-dotenv
