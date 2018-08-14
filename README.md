@@ -7,8 +7,13 @@ In order to run the python scripts you will need **graphviz** and **pygraphviz**
 	brew install graphviz
     pip3 install pygraphviz
 
-Now you are ready to run the main scripts. For example, you can run the following command:
+Now you are ready to run the main scripts. For example, you can run the following commands:
 
-	python3 code/hierarchical_graph.py
+	cd code
+    python3 
+    from hierarchical_graph import * 
+    construct_greedy_solution(["abba", "abca", "aac", "cab", "bab", "dbb"])
     
-In the folder output/ you should see all steps of the Greedy Hierarchical Algorithm for the input string *ccabab*, *ababab*, *babacc*.
+In the folder code/output you should see all steps of the Greedy Hierarchical Algorithm for the input string *abba*, *abca*, *aac*, *cab*, *bab*, *dbb*.
+
+
