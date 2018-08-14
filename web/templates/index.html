@@ -39,7 +39,27 @@
         
         <!-- input section -->
         <div class="row">
-            Input
+            <div class="col-md-7">
+                <form role="form" method='POST' action='/'>
+                    <div class="col-md-10">
+                        <div class="form-group">
+                            <textarea class="span12" style="min-width:100%" rows="5" placeholder="Input Strings" name="strings" class="form-control" id="strings-box" autofocus>{{ input_strings }}</textarea>
+                        </div>
+                        <span class="error" >{{ error }}</span>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="submit" style="width:100%" name='compute-button' value="compute" class="btn btn-default">Compute</button>
+                        <button type="submit" style="width:100%" name='random-button' value="reset" class="btn btn-default">Random</button>
+                        <button type="submit" style="width:100%" name='reset-button' value="generate" class="btn btn-default">Clear</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-5">
+                <p style="text-align:left;">Optimal Solution is of length {{  exact_sol|length  }}:</p>
+                <p style="text-align:left;">{{  exact_sol  }}</p>
+                <p style="text-align:left;">Greedy Hierarchical Solution is of length {{  hier_sol|length  }}:</p>
+                <p style="text-align:left;">{{ hier_sol }}</p>
+            </div>
         </div>
         
         <!-- divider section -->
@@ -54,9 +74,13 @@
         <!-- main section -->
         <div class="row">
             <div class="col-md-4">
-                <center>
-                  <h4> Greedy Hierarchical Solution </h4>
-                </center>
+                <!--<center>-->
+                    <h4>Greedy Hierarchical Solution</h4> 
+                    <span class="hint">
+                        <a  href="#" data-toggle="tooltip" data-placement="bottom" title="This part shows how we construct the Greedy Hierarchic Solution. Although it doesn't always match an optimal solution, we conjecture that it always gives a 2-approximation.">What should I see here?</a>
+                    </span>
+                <!--</center>-->
+                
                   <!-- Carousel -->
                   <div id="carouselHier" class="carousel slide" data-interval="false">
                     <!-- Indicators -->
@@ -96,9 +120,12 @@
             
             
             <div class="col-md-4">
-                <center>
+                <!--<center>-->
                   <h4> Doubled Optimal Solution </h4>
-                </center>
+                  <span class="hint">
+                        <a  href="#" data-toggle="tooltip" data-placement="bottom" title="This part shows how we construct the Greedy Hierarchic Solution. Although it doesn't always match an optimal solution, we conjecture that it always gives a 2-approximation.">What should I see here?</a>
+                  </span>
+                <!--</center>-->
                   <!-- Carousel -->
                   <div id="carouselExact" class="carousel slide" data-interval="false">
                     <!-- Indicators -->
@@ -138,9 +165,12 @@
             </div>
             
             <div class="col-md-4">
-                <center>
+                <!--<center>-->
                   <h4> Doubled Trivial Solution </h4>
-                </center>
+                  <span class="hint">
+                        <a  href="#" data-toggle="tooltip" data-placement="bottom" title="This part shows how we construct the Greedy Hierarchic Solution. Although it doesn't always match an optimal solution, we conjecture that it always gives a 2-approximation.">What should I see here?</a>
+                  </span>
+                <!--</center>-->
                   <!-- Carousel -->
                   <div id="carouselTrivial" class="carousel slide" data-interval="false">
                     <!-- Indicators -->
@@ -204,11 +234,18 @@
     </div>
     
 <script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>
+    
 <script type="text/javascript">
 $(document).on('click', '[data-toggle="lightbox"]', function(event) {
             event.preventDefault();
             $(this).ekkoLightbox();
         });
+</script>
+    
+<script>
+$(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();   
+});
 </script>
 </body>
 </html>

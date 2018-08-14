@@ -154,4 +154,3 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
     return list(zip(drawer.paths, drawer.descriptions))
 
 construct_greedy_solution(["abba", "abca", "aac", "cab", "bab", "dbb"])
-#construct_greedy_solution(["a","b","c"])

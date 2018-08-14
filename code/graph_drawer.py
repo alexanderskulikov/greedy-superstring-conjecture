@@ -1,7 +1,8 @@
 import os
 import pygraphviz as pgv
 import shutil
-import copy
+import networkx as nx
+
 
 class GraphDrawer:
     def __init__(self, strings):
@@ -96,7 +97,8 @@ class GraphDrawer:
         elif self.HG.has_node(self.__description_node__):
             self.HG.remove_node(self.__description_node__)
 
-        output_path = "{}/{}{}.jpg".format(self.output_dir, "0" * (3 - len(str(self.__file_number__))), self.__file_number__)
+        output_path = "{}/{}{}.jpg".format(self.output_dir,
+                                           "0" * (3 - len(str(self.__file_number__))), self.__file_number__)
         self.HG.draw(output_path)
         self.__file_number__ += 1
         self.descriptions.append(description)
@@ -104,15 +106,6 @@ class GraphDrawer:
 
         # if highlighted_node:
         #     self.HG.get_node(highlighted_node).attr['fillcolor'] = 'white'
-
-    def euler_cycle(self, graph, cycle, node='eps'):
-        neighbors = graph.neighbors(node)
-        for neighbor in graph.nodes():
-            if graph.has_edge(node, neighbor):
-                # graph.remove_edge removes one copy of the arc
-                graph.remove_edge(node, neighbor)
-                self.euler_cycle(graph, cycle, neighbor)
-        cycle.append(node)
 
     def highlight_edge(self, from_node, to_node, color="turquoise"):
         assert self.HG.has_node(from_node)
@@ -126,23 +119,21 @@ class GraphDrawer:
         self.output_dir = output_dir
 
     def get_highlighted_graph(self):
-        graph = pgv.AGraph(strict=False, directed=True)
+        graph = nx.MultiDiGraph()
         for edge in self.HG.edges():
             repetitions = edge.attr['color'].count("turquoise")
             for _ in range(repetitions):
-                graph.add_edge(edge)
+                graph.add_edge(edge[0], edge[1])
         return graph
 
     def get_solution(self):
         graph = self.get_highlighted_graph()
-        cycle = []
-        self.euler_cycle(graph, cycle)
+        cycle = nx.eulerian_circuit(graph, 'eps')
         result = ''
-        for i in range(len(cycle)-1):
-            cur = cycle[i]
-            next = cycle[i + 1]
+        for cur, next in cycle:
+            print(cur, next)
             if next != 'eps' and (cur == 'eps' or len(next) > len(cur)):
-                result += next[0]
+                result += next[-1]
         return result
 
     def draw_solution(self):

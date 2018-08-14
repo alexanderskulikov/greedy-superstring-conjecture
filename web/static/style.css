@@ -15,12 +15,31 @@ h4 {
     padding: 20px;
 }
 
+
+.tooltip-inner {
+    max-width: 200px;
+    padding: 3px 8px;
+    color: #fff;
+    text-align: center;
+    background-color: #000;
+    border-radius: .25rem;
+}
+
+.hint {
+    float: right; 
+    font-size: small;
+}
+
+.error {
+    color: #f2af00;
+}
+
 .spacer {
 
 }
 
 .buffer { 
-    margin-bottom: 20%;
+    margin-bottom: 40%;
 }
 
 .ekko-lightbox-nav-overlay a{
@@ -68,7 +87,8 @@ h4 {
 }
 
 .carousel-indicators {
-    bottom: -20%;
+    bottom: -20px;
+    transform: translateY(100%);
 }
 
 .carousel-inner > .item > img {

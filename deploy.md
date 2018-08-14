@@ -38,13 +38,8 @@ In order to test the solver, we can run the following commands.
 
 ## Installing Flask on a Linux Machine
 
-Just run one of the following commands (depending on your package manager):
+For ease of running Flask, we also install the python-dotenv package. Run the following commands:
 	
-    npm install Flask
-    sudo apt-get install Flask
-    sudo pip install Flask
-    sudo pip3 install Flask
-
-For ease of running Flask install the python-dotenv package
-
-    pip install python-dotenv
+    module load python-3.6
+    pip3 install Flask
+    pip3 install python-dotenv
