@@ -1,8 +1,10 @@
+import sys
+sys.path.append('../code/')
+
 from flask import Flask, render_template, request
 import random
 import string
-import sys
-from ..code import hierarchical_graph
+import hierarchical_graph
 
 app = Flask(__name__, instance_relative_config=True)
 
