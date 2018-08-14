@@ -1,6 +1,6 @@
 import networkx as nx
-from . import graph_drawer
-#import graph_drawer
+#from . import graph_drawer
+import graph_drawer
 
 __empty_node_name__ = "eps"
 debug_print = False
@@ -132,7 +132,8 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
 
                 min_length_string_in_wcc = min(len(z) for z in wcc)
 
-                if not greedy_graph.has_node("eps") and scc == wcc and len(v) == min_length_string_in_wcc and sorted([u for u in scc if len(u) == len(v)])[-1] == v:
+                #if not greedy_graph.has_node("eps") and scc == wcc and len(v) == min_length_string_in_wcc and sorted([u for u in scc if len(u) == len(v)])[-1] == v:
+                if not "eps" in scc and scc == wcc and len(v) == min_length_string_in_wcc and sorted([u for u in scc if len(u) == len(v)])[-1] == v:
                     suff = v[1:] if v[1:] != "" else "eps"
                     pref = v[:-1] if v[:-1] != "" else "eps"
 
@@ -152,5 +153,5 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
     drawer.draw_solution()
     return list(zip(drawer.paths, drawer.descriptions))
 
-#construct_greedy_solution(["ccabab", "ababab", "babacc"])
+construct_greedy_solution(["abba", "abca", "aac", "cab", "bab", "dbb"])
 #construct_greedy_solution(["a","b","c"])
