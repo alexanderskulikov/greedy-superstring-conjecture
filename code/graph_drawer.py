@@ -124,14 +124,6 @@ class GraphDrawer:
             repetitions = edge.attr['color'].count("turquoise")
             for _ in range(repetitions):
                 graph.add_edge(edge[0], edge[1])
-                print(edge[0], edge[1])
-        for node in graph.nodes():
-            if graph.in_degree(node) != graph.out_degree(node):
-                print(node)
-        print(all(graph.in_degree(n) == graph.out_degree(n) for n in graph))
-        print(nx.is_strongly_connected(graph))
-        for comp in nx.strongly_connected_components(graph):
-            print(list(comp))
         return graph
 
     def get_solution(self):
@@ -142,7 +134,6 @@ class GraphDrawer:
             print(cur, next)
             if next != 'eps' and (cur == 'eps' or len(next) > len(cur)):
                 result += next[-1]
-        print(result)
         return result
 
     def draw_solution(self):
