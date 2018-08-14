@@ -5,6 +5,7 @@ from flask import Flask, render_template, request
 import random
 import string
 import hierarchical_graph
+import datetime
 
 app = Flask(__name__, instance_relative_config=True)
 
@@ -42,6 +43,10 @@ def empty_sol(input_strings='', error=''):
     return render_template('index.html', input_strings=input_strings, hier=[], exact=[], trivial=[], exact_sol='', hier_sol='', error=error)
 
 
+def log(input_strings, exact_sol, hier_sol):
+    return "%s\nExact Solution has length %d:\n%s\nGreedy Hierarchical Solution has length %d:\n%s\n\n"\
+           % (input_strings, len(exact_sol), exact_sol, len(hier_sol), hier_sol)
+
 def compute(strings):
     input_check = validate(strings)
     input_strings = '\n'.join(strings)
@@ -53,6 +58,17 @@ def compute(strings):
     trivial = hier
     exact_sol = exact[0][1]
     hier_sol = hier[0][1]
+
+    # logging
+    if len(hier_sol) >= 2 * len(exact_sol):
+        with open('static/logs/counter-examples.txt', 'a+') as output_file:
+            output_file.write(log(input_strings, exact_sol, hier_sol))
+
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    with open('static/logs/history/%s.txt' % date, 'a+') as output_file:
+        output_file.write(log(input_strings, exact_sol, hier_sol))
+
     return render_template('index.html', input_strings=input_strings, hier=hier, exact=exact, trivial=trivial,
                                exact_sol=exact_sol,
                                hier_sol=hier_sol)
@@ -91,4 +107,6 @@ def index():
             return render_template('index.html', input_strings=input, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol,
                                    hier_sol=hier_sol, error='')
     except:
+        with open('static/logs/exceptions.txt', 'a+') as output_file:
+            output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
         return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')

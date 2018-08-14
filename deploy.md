@@ -41,5 +41,6 @@ In order to test the solver, we can run the following commands.
 For ease of running Flask, we also install the python-dotenv package. Run the following commands:
 	
     module load python-3.6
-    pip3 install Flask
+    pip3 install flask
     pip3 install python-dotenv
+    pip3 install flask-mail --user
