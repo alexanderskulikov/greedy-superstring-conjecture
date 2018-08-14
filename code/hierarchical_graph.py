@@ -1,6 +1,6 @@
 import networkx as nx
-from . import graph_drawer
-#import graph_drawer
+#from . import graph_drawer
+import graph_drawer
 
 __empty_node_name__ = "eps"
 debug_print = False
