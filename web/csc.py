@@ -46,13 +46,17 @@ def compute(strings):
     if input_check:
         return empty_sol(input_strings, input_check)
     output_folder = random_out_folder()
-    hier = hierarchical_graph.construct_greedy_solution(strings, False, 'static/output/' + output_folder)
-    exact = hier
-    trivial = hier
-    exact_sol = 'ABC'
-    hier_sol = 'ABDD'
-    return render_template('index.html', input_strings=input_strings, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol,
-                           hier_sol=hier_sol)
+    try:
+        hier = hierarchical_graph.construct_greedy_solution(strings, False, 'static/output/' + output_folder)
+        exact = hier
+        trivial = hier
+        exact_sol = exact[0][1]
+        hier_sol = hier[0][1]
+        return render_template('index.html', input_strings=input_strings, hier=hier, exact=exact, trivial=trivial,
+                               exact_sol=exact_sol,
+                               hier_sol=hier_sol)
+    except:
+        return empty_sol(input_strings, 'There is a problem in program evaluation for this input, please report it.')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -67,12 +71,9 @@ def index():
             with open('static/datasets.txt', 'r') as presets_file:
                 presets = presets_file.readlines()
                 presets = [x.strip() for x in presets]
-                print(len(presets))
-                print(presets)
-                num = random.randint(0, len(presets))
-                print(num)
-                print(presets[num])
-                return compute(presets[num].split(' '))
+                num = random.randint(0, len(presets) - 1)
+                #return compute(presets[num].split(' '))
+                return empty_sol(presets[num].replace(' ', '\n'), '')
         elif 'reset-button' in request.form:
             return empty_sol()
 
