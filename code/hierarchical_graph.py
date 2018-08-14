@@ -1,6 +1,6 @@
 import networkx as nx
-#from . import graph_drawer
-import graph_drawer
+from . import graph_drawer
+#import graph_drawer
 
 __empty_node_name__ = "eps"
 debug_print = False
@@ -153,4 +153,4 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
     drawer.draw_solution()
     return list(zip(drawer.paths, drawer.descriptions))
 
-construct_greedy_solution(["abba", "abca", "aac", "cab", "bab", "dbb"])
+#construct_greedy_solution(["abba", "abca", "aac", "cab", "bab", "dbb"])

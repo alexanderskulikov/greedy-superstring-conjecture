@@ -131,7 +131,6 @@ class GraphDrawer:
         cycle = nx.eulerian_circuit(graph, 'eps')
         result = ''
         for cur, next in cycle:
-            print(cur, next)
             if next != 'eps' and (cur == 'eps' or len(next) > len(cur)):
                 result += next[-1]
         return result
