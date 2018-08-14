@@ -8,11 +8,11 @@
 *.tdo
 *.tex.bak
 *.pdf
+*.bbl
+*.blg
 
 # scripts output
-/web/static/logs/history/*
 /code/output/
-/web/static/output/*
 !/web/static/std
 
 
