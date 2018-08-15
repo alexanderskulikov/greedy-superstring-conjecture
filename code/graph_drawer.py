@@ -111,6 +111,7 @@ class GraphDrawer:
         assert self.HG.has_node(from_node)
         assert self.HG.has_node(to_node)
         self.HG.get_edge(from_node, to_node).attr['color'] += ":" + color
+        self.HG.get_edge(from_node, to_node).attr['penwidth'] = 3
 
     def set_print_description(self, print_description):
         self.print_description = print_description
