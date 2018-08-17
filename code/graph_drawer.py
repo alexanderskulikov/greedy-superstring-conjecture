@@ -84,6 +84,12 @@ class GraphDrawer:
             shutil.rmtree(self.output_dir)
             os.makedirs(self.output_dir)
 
+    def set_print_description(self, print_description):
+        self.print_description = print_description
+
+    def set_output_dir(self, output_dir):
+        self.output_dir = output_dir
+
     def draw(self, description=" ", highlighted_node=None):
         if self.__file_number__ == 1:
             self.create_output_folders()
@@ -112,12 +118,6 @@ class GraphDrawer:
         assert self.HG.has_node(to_node)
         self.HG.get_edge(from_node, to_node).attr['color'] += ":" + color
         self.HG.get_edge(from_node, to_node).attr['penwidth'] = 3
-
-    def set_print_description(self, print_description):
-        self.print_description = print_description
-
-    def set_output_dir(self, output_dir):
-        self.output_dir = output_dir
 
     def get_highlighted_graph(self):
         graph = nx.MultiDiGraph()
