@@ -6,56 +6,55 @@ __empty_node_name__ = "eps"
 debug_print = False
 
 
-def get_upper_indegree(G, v):
+def get_upper_indegree(graph, v):
     assert v != "" and v != __empty_node_name__
-    if not G.has_node(v):
+    if not graph.has_node(v):
         return 0
 
     upper_indegree = 0
-    for u in G.predecessors(v):
+    for u in graph.predecessors(v):
         if len(u) == len(v) + 1:
-            upper_indegree += G.number_of_edges(u, v)
+            upper_indegree += graph.number_of_edges(u, v)
     return upper_indegree
 
 
-def get_upper_outdegree(G, v):
+def get_upper_outdegree(graph, v):
     assert v != "" and v != __empty_node_name__
-    if not G.has_node(v):
+    if not graph.has_node(v):
         return 0
 
     upper_outdegree = 0
-    for u in G.successors(v):
+    for u in graph.successors(v):
         if len(u) == len(v) + 1:
-            upper_outdegree += G.number_of_edges(v, u)
+            upper_outdegree += graph.number_of_edges(v, u)
     return upper_outdegree
 
 
-def get_lower_indegree(G, v):
+def get_lower_indegree(graph, v):
     assert v != "" and v != __empty_node_name__
-    if not G.has_node(v):
+    if not graph.has_node(v):
         return 0
 
     lower_indegree = 0
-    for u in G.predecessors(v):
+    for u in graph.predecessors(v):
         if len(u) == len(v) - 1 or (len(v) == 1 and u == __empty_node_name__):
-            lower_indegree += G.number_of_edges(u, v)
+            lower_indegree += graph.number_of_edges(u, v)
     return lower_indegree
 
 
-def get_lower_outdegree(G, v):
+def get_lower_outdegree(graph, v):
     assert v != "" and v != __empty_node_name__
-    if not G.has_node(v):
+    if not graph.has_node(v):
         return 0
 
     lower_outdegree = 0
-    for u in G.successors(v):
+    for u in graph.successors(v):
         if len(u) == len(v) - 1 or (len(v) == 1 and u == __empty_node_name__):
-            lower_outdegree += G.number_of_edges(v, u)
+            lower_outdegree += graph.number_of_edges(v, u)
     return lower_outdegree
 
 
-def construct_greedy_solution(S, print_description=True, output_folder='output'):
-    strings = S
+def construct_greedy_solution(strings, print_description=True, output_folder='output'):
     drawer = graph_drawer.GraphDrawer(strings)
     drawer.set_print_description(print_description)
     drawer.set_output_dir(output_folder)
@@ -82,7 +81,7 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
 
     drawer.draw("we now process nodes from top to bottom in lexicographical ordering")
 
-    max_level = max(len(s) for s in S)
+    max_level = max(len(s) for s in strings)
     cur_level = max_level - 1
 
     while not greedy_graph.has_node("eps"):
@@ -153,4 +152,4 @@ def construct_greedy_solution(S, print_description=True, output_folder='output')
     drawer.draw_solution()
     return list(zip(drawer.paths, drawer.descriptions))
 
-№construct_greedy_solution(["abba", "abca", "aac", "cab", "bab", "dbb"])
+
