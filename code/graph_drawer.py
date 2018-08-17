@@ -5,16 +5,18 @@ import networkx as nx
 
 
 class GraphDrawer:
-    def __init__(self, strings):
+    def __init__(self, strings, output_dir, print_description):
         self.__file_number__ = 1
 
-        self.print_description = True
-        self.output_dir = 'output'
+        self.print_description = print_description
+        self.output_dir = output_dir
+        self.create_output_folders()
 
         assert len(strings)
         self.strings = list(strings)
         self.__empty_string_name__ = "eps"
         assert all(s != self.__empty_string_name__ for s in strings)
+
         self.descriptions = []
         self.paths = []
 
@@ -44,11 +46,13 @@ class GraphDrawer:
                         fixed_length_strings[len(substring)].append(substring)
 
         for node in self.HG.nodes():
-            if node != self.__empty_string_name__ and not (node.isdigit()):
+            if node != self.__empty_string_name__:# and not (node.isdigit()):
                 pref = node[:-1] if len(node) > 1 else self.__empty_string_name__
                 suf = node[1:] if len(node) > 1 else self.__empty_string_name__
-                self.HG.add_edge(pref, node, constraint='false', color='grey')
-                self.HG.add_edge(node, suf, constraint='true', color='grey')
+                self.HG.add_edge(pref, node, constraint='false')
+                self.HG.add_edge(node, suf, constraint='true')
+
+        self.set_default_attributes()
 
         # highlight input strings
         for string in strings:
@@ -57,13 +61,13 @@ class GraphDrawer:
             self.HG.get_node(string).attr['fillcolor'] = 'white'
 
         # add placeholder for description text
-        self.__description_node__ = "description"
-        fixed_length_strings[0].append(self.__description_node__)
-        self.HG.add_node(self.__description_node__)
-        self.HG.get_node(self.__description_node__).attr['color'] = 'white'
-        self.HG.get_node(self.__description_node__).attr['shape'] = 'rectangle'
-        self.HG.get_node(self.__description_node__).attr['width'] = 8
-        self.HG.get_node(self.__description_node__).attr['label'] = ''
+        # self.__description_node__ = "description"
+        # fixed_length_strings[0].append(self.__description_node__)
+        # self.HG.add_node(self.__description_node__)
+        # self.HG.get_node(self.__description_node__).attr['color'] = 'white'
+        # self.HG.get_node(self.__description_node__).attr['shape'] = 'rectangle'
+        # self.HG.get_node(self.__description_node__).attr['width'] = 8
+        # self.HG.get_node(self.__description_node__).attr['label'] = ''
 
         # stick nodes to appropriate layers
         for layer in range(max_length + 1):
@@ -84,24 +88,25 @@ class GraphDrawer:
             shutil.rmtree(self.output_dir)
             os.makedirs(self.output_dir)
 
-    def set_print_description(self, print_description):
-        self.print_description = print_description
+    def set_default_attributes(self):
+        for (u, v) in self.HG.edges():
+            self.HG.get_edge(u, v).attr['color'] = "grey"
+            self.HG.get_edge(u, v).attr['penwidth'] = 1
 
-    def set_output_dir(self, output_dir):
-        self.output_dir = output_dir
+        for v in self.HG.nodes():
+            self.HG.get_node(v).attr['style'] = 'filled'
+            self.HG.get_node(v).attr['fillcolor'] = 'white'
 
-    def draw(self, description=" ", highlighted_node=None):
-        if self.__file_number__ == 1:
-            self.create_output_folders()
-        if highlighted_node:
-            assert self.HG.has_node(highlighted_node)
-            self.HG.get_node(highlighted_node).attr['style'] = 'filled'
-            self.HG.get_node(highlighted_node).attr['fillcolor'] = 'turquoise'
+    def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="turquoise"):
+        for (u, v) in solution_edges.edges():
+            self.HG.get_edge(u, v).attr['color'] += ":" + color
+            self.HG.get_edge(u, v).attr['penwidth'] = 2
 
-        if self.print_description:
-            self.HG.get_node(self.__description_node__).attr['label'] = description
-        elif self.HG.has_node(self.__description_node__):
-            self.HG.remove_node(self.__description_node__)
+        if highlighted_nodes:
+            for v in highlighted_nodes:
+                assert self.HG.has_node(v)
+                self.HG.get_node(v).attr['style'] = 'filled'
+                self.HG.get_node(v).attr['fillcolor'] = color
 
         output_path = "{}/{}{}.jpg".format(self.output_dir,
                                            "0" * (3 - len(str(self.__file_number__))), self.__file_number__)
@@ -110,14 +115,8 @@ class GraphDrawer:
         self.descriptions.append(description)
         self.paths.append(output_path)
 
-        # if highlighted_node:
-        #     self.HG.get_node(highlighted_node).attr['fillcolor'] = 'white'
+        self.set_default_attributes()
 
-    def highlight_edge(self, from_node, to_node, color="turquoise"):
-        assert self.HG.has_node(from_node)
-        assert self.HG.has_node(to_node)
-        self.HG.get_edge(from_node, to_node).attr['color'] += ":" + color
-        self.HG.get_edge(from_node, to_node).attr['penwidth'] = 3
 
     def get_highlighted_graph(self):
         graph = nx.MultiDiGraph()
@@ -139,8 +138,6 @@ class GraphDrawer:
     def draw_solution(self):
         output_path = "{}/{}{}.jpg".format(self.output_dir, "0" * (3 - len(str(0))), 0)
         description = self.get_solution()
-        if self.print_description:
-            self.HG.get_node(self.__description_node__).attr['label'] = description
         self.HG.draw(output_path)
         self.descriptions.insert(0, description)
         self.paths.insert(0, output_path)

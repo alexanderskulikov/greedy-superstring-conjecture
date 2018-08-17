@@ -55,42 +55,43 @@ def get_lower_outdegree(graph, v):
 
 
 def construct_greedy_solution(strings, print_description=True, output_folder='output'):
-    drawer = graph_drawer.GraphDrawer(strings)
-    drawer.set_print_description(print_description)
-    drawer.set_output_dir(output_folder)
-    drawer.draw("initial hierarchical graph")
-    drawer.draw("we first process input strings")
-
+    drawer = graph_drawer.GraphDrawer(strings, output_folder, print_description)
     greedy_graph = nx.MultiDiGraph()
+    processed_nodes = []
+
+    drawer.draw(greedy_graph, processed_nodes,
+                description="initial hierarchical graph")
+    drawer.draw(greedy_graph, processed_nodes,
+                description="we first process input strings")
 
     for s in sorted(strings):
         pref = s[:-1] if s[:-1] != "" else "eps"
         suff = s[1:]  if s[1:]  != "" else "eps"
 
-        drawer.draw(
-            description="{} is an input string hence we add two bottom edges to it: {}->{}->{}".format(s, pref, s, suff),
-            highlighted_node=s
-        )
+        processed_nodes.append(s)
+        drawer.draw(greedy_graph, processed_nodes,
+            "{} is an input string hence we add two bottom edges to it: {}->{}->{}".format(s, pref, s, suff)
+                    )
 
         greedy_graph.add_edge(pref, s)
         greedy_graph.add_edge(s, suff)
 
-        drawer.highlight_edge(pref, s)
-        drawer.highlight_edge(s, suff)
-        drawer.draw()
+        drawer.draw(greedy_graph, processed_nodes)
 
-    drawer.draw("we now process nodes from top to bottom in lexicographical ordering")
+    drawer.draw(greedy_graph, processed_nodes,
+        "we now process nodes from top to bottom in lexicographical ordering"
+                )
 
     max_level = max(len(s) for s in strings)
     cur_level = max_level - 1
 
     while not greedy_graph.has_node("eps"):
-        #assert cur_level > 0
         cur_level_vertices = sorted([v for v in greedy_graph.nodes() if len(v) == cur_level])
         cur_level -= 1
 
         for v in cur_level_vertices:
-            drawer.draw(description="consider node {}".format(v), highlighted_node=v)
+            processed_nodes.append(v)
+            drawer.draw(greedy_graph, processed_nodes, "consider node {}".format(v))
 
             upper_indegree = get_upper_indegree(greedy_graph, v)
             upper_outdegree = get_upper_outdegree(greedy_graph, v)
@@ -98,18 +99,17 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
             if upper_indegree > upper_outdegree:
                 suff = v[1:] if v[1:] != "" else "eps"
                 for _ in range(upper_indegree - upper_outdegree):
-                    drawer.draw("to balance {}, add edge {}->{}".format(v, v, suff))
+                    drawer.draw(greedy_graph, processed_nodes, "to balance {}, add edge {}->{}".format(v, v, suff))
                     greedy_graph.add_edge(v, suff)
-                    drawer.highlight_edge(v, suff)
-                    drawer.draw()
+                    drawer.draw(greedy_graph, processed_nodes)
                 assert greedy_graph.in_degree(v) == greedy_graph.out_degree(v)
             elif upper_indegree < upper_outdegree:
                 pref = v[:-1] if v[:-1] != "" else "eps"
                 for _ in range(upper_outdegree - upper_indegree):
-                    drawer.draw("to balance {}, add edge {}->{}".format(v, pref, v))
+                    drawer.draw(greedy_graph, processed_nodes,
+                                               "to balance {}, add edge {}->{}".format(v, pref, v))
                     greedy_graph.add_edge(pref, v)
-                    drawer.highlight_edge(pref, v)
-                    drawer.draw()
+                    drawer.draw(greedy_graph, processed_nodes)
                 assert greedy_graph.in_degree(v) == greedy_graph.out_degree(v)
             else:
                 assert upper_indegree == upper_outdegree
@@ -136,20 +136,19 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
                     suff = v[1:] if v[1:] != "" else "eps"
                     pref = v[:-1] if v[:-1] != "" else "eps"
 
-                    drawer.draw("adding edges {}->{}->{} to connect the component to eps".format(pref, v, suff))
+                    drawer.draw(greedy_graph, processed_nodes, "adding edges {}->{}->{} to connect the component to eps".format(pref, v, suff))
 
                     greedy_graph.add_edge(v, suff)
                     greedy_graph.add_edge(pref, v)
                     assert greedy_graph.in_degree(v) == greedy_graph.out_degree(v)
-                    drawer.highlight_edge(v, suff)
-                    drawer.highlight_edge(pref, v)
 
-                    drawer.draw()
+                    drawer.draw(greedy_graph, processed_nodes)
                 else:
-                    drawer.draw("{} is balanced, skip it".format(v))
+                    drawer.draw(greedy_graph, processed_nodes, "{} is balanced, skip it".format(v))
 
-    drawer.draw("Done!")
-    drawer.draw_solution()
+    drawer.draw(greedy_graph, processed_nodes, "Done!")
+    #drawer.draw_solution()
     return list(zip(drawer.paths, drawer.descriptions))
 
 
+construct_greedy_solution(["ab", "ba"])
