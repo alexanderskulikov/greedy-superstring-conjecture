@@ -118,26 +118,4 @@ class GraphDrawer:
         self.set_default_attributes()
 
 
-    def get_highlighted_graph(self):
-        graph = nx.MultiDiGraph()
-        for edge in self.HG.edges():
-            repetitions = edge.attr['color'].count("turquoise")
-            for _ in range(repetitions):
-                graph.add_edge(edge[0], edge[1])
-        return graph
 
-    def get_solution(self):
-        graph = self.get_highlighted_graph()
-        cycle = nx.eulerian_circuit(graph, 'eps')
-        result = ''
-        for cur, next in cycle:
-            if next != 'eps' and (cur == 'eps' or len(next) > len(cur)):
-                result += next[-1]
-        return result
-
-    def draw_solution(self):
-        output_path = "{}/{}{}.jpg".format(self.output_dir, "0" * (3 - len(str(0))), 0)
-        description = self.get_solution()
-        self.HG.draw(output_path)
-        self.descriptions.insert(0, description)
-        self.paths.insert(0, output_path)

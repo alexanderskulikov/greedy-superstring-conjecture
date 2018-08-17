@@ -54,6 +54,15 @@ def get_lower_outdegree(graph, v):
     return lower_outdegree
 
 
+def set_of_edges_to_superstring(graph):
+    cycle = nx.eulerian_circuit(graph, 'eps')
+    superstring = ''
+    for cur, next in cycle:
+        if next != 'eps' and (cur == 'eps' or len(next) > len(cur)):
+            superstring += next[-1]
+    return superstring
+
+
 def construct_greedy_solution(strings, print_description=True, output_folder='output'):
     drawer = graph_drawer.GraphDrawer(strings, output_folder, print_description)
     greedy_graph = nx.MultiDiGraph()
@@ -147,8 +156,8 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
                     drawer.draw(greedy_graph, processed_nodes, "{} is balanced, skip it".format(v))
 
     drawer.draw(greedy_graph, processed_nodes, "Done!")
-    #drawer.draw_solution()
+    drawer.draw(greedy_graph, processed_nodes, set_of_edges_to_superstring(greedy_graph))
     return list(zip(drawer.paths, drawer.descriptions))
 
 
-construct_greedy_solution(["ab", "ba"])
+construct_greedy_solution(["abc", "cba", "bca"])
