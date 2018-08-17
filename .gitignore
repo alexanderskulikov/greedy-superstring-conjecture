@@ -10,6 +10,7 @@
 *.pdf
 *.bbl
 *.blg
+*.toc
 
 # scripts output
 /code/output/
@@ -120,4 +121,3 @@ venv.bak/
 
 # mypy
 .mypy_cache/
-*.toc

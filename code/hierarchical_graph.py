@@ -160,4 +160,4 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
     return list(zip(drawer.paths, drawer.descriptions))
 
 
-construct_greedy_solution(["abc", "cba", "bca"])
+# construct_greedy_solution(["abc", "cba", "bca"])
