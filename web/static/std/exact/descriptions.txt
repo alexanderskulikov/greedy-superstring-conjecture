@@ -1,4 +1,3 @@
-ccabababacc
 initial hierarchical graph
 we first process input strings
 ababab is an input string hence we add two bottom edges to it: ababa->ababab->babab
@@ -53,3 +52,4 @@ consider node c
 adding edges eps->c->eps to connect the component to eps
  
 Done!
+ccabababacc

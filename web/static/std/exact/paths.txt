@@ -1,4 +1,3 @@
-static/std/hier/files/000.jpg
 static/std/hier/files/001.jpg
 static/std/hier/files/002.jpg
 static/std/hier/files/003.jpg
@@ -53,3 +52,4 @@ static/std/hier/files/051.jpg
 static/std/hier/files/052.jpg
 static/std/hier/files/053.jpg
 static/std/hier/files/054.jpg
+static/std/hier/files/055.jpg
