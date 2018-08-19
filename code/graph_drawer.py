@@ -97,10 +97,10 @@ class GraphDrawer:
             self.HG.get_node(v).attr['style'] = 'filled'
             self.HG.get_node(v).attr['fillcolor'] = 'white'
 
-    def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="turquoise"):
+    def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="red"):
         for (u, v) in solution_edges.edges():
             self.HG.get_edge(u, v).attr['color'] += ":" + color
-            self.HG.get_edge(u, v).attr['penwidth'] = 2
+            self.HG.get_edge(u, v).attr['penwidth'] = 1
 
         if highlighted_nodes:
             for v in highlighted_nodes:

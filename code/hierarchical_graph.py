@@ -1,10 +1,9 @@
 import networkx as nx
 #from . import graph_drawer
 import graph_drawer
+import string_methods
 
 __empty_node_name__ = "eps"
-debug_print = False
-
 
 def get_upper_indegree(graph, v):
     assert v != "" and v != __empty_node_name__
@@ -68,10 +67,8 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
     greedy_graph = nx.MultiDiGraph()
     processed_nodes = []
 
-    drawer.draw(greedy_graph, processed_nodes,
-                description="initial hierarchical graph")
-    drawer.draw(greedy_graph, processed_nodes,
-                description="we first process input strings")
+    drawer.draw(greedy_graph, processed_nodes, "initial hierarchical graph")
+    drawer.draw(greedy_graph, processed_nodes, "we first process input strings")
 
     for s in sorted(strings):
         pref = s[:-1] if s[:-1] != "" else "eps"
@@ -79,17 +76,14 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
 
         processed_nodes.append(s)
         drawer.draw(greedy_graph, processed_nodes,
-            "{} is an input string hence we add two bottom edges to it: {}->{}->{}".format(s, pref, s, suff)
-                    )
+            "{} is an input string hence we add two bottom edges to it: {}->{}->{}".format(s, pref, s, suff))
 
         greedy_graph.add_edge(pref, s)
         greedy_graph.add_edge(s, suff)
 
         drawer.draw(greedy_graph, processed_nodes)
 
-    drawer.draw(greedy_graph, processed_nodes,
-        "we now process nodes from top to bottom in lexicographical ordering"
-                )
+    drawer.draw(greedy_graph, processed_nodes, "we now process nodes from top to bottom in lexicographical ordering")
 
     max_level = max(len(s) for s in strings)
     cur_level = max_level - 1
@@ -161,3 +155,134 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
 
 
 # construct_greedy_solution(["abc", "cba", "bca"])
+
+def permutation_to_solution(strings):
+    solution_graph = nx.MultiDiGraph()
+
+    s = strings[0]
+    for i in range(len(s)):
+        pref = s[:i] if s[:i] != "" else __empty_node_name__
+        next_pref = s[:i + 1]
+        solution_graph.add_edge(pref, next_pref)
+        #print(pref, "->", next_pref)
+
+    for i in range(0, len(strings) - 1):
+        s = strings[i]
+        next_s = strings[i + 1]
+        overlap = next_s[:string_methods.overlap(s, next_s)]
+
+        for j in range(len(s) - len(overlap)):
+            suff = s[j:]
+            next_suf = s[j + 1:] if s[j + 1:] != "" else __empty_node_name__
+            solution_graph.add_edge(suff, next_suf)
+            #print(suff, "->", next_suf)
+
+        for j in range(len(overlap), len(next_s)):
+            pref = next_s[:j] if next_s[:j] != "" else __empty_node_name__
+            next_pref = next_s[:j + 1]
+            solution_graph.add_edge(pref, next_pref)
+            #print(pref, "->", next_pref)
+
+    s = strings[-1]
+    for i in range(len(s)):
+        suff = s[i:]
+        next_suff = s[i + 1:] if s[i + 1:] != "" else __empty_node_name__
+        solution_graph.add_edge(suff, next_suff)
+        #print(suff, "->", next_suff)
+
+    return solution_graph
+
+
+
+
+def double_and_collapse(strings, solution_graph, print_description=True, output_folder='output'):
+    #assert nx.is_eulerian(solution_graph)
+    assert solution_graph.has_node(__empty_node_name__)
+    assert all(solution_graph.has_node(s) for s in strings)
+
+    drawer = graph_drawer.GraphDrawer(strings, output_folder, print_description)
+    processed_nodes = []
+
+    drawer.draw(nx.MultiDiGraph(), processed_nodes, "this is the initial hierarchical graph")
+    drawer.draw(solution_graph, processed_nodes, "this is the initial solution")
+
+    drawer.draw(solution_graph, processed_nodes, "we now double every edge of the initial solution")
+    edges = list(solution_graph.edges())
+    for (u, v) in edges:
+        solution_graph.add_edge(u, v)
+    drawer.draw(solution_graph, processed_nodes)
+
+    drawer.draw(solution, processed_nodes, "we now start collapsing")
+
+    nodes = list(drawer.HG.nodes())
+    nodes.remove(__empty_node_name__)
+    nodes.sort(key=lambda v: (-len(v), v))
+
+    for v in nodes:
+        processed_nodes.append(v)
+        drawer.draw(solution_graph, processed_nodes, "process {}".format(v))
+
+        one_more_try = True
+        while one_more_try:
+            assert nx.is_strongly_connected(solution_graph)
+            one_more_try = False
+
+            if get_lower_indegree(solution_graph, v) == 0 or get_lower_outdegree(solution_graph, v) == 0:
+                drawer.draw(solution_graph, processed_nodes, "there no lower edges, skip this node")
+                continue
+
+            if v in strings and get_lower_indegree(solution_graph, v) == 1 and get_lower_outdegree(solution_graph, v) == 1:
+                drawer.draw(solution_graph, processed_nodes, "{} is an input node so we cannot collapse its pair of edges")
+                continue
+
+            for pref in solution_graph.predecessors(v):
+                for suf in solution_graph.successors(v):
+                    if one_more_try:
+                        break
+
+                    if len(v) > 1 and (len(pref) != len(v) - 1 or len(suf) != len(v) - 1 or one_more_try):
+                        continue
+
+                    if len(v) == 1 and (pref != __empty_node_name__ or suf != __empty_node_name__):
+                        continue
+
+                    # try collapsing this pair
+                    mirror = solution_graph.copy()
+                    mirror.remove_edge(pref, v)
+                    mirror.remove_edge(v, suf)
+
+                    if len(v) > 1:
+                        bottomv = v[1:len(v) - 1]
+                        if bottomv == "":
+                            bottomv = __empty_node_name__
+                        mirror.add_edge(pref, bottomv)
+                        mirror.add_edge(bottomv, suf)
+
+                    # clean the graph (so that it does not contain isolated nodes)
+                    for mv in mirror.nodes():
+                        if mirror.in_degree(mv) == 0:
+                            assert mirror.out_degree(mv) == 0
+                            mirror.remove_node(mv)
+
+                    if not nx.is_weakly_connected(mirror):
+                        drawer(solution_graph, processed_nodes,
+                            "the pair of edges {}->{}->{} cannot be mirrored as it would break connectivity".format(
+                                pref, v, suf
+                            ))
+
+                        sccs = nx.strongly_connected_components(mirror)
+                        sccs = [C for C in sccs if v in C]
+                        scc = sccs[0]
+                        assert __empty_node_name__ not in scc
+                    else:
+                        one_more_try = True
+                        assert nx.is_eulerian(mirror)
+                        drawer.draw(solution_graph, processed_nodes,
+                                    "we will now collapse the edges {}->{}->{}".format(pref, v, suf))
+                        solution_graph = mirror
+                        drawer.draw(solution_graph, processed_nodes)
+
+
+# strings = ["abc", "cba", "bca"]
+# solution = permutation_to_solution(strings)
+# double_and_collapse(strings, solution)
