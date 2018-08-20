@@ -193,8 +193,8 @@ def double_and_collapse(strings, drawer, solution_graph):
 
     processed_nodes = []
 
-    drawer.draw(nx.MultiDiGraph(), processed_nodes, "this is the initial hierarchical graph")
-    drawer.draw(solution_graph, processed_nodes, "this is the initial solution")
+    drawer.draw(nx.MultiDiGraph(), processed_nodes, "initial hierarchical graph")
+    drawer.draw(solution_graph, processed_nodes, "this is the initial solution: {}".format(set_of_edges_to_superstring(solution_graph)))
 
     drawer.draw(solution_graph, processed_nodes, "we now double every edge of the initial solution")
     edges = list(solution_graph.edges())
@@ -222,7 +222,7 @@ def double_and_collapse(strings, drawer, solution_graph):
                 continue
 
             if v in strings and get_lower_indegree(solution_graph, v) == 1 and get_lower_outdegree(solution_graph, v) == 1:
-                drawer.draw(solution_graph, processed_nodes, "{} is an input node so we cannot collapse its pair of edges")
+                drawer.draw(solution_graph, processed_nodes, "{} is an input node so we cannot collapse its pair of edges".format(v))
                 continue
 
             for pref in solution_graph.predecessors(v):

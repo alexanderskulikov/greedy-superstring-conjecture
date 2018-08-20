@@ -99,6 +99,7 @@ class GraphDrawer:
     def clear(self):
         self.paths.clear()
         self.descriptions.clear()
+        self.__file_number__ = 1
 
     def set_output_folder(self, output_folder):
         self.output_dir = output_folder
