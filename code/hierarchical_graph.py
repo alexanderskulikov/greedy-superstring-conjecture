@@ -86,7 +86,7 @@ def construct_greedy_solution(strings, drawer):
     max_level = max(len(s) for s in strings)
     cur_level = max_level - 1
 
-    while not greedy_graph.has_node("eps"):
+    while cur_level:
         cur_level_vertices = sorted([v for v in drawer.HG.nodes() if len(v) == cur_level])
         cur_level -= 1
 
@@ -298,6 +298,8 @@ def collapse_for_permutation(strings, drawer):
     return superstring, final_graph
 
 
-# strings = ["ab", "ba"]
+# strings = ["aa", "bb", "c"]
+# strings = ["cabab", "ababc", "baba"]
 # drawer = graph_drawer.GraphDrawer(strings, output_dir="output", print_description=True)
-# collapse_for_permutation(strings, drawer)
+# construct_greedy_solution(strings, drawer)
+# # collapse_for_permutation(strings, drawer)
