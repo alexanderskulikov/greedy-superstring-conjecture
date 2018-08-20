@@ -249,6 +249,7 @@ def double_and_collapse(strings, drawer, solution_graph):
                         mirror.add_edge(bottomv, suf)
 
                     # clean the graph (so that it does not contain isolated nodes)
+                    # TODO: inefficient
                     remove_one_more_node = True
                     while remove_one_more_node:
                         remove_one_more_node = False
@@ -258,7 +259,6 @@ def double_and_collapse(strings, drawer, solution_graph):
                                 mirror.remove_node(mv)
                                 remove_one_more_node = True
                                 break
-
 
                     if not nx.is_weakly_connected(mirror):
                         drawer.draw(solution_graph, processed_nodes,
@@ -273,10 +273,15 @@ def double_and_collapse(strings, drawer, solution_graph):
                     else:
                         one_more_try = True
                         assert nx.is_eulerian(mirror)
-                        drawer.draw(solution_graph, processed_nodes,
-                                    "we will now collapse the edges {}->{}->{}".format(pref, v, suf))
+                        drawer.draw(solution_graph,
+                                    highlighted_nodes=processed_nodes,
+                                    description="we will now collapse the edges {}->{}->{}".format(pref, v, suf),
+                                    highlighted_edges=[(pref, v), (v, suf)]
+                                    )
                         solution_graph = mirror
                         drawer.draw(solution_graph, processed_nodes)
+
+    drawer.draw(solution_graph, processed_nodes, "Done!")
 
 
 def collapse_for_permutation(strings, drawer):
@@ -285,7 +290,7 @@ def collapse_for_permutation(strings, drawer):
     double_and_collapse(strings, drawer, solution_graph)
     return superstring
 
-# strings = ["abc", "cba", "bca"]
-# drawer = graph_drawer.GraphDrawer(strings, 'output', False)
-# solution = permutation_to_solution(strings)
-# double_and_collapse(strings, drawer, solution)
+
+# strings = ["ab", "ba"]
+# drawer = graph_drawer.GraphDrawer(strings, output_dir="output", print_description=True)
+# collapse_for_permutation(strings, drawer)

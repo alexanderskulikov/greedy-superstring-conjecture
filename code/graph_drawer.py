@@ -105,10 +105,19 @@ class GraphDrawer:
         self.output_dir = output_folder
         self.create_output_folders()
 
-    def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="red"):
-        for (u, v) in solution_edges.edges():
+    def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="red", highlighted_edges=None):
+        edges = list(solution_edges.edges())
+        if highlighted_edges:
+            for (u, v) in highlighted_edges:
+                edges.remove((u, v))
+
+        for (u, v) in edges:
             self.HG.get_edge(u, v).attr['color'] += ":" + color
-            self.HG.get_edge(u, v).attr['penwidth'] = 1
+            # self.HG.get_edge(u, v).attr['penwidth'] = 1
+
+        if highlighted_edges:
+            for (u, v) in highlighted_edges:
+                self.HG.get_edge(u, v).attr['color'] += ":" + "green"
 
         if highlighted_nodes:
             for v in highlighted_nodes:
