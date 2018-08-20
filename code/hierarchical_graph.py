@@ -87,12 +87,18 @@ def construct_greedy_solution(strings, drawer):
     cur_level = max_level - 1
 
     while not greedy_graph.has_node("eps"):
-        cur_level_vertices = sorted([v for v in greedy_graph.nodes() if len(v) == cur_level])
+        cur_level_vertices = sorted([v for v in drawer.HG.nodes() if len(v) == cur_level])
         cur_level -= 1
 
         for v in cur_level_vertices:
+            if v == __empty_node_name__:
+                continue
+
             processed_nodes.append(v)
             drawer.draw(greedy_graph, processed_nodes, "consider node {}".format(v))
+
+            if not greedy_graph.has_node(v):
+                continue
 
             upper_indegree = get_upper_indegree(greedy_graph, v)
             upper_outdegree = get_upper_outdegree(greedy_graph, v)
