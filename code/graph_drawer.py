@@ -96,12 +96,13 @@ class GraphDrawer:
             self.HG.get_node(v).attr['style'] = 'filled'
             self.HG.get_node(v).attr['fillcolor'] = 'white'
 
-
     def clear(self):
         self.paths.clear()
         self.descriptions.clear()
 
-
+    def set_output_folder(self, output_folder):
+        self.output_dir = output_folder
+        self.create_output_folders()
 
     def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="red"):
         for (u, v) in solution_edges.edges():

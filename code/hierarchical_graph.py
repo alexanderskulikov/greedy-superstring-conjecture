@@ -286,5 +286,6 @@ def collapse_for_permutation(strings, drawer):
     return superstring
 
 # strings = ["abc", "cba", "bca"]
+# drawer = graph_drawer.GraphDrawer(strings, 'output', False)
 # solution = permutation_to_solution(strings)
-# double_and_collapse(strings, solution)
+# double_and_collapse(strings, drawer, solution)

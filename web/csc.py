@@ -6,6 +6,7 @@ import random
 import string
 import hierarchical_graph
 import datetime
+import graph_drawer
 from exact_solution import shortest_superstring
 
 app = Flask(__name__, instance_relative_config=True)
@@ -52,17 +53,27 @@ def log(input_strings, exact_sol, hier_sol):
 def get_paths_and_descriptions(drawer):
     return list(zip(drawer.paths, drawer.descriptions))
 
+
 def compute(strings):
     input_check = validate(strings)
     input_strings = '\n'.join(strings)
     if input_check:
         return empty_sol(input_strings, input_check)
     output_folder = 'static/output/' + random_out_folder() + '/'
-    hier_drawer, hier_sol = hierarchical_graph.construct_greedy_solution(strings, False,  output_folder + 'hier')
+    drawer = graph_drawer.GraphDrawer(strings,  output_folder + 'hier', False)
+    hier_sol = hierarchical_graph.construct_greedy_solution(strings, drawer)
+    hier = get_paths_and_descriptions(drawer)
+    drawer.clear()
     opt_permutation = shortest_superstring(strings)
     opt_strings = [strings[i] for i in opt_permutation]
-    exact_drawer, exact_sol = hierarchical_graph.collapse_for_permutation(opt_strings, False, output_folder + 'exact')
-    trivial_drawer, trivial_sol = hierarchical_graph.collapse_for_permutation(strings, False, output_folder + 'trivial')
+    drawer.set_output_folder(output_folder + 'exact')
+    exact_sol = hierarchical_graph.collapse_for_permutation(opt_strings, drawer)
+    exact = get_paths_and_descriptions(drawer)
+    drawer.clear()
+    drawer.set_output_folder(output_folder + 'trivial')
+    trivial_sol = hierarchical_graph.collapse_for_permutation(strings, drawer)
+    trivial = get_paths_and_descriptions(drawer)
+    drawer.clear()
 
     # logging
     if len(hier_sol) >= 2 * len(exact_sol):
@@ -74,11 +85,7 @@ def compute(strings):
     with open('static/logs/history/%s.txt' % date, 'a+') as output_file:
         output_file.write(log(input_strings, exact_sol, hier_sol))
 
-    return render_template('index.html', input_strings=input_strings,
-                           hier=get_paths_and_descriptions(hier_drawer),
-                           exact=get_paths_and_descriptions(exact_drawer),
-                           trivial=get_paths_and_descriptions(trivial_drawer),
-                           exact_sol=exact_sol, hier_sol=hier_sol)
+    return render_template('index.html', input_strings=input_strings, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol, hier_sol=hier_sol)
 
 
 @app.route('/', methods=['GET', 'POST'])

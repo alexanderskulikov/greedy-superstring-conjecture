@@ -132,14 +132,14 @@
             
                     <ol class="carousel-indicators">
                       {% for i in range(exact|length) %}
-                      <li data-target="#carouselExact" data-slide-to="{{ i }}" {% if loop.index == exact|length %}class="active"{% endif %}></li>
+                      <li data-target="#carouselExact" data-slide-to="{{ i }}" {% if loop.index == 2 %}class="active"{% endif %}></li>
                       {% endfor %}
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                       {% for (pic, desc) in exact %}
-                      <div class="item {% if loop.index == exact|length %}active{% endif %}">
+                      <div class="item {% if loop.index == 2 %}active{% endif %}">
                         <a href="{{ pic }}" data-toggle="lightbox" data-gallery="exact-gallery" data-title="Doubled Optimal Solution" data-footer="{{ desc }}"> 
                             <img class="img-responsive center-block" src="{{ pic }}" alt="Doubled Optimal Solution" class="img-fluid" />
                             <div class="carousel-caption">
@@ -177,14 +177,14 @@
             
                     <ol class="carousel-indicators">
                       {% for i in range(trivial|length) %}
-                      <li data-target="#carouselTrivial" data-slide-to="{{ i }}" {% if loop.index == trivial|length %}class="active"{% endif %}></li>
+                      <li data-target="#carouselTrivial" data-slide-to="{{ i }}" {% if loop.index == 2 %}class="active"{% endif %}></li>
                       {% endfor %}
                     </ol>
 
                     <!-- Wrapper for slides -->
                     <div class="carousel-inner">
                       {% for (pic, desc) in trivial %}
-                      <div class="item {% if loop.index == trivial|length %}active{% endif %}">
+                      <div class="item {% if loop.index == 2 %}active{% endif %}">
                         <a href="{{ pic }}" data-toggle="lightbox" data-gallery="trivial-gallery" data-title="Doubled Trivial Solution" data-footer="{{ desc }}"> 
                             <img class="img-responsive center-block" src="{{ pic }}" alt="Doubled Trivial Solution" class="img-fluid" />
                             <div class="carousel-caption">
