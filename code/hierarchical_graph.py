@@ -1,7 +1,7 @@
 import networkx as nx
-#from . import graph_drawer
 import graph_drawer
 import string_methods
+import tsp
 
 __empty_node_name__ = "eps"
 
@@ -259,10 +259,16 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
                         mirror.add_edge(bottomv, suf)
 
                     # clean the graph (so that it does not contain isolated nodes)
-                    for mv in mirror.nodes():
-                        if mv != __empty_node_name__ and mirror.in_degree(mv) == 0:
-                            assert mirror.out_degree(mv) == 0
-                            mirror.remove_node(mv)
+                    remove_one_more_node = True
+                    while remove_one_more_node:
+                        remove_one_more_node = False
+                        for mv in mirror.nodes():
+                            if mv != __empty_node_name__ and mirror.in_degree(mv) == 0:
+                                assert mirror.out_degree(mv) == 0
+                                mirror.remove_node(mv)
+                                remove_one_more_node = True
+                                break
+
 
                     if not nx.is_weakly_connected(mirror):
                         drawer.draw(solution_graph, processed_nodes,
@@ -283,7 +289,13 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
                         drawer.draw(solution_graph, processed_nodes)
 
 
-strings = ["abc", "cba", "bca"]
-#strings = ["ab", "ba"]
-solution = permutation_to_solution(strings)
-double_and_collapse(strings, solution)
+def collapse_doubled_exact(strings, print_description=True, output_folder='output'):
+    permutation = tsp.shortest_superstring(strings)
+    exact = [strings[i] for i in permutation]
+    solution = permutation_to_solution(exact)
+    return double_and_collapse(strings, solution, print_description, output_folder)
+
+
+# strings = ["abc", "cba", "bca"]
+# solution = permutation_to_solution(strings)
+# double_and_collapse(strings, solution)

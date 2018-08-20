@@ -1,4 +1,6 @@
 from itertools import chain, combinations
+import networkx as nx
+import string_methods
 
 
 # This function takes as input a graph g.
@@ -69,3 +71,18 @@ def dynamic_programming(g, begin):
         node = next
     path.append(begin)
     return opt, list(reversed(path))
+
+
+def length_of_superstring(overlap_graph, strings, begin):
+    opt, permutation = dynamic_programming(overlap_graph, begin)
+    return opt + len(strings[begin]), permutation
+
+
+def shortest_superstring(strings):
+    n = len(strings)
+    overlap_graph = nx.DiGraph()
+    for i in range(n):
+        for j in range(n):
+            overlap_graph.add_edge(i, j, weight=string_methods.overlap(strings[i], strings[j]))
+    opt, permutation = min(length_of_superstring(overlap_graph, strings, i) for i in range(n))
+    return permutation
