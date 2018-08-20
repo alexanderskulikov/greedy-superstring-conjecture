@@ -61,8 +61,8 @@ def compute(strings):
     hier_drawer, hier_sol = hierarchical_graph.construct_greedy_solution(strings, False,  output_folder + 'hier')
     opt_permutation = shortest_superstring(strings)
     opt_strings = [strings[i] for i in opt_permutation]
-    exact_drawer, exact_sol = hierarchical_graph.double_and_collapse(opt_strings, False, output_folder + 'exact')
-    trivial_drawer, trivial_sol = hierarchical_graph.double_and_collapse(strings, False, output_folder + 'trivial')
+    exact_drawer, exact_sol = hierarchical_graph.collapse_for_permutation(opt_strings, False, output_folder + 'exact')
+    trivial_drawer, trivial_sol = hierarchical_graph.collapse_for_permutation(strings, False, output_folder + 'trivial')
 
     # logging
     if len(hier_sol) >= 2 * len(exact_sol):

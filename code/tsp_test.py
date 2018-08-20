@@ -1,4 +1,4 @@
-import tsp
+import exact_solution as tsp
 import unittest
 import networkx as nx
 import math
