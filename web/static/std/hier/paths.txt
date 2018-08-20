@@ -49,7 +49,3 @@ static/std/hier/files/048.jpg
 static/std/hier/files/049.jpg
 static/std/hier/files/050.jpg
 static/std/hier/files/051.jpg
-static/std/hier/files/052.jpg
-static/std/hier/files/053.jpg
-static/std/hier/files/054.jpg
-static/std/hier/files/055.jpg

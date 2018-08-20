@@ -1,55 +1,100 @@
 initial hierarchical graph
-we first process input strings
-ababab is an input string hence we add two bottom edges to it: ababa->ababab->babab
+this is the initial solution: babacababc
+we now double every edge of the initial solution
  
-babacc is an input string hence we add two bottom edges to it: babac->babacc->abacc
+we now start collapsing
+process ababc
+we will now collapse the edges abab->ababc->babc
  
-ccabab is an input string hence we add two bottom edges to it: ccaba->ccabab->cabab
+ababc is an input node so we cannot collapse its pair of edges
+process cabab
+we will now collapse the edges caba->cabab->abab
  
-we now process nodes from top to bottom in lexicographical ordering
-consider node ababa
-to balance ababa, add edge abab->ababa
+cabab is an input node so we cannot collapse its pair of edges
+process abab
+we will now collapse the edges aba->abab->bab
  
-consider node abacc
-to balance abacc, add edge abacc->bacc
+there no lower edges, skip this node
+process baba
+we will now collapse the edges bab->baba->aba
  
-consider node babab
-to balance babab, add edge babab->abab
+baba is an input node so we cannot collapse its pair of edges
+process babc
+we will now collapse the edges bab->babc->abc
  
-consider node babac
-to balance babac, add edge baba->babac
+there no lower edges, skip this node
+process caba
+we will now collapse the edges cab->caba->aba
  
-consider node cabab
-to balance cabab, add edge cabab->abab
+there no lower edges, skip this node
+process aba
+we will now collapse the edges ab->aba->ba
  
-consider node ccaba
-to balance ccaba, add edge ccab->ccaba
+we will now collapse the edges ab->aba->ba
  
-consider node abab
-to balance abab, add edge abab->bab
+there no lower edges, skip this node
+process abc
+we will now collapse the edges ab->abc->bc
  
-consider node baba
-to balance baba, add edge bab->baba
+there no lower edges, skip this node
+process bab
+we will now collapse the edges ba->bab->ab
  
-consider node bacc
-to balance bacc, add edge bacc->acc
+we will now collapse the edges ba->bab->ab
  
-consider node ccab
-to balance ccab, add edge cca->ccab
+there no lower edges, skip this node
+process cab
+we will now collapse the edges ca->cab->ab
  
-consider node acc
-to balance acc, add edge acc->cc
+there no lower edges, skip this node
+process ab
+we will now collapse the edges a->ab->b
  
-consider node bab
-bab is balanced, skip it
-consider node cca
-to balance cca, add edge cc->cca
+we will now collapse the edges a->ab->b
  
-consider node cc
-adding edges c->cc->c to connect the component to eps
+we will now collapse the edges a->ab->b
  
-consider node c
-adding edges eps->c->eps to connect the component to eps
+there no lower edges, skip this node
+process ba
+we will now collapse the edges b->ba->a
  
+we will now collapse the edges b->ba->a
+ 
+we will now collapse the edges b->ba->a
+ 
+the pair of edges b->ba->a cannot be mirrored as it would break connectivity
+process bc
+we will now collapse the edges b->bc->c
+ 
+there no lower edges, skip this node
+process ca
+we will now collapse the edges c->ca->a
+ 
+there no lower edges, skip this node
+process a
+we will now collapse the edges eps->a->eps
+ 
+we will now collapse the edges eps->a->eps
+ 
+we will now collapse the edges eps->a->eps
+ 
+we will now collapse the edges eps->a->eps
+ 
+there no lower edges, skip this node
+process b
+we will now collapse the edges eps->b->eps
+ 
+we will now collapse the edges eps->b->eps
+ 
+we will now collapse the edges eps->b->eps
+ 
+we will now collapse the edges eps->b->eps
+ 
+there no lower edges, skip this node
+process c
+we will now collapse the edges eps->c->eps
+ 
+we will now collapse the edges eps->c->eps
+ 
+the pair of edges eps->c->eps cannot be mirrored as it would break connectivity
 Done!
-ccabababacc

@@ -1,55 +1,51 @@
 initial hierarchical graph
 we first process input strings
-ababab is an input string hence we add two bottom edges to it: ababa->ababab->babab
+ababc is an input string hence we add two bottom edges to it: abab->ababc->babc
  
-babacc is an input string hence we add two bottom edges to it: babac->babacc->abacc
+baba is an input string hence we add two bottom edges to it: bab->baba->aba
  
-ccabab is an input string hence we add two bottom edges to it: ccaba->ccabab->cabab
+cabab is an input string hence we add two bottom edges to it: caba->cabab->abab
  
 we now process nodes from top to bottom in lexicographical ordering
-consider node ababa
-to balance ababa, add edge abab->ababa
- 
-consider node abacc
-to balance abacc, add edge abacc->bacc
- 
-consider node babab
-to balance babab, add edge babab->abab
- 
-consider node babac
-to balance babac, add edge baba->babac
- 
-consider node cabab
-to balance cabab, add edge cabab->abab
- 
-consider node ccaba
-to balance ccaba, add edge ccab->ccaba
- 
 consider node abab
-to balance abab, add edge abab->bab
- 
+abab is balanced, skip it
 consider node baba
-to balance baba, add edge bab->baba
+baba is balanced, skip it
+consider node babc
+to balance babc, add edge babc->abc
  
-consider node bacc
-to balance bacc, add edge bacc->acc
+consider node caba
+to balance caba, add edge cab->caba
  
-consider node ccab
-to balance ccab, add edge cca->ccab
+consider node aba
+to balance aba, add edge aba->ba
  
-consider node acc
-to balance acc, add edge acc->cc
+consider node abc
+to balance abc, add edge abc->bc
  
 consider node bab
-bab is balanced, skip it
-consider node cca
-to balance cca, add edge cc->cca
+to balance bab, add edge ba->bab
  
-consider node cc
-adding edges c->cc->c to connect the component to eps
+consider node cab
+to balance cab, add edge ca->cab
+ 
+consider node ba
+adding edges b->ba->a to connect the component to eps
+ 
+consider node bc
+to balance bc, add edge bc->c
+ 
+consider node ca
+to balance ca, add edge c->ca
+ 
+consider node a
+to balance a, add edge a->eps
+ 
+consider node b
+to balance b, add edge eps->b
  
 consider node c
 adding edges eps->c->eps to connect the component to eps
  
 Done!
-ccabababacc
+this is the greedy hierarchical solution: cababcbaba
