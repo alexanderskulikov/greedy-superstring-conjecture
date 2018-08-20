@@ -156,7 +156,7 @@ def construct_greedy_solution(strings, drawer):
     drawer.draw(greedy_graph, processed_nodes, "Done!")
     greedy_superstring = set_of_edges_to_superstring(greedy_graph)
     drawer.draw(greedy_graph, processed_nodes, "this is the greedy hierarchical solution: " + greedy_superstring)
-    return greedy_superstring
+    return greedy_superstring, greedy_graph
 
 
 def permutation_to_solution(strings):
@@ -288,13 +288,14 @@ def double_and_collapse(strings, drawer, solution_graph):
                         drawer.draw(solution_graph, processed_nodes)
 
     drawer.draw(solution_graph, processed_nodes, "Done!")
+    return solution_graph
 
 
 def collapse_for_permutation(strings, drawer):
     solution_graph = permutation_to_solution(strings)
     superstring = set_of_edges_to_superstring(solution_graph)
-    double_and_collapse(strings, drawer, solution_graph)
-    return superstring
+    final_graph = double_and_collapse(strings, drawer, solution_graph)
+    return superstring, final_graph
 
 
 # strings = ["ab", "ba"]

@@ -7,6 +7,7 @@ import string
 import hierarchical_graph
 import datetime
 import graph_drawer
+import networkx as nx
 from exact_solution import shortest_superstring
 
 app = Flask(__name__, instance_relative_config=True)
@@ -45,13 +46,42 @@ def empty_sol(input_strings='', error=''):
     return render_template('index.html', input_strings=input_strings, hier=[], exact=[], trivial=[], exact_sol='', hier_sol='', error=error)
 
 
+def get_paths_and_descriptions(drawer):
+    return list(zip(drawer.paths, drawer.descriptions))
+
+
 def log(input_strings, exact_sol, hier_sol):
     return "%s\nExact Solution has length %d:\n%s\nGreedy Hierarchical Solution has length %d:\n%s\n\n"\
            % (input_strings, len(exact_sol), exact_sol, len(hier_sol), hier_sol)
 
 
-def get_paths_and_descriptions(drawer):
-    return list(zip(drawer.paths, drawer.descriptions))
+def log_history(input_strings, exact_sol, hier_sol):
+    now = datetime.datetime.now()
+    date = now.strftime("%Y-%m-%d")
+    with open('static/logs/history/%s.txt' % date, 'a+') as output_file:
+        output_file.write(log(input_strings, exact_sol, hier_sol))
+
+
+def compare_graphs(g, h):
+    return nx.difference(g, h).number_of_edges() == 0 and \
+           nx.difference(h, g).number_of_edges() == 0
+
+
+def log_counter_exampe(input_strings, exact_sol, hier_sol, description):
+    with open('static/logs/counter-examples.txt', 'a+') as output_file:
+        output_file.write(log(input_strings, exact_sol, hier_sol))
+        output_file.write(description)
+
+
+def log_counter_examples(input_strings, exact_sol, hier_sol, hier_graph, exact_graph, trivial_graph):
+    if len(hier_sol) >= 2 * len(exact_sol):
+        log_counter_exampe(input_strings, exact_sol, hier_sol, 'The Greedy Hierarchical solution is twice longer than the optimal one')
+    if not compare_graphs(hier_graph, exact_graph):
+        log_counter_exampe(input_strings, exact_sol, hier_sol,
+                           'The Greedy Hierarchical solution does not equal the collapsed exact solution')
+    if not compare_graphs(hier_graph, exact_graph):
+        log_counter_exampe(input_strings, exact_sol, hier_sol,
+                           'The Greedy Hierarchical solution does not equal the collapsed trivial solution')
 
 
 def compute(strings):
@@ -62,29 +92,24 @@ def compute(strings):
     output_folder = 'static/output/' + random_out_folder() + '/'
     #output_folder = 'static/std/'
     drawer = graph_drawer.GraphDrawer(strings,  output_folder + 'hier', False)
-    hier_sol = hierarchical_graph.construct_greedy_solution(strings, drawer)
+    hier_sol, hier_graph = hierarchical_graph.construct_greedy_solution(strings, drawer)
     hier = get_paths_and_descriptions(drawer)
     drawer.clear()
+
     opt_permutation = shortest_superstring(strings)
     opt_strings = [strings[i] for i in opt_permutation]
     drawer.set_output_folder(output_folder + 'exact')
-    exact_sol = hierarchical_graph.collapse_for_permutation(opt_strings, drawer)
+    exact_sol, exact_graph = hierarchical_graph.collapse_for_permutation(opt_strings, drawer)
     exact = get_paths_and_descriptions(drawer)
     drawer.clear()
+
     drawer.set_output_folder(output_folder + 'trivial')
-    trivial_sol = hierarchical_graph.collapse_for_permutation(strings, drawer)
+    trivial_sol, trivial_graph = hierarchical_graph.collapse_for_permutation(strings, drawer)
     trivial = get_paths_and_descriptions(drawer)
     drawer.clear()
 
-    # logging
-    if len(hier_sol) >= 2 * len(exact_sol):
-        with open('static/logs/counter-examples.txt', 'a+') as output_file:
-            output_file.write(log(input_strings, exact_sol, hier_sol))
-
-    now = datetime.datetime.now()
-    date = now.strftime("%Y-%m-%d")
-    with open('static/logs/history/%s.txt' % date, 'a+') as output_file:
-        output_file.write(log(input_strings, exact_sol, hier_sol))
+    log_counter_examples(input_strings, exact_sol, hier_sol, hier_graph, exact_graph, trivial_graph)
+    log_history(input_strings, exact_sol, hier_sol)
 
     return render_template('index.html', input_strings=input_strings, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol, hier_sol=hier_sol)
 
