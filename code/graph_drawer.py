@@ -1,7 +1,6 @@
 import os
 import pygraphviz as pgv
 import shutil
-import networkx as nx
 
 
 class GraphDrawer:
@@ -96,6 +95,13 @@ class GraphDrawer:
         for v in self.HG.nodes():
             self.HG.get_node(v).attr['style'] = 'filled'
             self.HG.get_node(v).attr['fillcolor'] = 'white'
+
+
+    def clear(self):
+        self.paths.clear()
+        self.descriptions.clear()
+
+
 
     def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="red"):
         for (u, v) in solution_edges.edges():

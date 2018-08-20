@@ -61,8 +61,7 @@ def set_of_edges_to_superstring(graph):
     return superstring
 
 
-def construct_greedy_solution(strings, print_description=True, output_folder='output'):
-    drawer = graph_drawer.GraphDrawer(strings, output_folder, print_description)
+def construct_greedy_solution(strings, drawer):
     greedy_graph = nx.MultiDiGraph()
     processed_nodes = []
 
@@ -151,7 +150,7 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
     drawer.draw(greedy_graph, processed_nodes, "Done!")
     greedy_superstring = set_of_edges_to_superstring(greedy_graph)
     drawer.draw(greedy_graph, processed_nodes, greedy_superstring)
-    return drawer, greedy_superstring
+    return greedy_superstring
 
 
 def permutation_to_solution(strings):
@@ -187,12 +186,11 @@ def permutation_to_solution(strings):
     return solution_graph
 
 
-def double_and_collapse(strings, solution_graph, print_description=True, output_folder='output'):
-    #assert nx.is_eulerian(solution_graph)
+def double_and_collapse(strings, drawer, solution_graph):
+    # assert nx.is_eulerian(solution_graph)
     assert solution_graph.has_node(__empty_node_name__)
     assert all(solution_graph.has_node(s) for s in strings)
 
-    drawer = graph_drawer.GraphDrawer(strings, output_folder, print_description)
     processed_nodes = []
 
     drawer.draw(nx.MultiDiGraph(), processed_nodes, "this is the initial hierarchical graph")
@@ -279,13 +277,13 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
                                     "we will now collapse the edges {}->{}->{}".format(pref, v, suf))
                         solution_graph = mirror
                         drawer.draw(solution_graph, processed_nodes)
-    return drawer
 
 
-def collapse_for_permutation(strings, print_description=True, output_folder='output'):
+def collapse_for_permutation(strings, drawer):
     solution_graph = permutation_to_solution(strings)
     superstring = set_of_edges_to_superstring(solution_graph)
-    return double_and_collapse(strings, solution_graph, print_description, output_folder), superstring
+    double_and_collapse(strings, drawer, solution_graph)
+    return superstring
 
 # strings = ["abc", "cba", "bca"]
 # solution = permutation_to_solution(strings)
