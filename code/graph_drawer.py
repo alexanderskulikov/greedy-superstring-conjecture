@@ -4,7 +4,11 @@ import shutil
 
 
 class GraphDrawer:
-    def __init__(self, strings, output_dir, print_description):
+    def __init__(self, strings, output_dir, print_description, disable=False):
+        self.__disable__ = disable
+        if self.__disable__:
+            return
+
         self.__file_number__ = 1
 
         self.print_description = print_description
@@ -97,6 +101,9 @@ class GraphDrawer:
             self.HG.get_node(v).attr['fillcolor'] = 'white'
 
     def clear(self):
+        if self.__disable__:
+            return
+
         self.paths.clear()
         self.descriptions.clear()
         self.__file_number__ = 1
@@ -106,6 +113,9 @@ class GraphDrawer:
         self.create_output_folders()
 
     def draw(self, solution_edges, highlighted_nodes=None, description=" ", color="red", highlighted_edges=None):
+        if self.__disable__:
+            return 
+
         edges = list(solution_edges.edges())
         if highlighted_edges:
             for (u, v) in highlighted_edges:
