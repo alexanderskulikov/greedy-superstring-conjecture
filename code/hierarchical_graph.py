@@ -1,7 +1,6 @@
 import networkx as nx
 import graph_drawer
 import string_methods
-import exact_solution
 
 __empty_node_name__ = "eps"
 
@@ -150,11 +149,10 @@ def construct_greedy_solution(strings, print_description=True, output_folder='ou
                     drawer.draw(greedy_graph, processed_nodes, "{} is balanced, skip it".format(v))
 
     drawer.draw(greedy_graph, processed_nodes, "Done!")
-    drawer.draw(greedy_graph, processed_nodes, set_of_edges_to_superstring(greedy_graph))
-    return list(zip(drawer.paths, drawer.descriptions))
+    greedy_superstring = set_of_edges_to_superstring(greedy_graph)
+    drawer.draw(greedy_graph, processed_nodes, greedy_superstring)
+    return drawer, greedy_superstring
 
-
-# construct_greedy_solution(["abc", "cba", "bca"])
 
 def permutation_to_solution(strings):
     solution_graph = nx.MultiDiGraph()
@@ -164,7 +162,6 @@ def permutation_to_solution(strings):
         pref = s[:i] if s[:i] != "" else __empty_node_name__
         next_pref = s[:i + 1]
         solution_graph.add_edge(pref, next_pref)
-        #print(pref, "->", next_pref)
 
     for i in range(0, len(strings) - 1):
         s = strings[i]
@@ -175,24 +172,19 @@ def permutation_to_solution(strings):
             suff = s[j:]
             next_suf = s[j + 1:] if s[j + 1:] != "" else __empty_node_name__
             solution_graph.add_edge(suff, next_suf)
-            #print(suff, "->", next_suf)
 
         for j in range(len(overlap), len(next_s)):
             pref = next_s[:j] if next_s[:j] != "" else __empty_node_name__
             next_pref = next_s[:j + 1]
             solution_graph.add_edge(pref, next_pref)
-            #print(pref, "->", next_pref)
 
     s = strings[-1]
     for i in range(len(s)):
         suff = s[i:]
         next_suff = s[i + 1:] if s[i + 1:] != "" else __empty_node_name__
         solution_graph.add_edge(suff, next_suff)
-        #print(suff, "->", next_suff)
 
     return solution_graph
-
-
 
 
 def double_and_collapse(strings, solution_graph, print_description=True, output_folder='output'):
@@ -287,15 +279,13 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
                                     "we will now collapse the edges {}->{}->{}".format(pref, v, suf))
                         solution_graph = mirror
                         drawer.draw(solution_graph, processed_nodes)
-    return list(zip(drawer.paths, drawer.descriptions))
+    return drawer
 
 
-def collapse_doubled_exact(strings, print_description=True, output_folder='output'):
-    permutation = exact_solution.shortest_superstring(strings)
-    exact = [strings[i] for i in permutation]
-    solution = permutation_to_solution(exact)
-    return double_and_collapse(strings, solution, print_description, output_folder)
-
+def collapse_for_permutation(strings, print_description=True, output_folder='output'):
+    solution_graph = permutation_to_solution(strings)
+    superstring = set_of_edges_to_superstring(solution_graph)
+    return double_and_collapse(strings, solution_graph, print_description, output_folder), superstring
 
 # strings = ["abc", "cba", "bca"]
 # solution = permutation_to_solution(strings)
