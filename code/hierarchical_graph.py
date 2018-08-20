@@ -149,7 +149,7 @@ def construct_greedy_solution(strings, drawer):
 
     drawer.draw(greedy_graph, processed_nodes, "Done!")
     greedy_superstring = set_of_edges_to_superstring(greedy_graph)
-    drawer.draw(greedy_graph, processed_nodes, greedy_superstring)
+    drawer.draw(greedy_graph, processed_nodes, "this is the greedy hierarchical solution: " + greedy_superstring)
     return greedy_superstring
 
 

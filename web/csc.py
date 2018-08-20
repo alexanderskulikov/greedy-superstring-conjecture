@@ -60,6 +60,7 @@ def compute(strings):
     if input_check:
         return empty_sol(input_strings, input_check)
     output_folder = 'static/output/' + random_out_folder() + '/'
+    #output_folder = 'static/std/'
     drawer = graph_drawer.GraphDrawer(strings,  output_folder + 'hier', False)
     hier_sol = hierarchical_graph.construct_greedy_solution(strings, drawer)
     hier = get_paths_and_descriptions(drawer)
@@ -91,7 +92,7 @@ def compute(strings):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    #try:
+    try:
         if request.method == "POST":
             if 'compute-button' in request.form:
                 input = request.form['strings']
@@ -120,7 +121,7 @@ def index():
             trivial = load_std_sol('static/std/trivial')
             return render_template('index.html', input_strings=input, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol,
                                    hier_sol=hier_sol, error='')
-    #except:
-    #    with open('static/logs/exceptions.txt', 'a+') as output_file:
-    #        output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
-    #    return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')
+    except:
+        with open('static/logs/exceptions.txt', 'a+') as output_file:
+            output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
+        return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')
