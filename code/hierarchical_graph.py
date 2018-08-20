@@ -212,7 +212,7 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
         solution_graph.add_edge(u, v)
     drawer.draw(solution_graph, processed_nodes)
 
-    drawer.draw(solution, processed_nodes, "we now start collapsing")
+    drawer.draw(solution_graph, processed_nodes, "we now start collapsing")
 
     nodes = list(drawer.HG.nodes())
     nodes.remove(__empty_node_name__)
@@ -260,12 +260,12 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
 
                     # clean the graph (so that it does not contain isolated nodes)
                     for mv in mirror.nodes():
-                        if mirror.in_degree(mv) == 0:
+                        if mv != __empty_node_name__ and mirror.in_degree(mv) == 0:
                             assert mirror.out_degree(mv) == 0
                             mirror.remove_node(mv)
 
                     if not nx.is_weakly_connected(mirror):
-                        drawer(solution_graph, processed_nodes,
+                        drawer.draw(solution_graph, processed_nodes,
                             "the pair of edges {}->{}->{} cannot be mirrored as it would break connectivity".format(
                                 pref, v, suf
                             ))
@@ -283,6 +283,7 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
                         drawer.draw(solution_graph, processed_nodes)
 
 
-# strings = ["abc", "cba", "bca"]
-# solution = permutation_to_solution(strings)
-# double_and_collapse(strings, solution)
+strings = ["abc", "cba", "bca"]
+#strings = ["ab", "ba"]
+solution = permutation_to_solution(strings)
+double_and_collapse(strings, solution)
