@@ -2,10 +2,8 @@ from itertools import chain, combinations
 import networkx as nx
 import string_methods
 
-
 # This function takes as input a graph g.
 # The graph may be directed and may have arcs with multiplicities.
-
 
 # This function returns all the subsets of the given set s in the increasing order of their sizes.
 def powerset(s):
@@ -83,6 +81,6 @@ def shortest_superstring(strings):
     overlap_graph = nx.DiGraph()
     for i in range(n):
         for j in range(n):
-            overlap_graph.add_edge(i, j, weight=string_methods.overlap(strings[i], strings[j]))
+            overlap_graph.add_edge(i, j, weight=string_methods.suffix(strings[i], strings[j]))
     opt, permutation = min(length_of_superstring(overlap_graph, strings, i) for i in range(n))
     return permutation

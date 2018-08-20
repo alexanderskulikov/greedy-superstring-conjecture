@@ -47,17 +47,18 @@ def log(input_strings, exact_sol, hier_sol):
     return "%s\nExact Solution has length %d:\n%s\nGreedy Hierarchical Solution has length %d:\n%s\n\n"\
            % (input_strings, len(exact_sol), exact_sol, len(hier_sol), hier_sol)
 
+
 def compute(strings):
     input_check = validate(strings)
     input_strings = '\n'.join(strings)
     if input_check:
         return empty_sol(input_strings, input_check)
-    output_folder = random_out_folder()
-    hier = hierarchical_graph.construct_greedy_solution(strings, False, 'static/output/' + output_folder)
-    exact = hier
+    output_folder = 'static/output/' + random_out_folder() + '/'
+    hier = hierarchical_graph.construct_greedy_solution(strings, False,  output_folder + 'hier')
+    exact = hierarchical_graph.collapse_doubled_exact(strings, False, output_folder + 'exact')
     trivial = hier
-    exact_sol = exact[0][1]
-    hier_sol = hier[0][1]
+    exact_sol = exact[-1][1]
+    hier_sol = hier[-1][1]
 
     # logging
     if len(hier_sol) >= 2 * len(exact_sol):
@@ -77,7 +78,7 @@ def compute(strings):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    try:
+    #try:
         if request.method == "POST":
             if 'compute-button' in request.form:
                 input = request.form['strings']
@@ -106,7 +107,7 @@ def index():
             trivial = load_std_sol('static/std/trivial')
             return render_template('index.html', input_strings=input, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol,
                                    hier_sol=hier_sol, error='')
-    except:
-        with open('static/logs/exceptions.txt', 'a+') as output_file:
-            output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
-        return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')
+    #except:
+    #    with open('static/logs/exceptions.txt', 'a+') as output_file:
+    #        output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
+    #    return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')

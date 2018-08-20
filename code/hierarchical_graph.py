@@ -1,7 +1,7 @@
 import networkx as nx
 import graph_drawer
 import string_methods
-import tsp
+import exact_solution
 
 __empty_node_name__ = "eps"
 
@@ -287,10 +287,11 @@ def double_and_collapse(strings, solution_graph, print_description=True, output_
                                     "we will now collapse the edges {}->{}->{}".format(pref, v, suf))
                         solution_graph = mirror
                         drawer.draw(solution_graph, processed_nodes)
+    return list(zip(drawer.paths, drawer.descriptions))
 
 
 def collapse_doubled_exact(strings, print_description=True, output_folder='output'):
-    permutation = tsp.shortest_superstring(strings)
+    permutation = exact_solution.shortest_superstring(strings)
     exact = [strings[i] for i in permutation]
     solution = permutation_to_solution(exact)
     return double_and_collapse(strings, solution, print_description, output_folder)
