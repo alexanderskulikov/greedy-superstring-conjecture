@@ -7,6 +7,7 @@ from exact_solution import shortest_superstring
 
 test_number = 1
 separator = '--------'
+distinct = 0
 
 
 def compare_graphs(g, h):
@@ -45,9 +46,9 @@ def log_counter_examples(log_file, input_strings, exact_sol, hier_sol, hier_grap
 def check(log_file, strings):
     global test_number
     global separator
+    global distinct
     print('Test # {}'.format(test_number))
-    for string in strings:
-        print(string)
+    print(', '.join(strings))
     test_number += 1
     drawer = graph_drawer.GraphDrawer(strings, 'output', False, True)
     hier_sol, hier_graph = hierarchical_graph.construct_greedy_solution(strings, drawer)
@@ -57,7 +58,11 @@ def check(log_file, strings):
     exact_sol, exact_graph = hierarchical_graph.collapse_for_permutation(opt_strings, drawer)
 
     trivial_sol, trivial_graph = hierarchical_graph.collapse_for_permutation(strings, drawer)
+    if len(exact_sol) != len(hier_sol):
+        distinct += 1
 
+    print('Exact Solution is of length {}:\n{}'.format(len(exact_sol), exact_sol))
+    print('Greedy Hierarchical Solution is of length {}:\n{}'.format(len(hier_sol), hier_sol))
     if log_counter_examples(log_file, strings, exact_sol, hier_sol, hier_graph, exact_graph, trivial_graph):
         print('\nCounter-example found!\n{}'.format(separator))
         return True
@@ -89,17 +94,17 @@ def check_input(strings):
 
 
 def random_input():
-    alphabet_size = randint(2, 5)
-    length = randint(10, 25)
+    alphabet_size = randint(2, 2)
+    length = randint(10, 20)
     superstring = ''
     for _ in range(length):
         superstring += chr(ord('a') + randint(0, alphabet_size - 1))
     start = 0
-    end = randint(3, 7)
+    end = randint(1, 2)
     strings = []
-    while end <= len(superstring):
+    while end < len(superstring):
         strings.append(superstring[start:end+1])
-        start = randint(start + 1, end)
+        start = randint(start + 1, (start + 1 + end)//2)
         end = end + randint(1, 3)
     if not check_input(strings):
         return random_input()
@@ -115,3 +120,10 @@ def check_random(log_file, number_of_tests):
         print('\nCounter-example found!')
     else:
         print('\nNo counter-examples found!')
+
+
+def print_summary():
+    global test_number
+    global distinct
+    print('\nTotal number of tests: {}\nNumber of tests where greedy is not optimal: {}'
+          .format(test_number - 1, distinct))
