@@ -115,9 +115,3 @@ def check_random(log_file, number_of_tests):
         print('\nCounter-example found!')
     else:
         print('\nNo counter-examples found!')
-
-
-log_file = 'counter-examples.txt'
-#check_dataset(log_file)
-s = 'aaaaa'
-check_random(log_file, 1)
