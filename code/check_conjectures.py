@@ -102,9 +102,6 @@ def random_input():
         end = end + randint(1, 3)
 
 
-
-
-
 def check_random(log_file, number_of_tests):
     print('Checking {} random inputs\n'.format(number_of_tests))
     counter_example = False

@@ -101,7 +101,7 @@ def compute(strings):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    #try:
+    try:
         if request.method == "POST":
             if 'compute-button' in request.form:
                 input = request.form['strings']
@@ -129,7 +129,7 @@ def index():
             trivial = load_std_sol('static/std/trivial')
             return render_template('index.html', input_strings=input, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol,
                                    hier_sol=hier_sol, error='')
-    #except:
+    except:
         with open('static/logs/exceptions.txt', 'a+') as output_file:
             output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
         return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')
