@@ -30,9 +30,10 @@ def random_out_folder():
 
 
 def validate(strings):
-    if len(strings) < 2:
+    n = len(strings)
+    if n < 2:
         return 'There must be at least 2 strings'
-    if len(strings) > 10:
+    if n > 10:
         return 'There must be at most 2 strings'
     for x in strings:
         if not x.isalpha():
@@ -41,6 +42,10 @@ def validate(strings):
             return 'There must be no empty strings'
         if len(x) > 15:
             return 'String {} exceeds the maximum length of 15'.format(x)
+    for i in range(n):
+        for j in range(n):
+            if (i != j) and (strings[i].find(strings[j]) >=0):
+                return 'String {} is a substring of string {}'.format(strings[j], strings[i])
 
 
 def empty_sol(input_strings='', error=''):
@@ -96,7 +101,7 @@ def compute(strings):
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/index', methods=['GET', 'POST'])
 def index():
-    try:
+    #try:
         if request.method == "POST":
             if 'compute-button' in request.form:
                 input = request.form['strings']
@@ -124,7 +129,7 @@ def index():
             trivial = load_std_sol('static/std/trivial')
             return render_template('index.html', input_strings=input, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol,
                                    hier_sol=hier_sol, error='')
-    except:
+    #except:
         with open('static/logs/exceptions.txt', 'a+') as output_file:
             output_file.write("%s\n\n%s\n\n\n" % (sys.exc_info(), request.form['strings']) )
         return empty_sol(request.form['strings'], 'There is a problem in program evaluation for this input, please report it.')
