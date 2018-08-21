@@ -59,10 +59,10 @@ def check(log_file, strings):
     trivial_sol, trivial_graph = hierarchical_graph.collapse_for_permutation(strings, drawer)
 
     if log_counter_examples(log_file, strings, exact_sol, hier_sol, hier_graph, exact_graph, trivial_graph):
-        print('Counter-example found!\n{}'.format(separator))
+        print('\nCounter-example found!\n{}'.format(separator))
         return True
     else:
-        print('Good\n{}'.format(separator))
+        print('\nGood\n{}'.format(separator))
 
 
 def check_dataset(log_file, dataset_file='../web/static/datasets.txt'):
@@ -87,9 +87,10 @@ def check_input(strings):
                 return False
     return True
 
+
 def random_input():
     alphabet_size = randint(2, 5)
-    length = randint(10, 30)
+    length = randint(10, 25)
     superstring = ''
     for _ in range(length):
         superstring += chr(ord('a') + randint(0, alphabet_size - 1))
@@ -97,9 +98,12 @@ def random_input():
     end = randint(3, 7)
     strings = []
     while end <= len(superstring):
-        strings = strings + superstring[start:end+1]
+        strings.append(superstring[start:end+1])
         start = randint(start + 1, end)
         end = end + randint(1, 3)
+    if not check_input(strings):
+        return random_input()
+    return strings
 
 
 def check_random(log_file, number_of_tests):
@@ -115,4 +119,5 @@ def check_random(log_file, number_of_tests):
 
 log_file = 'counter-examples.txt'
 #check_dataset(log_file)
+s = 'aaaaa'
 check_random(log_file, 1)
