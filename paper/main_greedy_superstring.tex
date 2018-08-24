@@ -52,14 +52,13 @@
 \section{Introduction}
 The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
-substrings. The currently record known approximation ratio is 
-$2\frac{11}{23}$ due to Mucha~\cite{}
-(see \cite[Section~2.1]{GKM13} for an overview of the 
+substrings. The best known approximation ratios are 
+$2\frac{11}{23}$ due to Mucha~\cite{M2013} and $2\frac{11}{30}$ due to Paluch~\cite{P14} (see \cite[Section~2.1Z]{GKM13} for an overview of the 
 previously known approximation algorithms
-and inapproximability results). 
-The corresponding algorithm and its analysis are complicated.
+and inapproximability results).
+The corresponding algorithm and its analyzes are complicated.
 At the same time, an~intriguing {\em greedy conjecture} remains open
-for about xx{\todo{Sasha, cite}} years already. It states that Algorithm~\ref{algo:ga} is 2-approximate.
+for about 30 years already. It states that a~greedy algorithm whose pseudocode is given in Algorithm~\ref{algo:ga} is 2-approximate.
 
 \begin{algorithm}
 \label{algo:ga}
@@ -75,7 +74,9 @@ for about xx{\todo{Sasha, cite}} years already. It states that Algorithm~\ref{al
 \end{algorithmic}
 \end{algorithm}
 
-%the following simple 
+
+
+%following simple 
 %greedy algorithm is 2-approximate: while there are more than two strings 
 %in the set, take two of them with the maximum overlap and replace them
 %with their shortest superstring.
@@ -427,7 +428,7 @@ $l=1$ iteration is a~solution with many
 redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure.
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
-\input specialcase
+%\input specialcase
 
 
 \section{Further Directions and Open Problems}
@@ -447,5 +448,7 @@ handling errors in the input data.
 \todo[inline]{Sasha, tell more about it}
 \end{description}
 
+\bibliographystyle{alpha}
+\bibliography{main}
 
 \end{document}

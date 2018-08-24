@@ -1,1 +1,19 @@
 In this subsection, we support the Collapsing Superstring Conjecture by proving it in a~special case when all input strings have length~3.
+
+The proof, with the exception of the last (most complex) part, will also be true for the general superstring problem.
+
+Define $V(s)$ as the set of vertices examined by the greedy algorithm strictly before the examination of vertex $s$ (including $s$ itself). This definition will be the same for the algorithm \ref{alg:collapser}, because they both examine vertices in descending order of levels and in the same order at the same levels.
+
+Both algorithms work with the set named $D$. We denote the set $D$ from the collapsing algorithm as $\cld{}$ and the set $D$ from the greedy algorithm as $\grd{}$. We also introduce the notation $\clgraph = (V, \cld), \grgraph = (V, \grd)$. Finally, for collapsing algorithm we define the set $\cldr{s}$, consisting of edges of $D$ which are incident to at least one vertex from $ V (s) \backslash \{s \} $, where $D$ is considered as a set of edges strictly before the examination of vertex $s$. We define $\grdr{s}$ similarly.
+
+\begin{remark}
+Generally speaking, $\grdr{s}=\grd$, so for the greedy algorithm this designation is introduced only for uniformity. On the other hand, $\cld$ is not necessarily equal to $\cldr{s}$, because $\clgraph{}$ initially consists of edges connecting all vertices from $ {\cal S} $ to $ \varepsilon $.
+\end{remark}
+
+Let's formulate the main assertion.
+
+\begin{statement}
+    $\forall s \in V$ $\cldr{s}=\grdr{s}$ holds.
+\end{statement}
+
+Define the first vertex in $G$ which is examined by both algorithms as $s_0$. Note that for $s_0$ the formulated statement is obvious, because $\cldr{s_0} = \grdr{s_0} = \varnothing $. Also note that for $\varepsilon $ this statement is equivalent to the Collapsing Superstring Conjecture, since $\cldr{\varepsilon}=\cld, \grdr{\varepsilon}=\grd $ by virtue of $ V (\varepsilon) = V $.
