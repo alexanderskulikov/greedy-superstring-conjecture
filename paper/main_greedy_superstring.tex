@@ -42,21 +42,43 @@
 \date{}
 \title{Collapsing Superstring Conjecture}
 \maketitle
+
+\begin{abstract}
+\todo[inline]{Sasha, write the abstract}
+\end{abstract}
+
 \tableofcontents
 
 \section{Introduction}
 The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
 substrings. The currently record known approximation ratio is 
-$2\frac{11}{23}$ due to Mucha~\cite{}. See \cite[Section~2.1]{GKM13} for an overview of the 
+$2\frac{11}{23}$ due to Mucha~\cite{}
+(see \cite[Section~2.1]{GKM13} for an overview of the 
 previously known approximation algorithms
-and inapproximability results. 
+and inapproximability results). 
 The corresponding algorithm and its analysis are complicated.
 At the same time, an~intriguing {\em greedy conjecture} remains open
-for about 40 years already. It states that the following simple 
-greedy algorithm is 2-approximate: while there are more than two strings 
-in the set, take two of them with the maximum overlap and replace them
-with their shortest superstring.
+for about xx{\todo{Sasha, cite}} years already. It states that Algorithm~\ref{algo:ga} is 2-approximate.
+
+\begin{algorithm}
+\label{algo:ga}
+\caption{Greedy Algorithm (GA)}
+\hspace*{\algorithmicindent} \textbf{Input:} set of strings~${\cal S}$.\\
+\hspace*{\algorithmicindent} \textbf{Output:} a~superstring~for $\mathcal{S}$.
+\begin{algorithmic}[1]
+\While{$\mathcal{S}$ contains at least two strings}
+\State extract from $\mathcal{S}$ two strings with the maximum overlap
+\State add to $\mathcal{S}$ the shortest superstring of two strings
+\EndWhile
+\State return $D$
+\end{algorithmic}
+\end{algorithm}
+
+%the following simple 
+%greedy algorithm is 2-approximate: while there are more than two strings 
+%in the set, take two of them with the maximum overlap and replace them
+%with their shortest superstring.
 
 Most of the approaches for approximating SCS are based on an
 {\em overlap graph}: it has input strings as nodes, any two nodes 
@@ -107,8 +129,39 @@ we denote the first $|s|-|\overlap(s,t)|$ symbols of $s$.
 Similarly, $\suff(s,t)$ is the last
 $|t|-|\overlap(s,t)|$ symbols of~$t$. 
 By $\pref(s)$ and $\suff(s)$ we denote, respectively,
-the first and the last $|s|-1$ symbols of~$s$.
+the first and the last $|s|-1$ symbols of~$s$. See Fig.~\ref{fig:overlap} for a~visual explanation.
 The empty string is denoted by $\varepsilon$.
+
+\begin{figure}
+\begin{mypic}
+\begin{scope}
+%\draw[help lines,step=5mm] (0,0) grid (14,3);
+
+\draw (0,2) rectangle (6,2.5);
+\draw[step=5mm] (0,2) grid (6,2.5);
+\node[left] at (0,2.25) {$s$};
+\draw (3,0.5) rectangle (10,1);
+\draw[step=5mm] (3,0.5) grid (10,1);
+\node[right] at (10,0.75) {$t$};
+
+\foreach \x in {3.25, 3.75, ..., 5.75}
+  \draw[gray,thick] (\x,2) -- (\x,1);
+
+\foreach \f/\t/\y/\lab in {0/3/1.5/{\pref(s,t)}, 
+3/6/0/{\overlap(s,t)}, 6/10/0/{\suff(s,t)}, 0/5.5/3/\pref(s),
+0.5/6/3.5/\suff(s)}
+  \path (\f,\y) edge[<->] node[rectangle,inner sep=0.5mm,fill=white] {\strut $\lab$} (\t,\y);
+  
+\foreach \x/\a in {0/b, 0.5/a, 1/a, 1.5/c, 2/a, 2.5/b, 3/b, 3.5/c, 4/a, 4.5/a, 5/c, 5.5/b}
+  \node at (\x+0.25,2.25) {\tt \a};
+\foreach \x/\a in {3/b, 3.5/c, 4/a, 4.5/a, 5/c, 5.5/b, 6/a, 6.5/c, 7/a, 7.5/a, 8/a, 8.5/b, 9/c, 9.5/a}
+  \node at (\x+0.25,0.75) {\tt \a};
+\end{scope}
+\end{mypic}
+\caption{Pictorial explanations of $\pref$, $\suff$, and $\overlap$ functions.}
+\label{fig:overlap}
+\end{figure}
+
 
 Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
 a~set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a given order one just
@@ -143,6 +196,7 @@ For a~set of string~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weig
 %\end{definition}
 %
 Figure~\ref{fig:hgexfirst} gives an example of the hierarchical graph as well as shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$. 
+\todo[inline]{Sasha, the following graph is wrong! It does not contain the node {\tt bc} (I took from another paper where we used a~different version of the hierarchical graph). Come up with a different example. On the left show the graph. On the right show, say, a solution in this graph.}
 
 
 \newcommand{\verta}{
@@ -210,7 +264,7 @@ a~walk $\varepsilon\to{\tt b}\to{\tt ba}
 \to{\tt abca}\to{\tt bca}\to{\tt ca}\to{\tt a}
 \to\varepsilon$ has length $5$ and spells 
 a~string {\tt babca} 
-of length~$5$ in a~natural way.
+of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
 
 Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. By saying a~walk here we mean that it may contain repeated nodes and edges. Note that the multiset of edges of such a~walk must be Eulerian. It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. 
 
@@ -256,7 +310,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \end{algorithmic}
 \end{algorithm}
 
-\todo[inline]{Sasha G, think about a good example highlighting all properties of this algorithm}
+\todo[inline]{Sasha G, think about a good example highlighting all properties of this algorithm. In particular, it should highlight the lines 8--11 of the algorithm. The same example should be used for the collapsing algorithm.}
 
 The advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings will be given by the corresponding Eulerian cycle through~$D$.
 
@@ -304,7 +358,7 @@ We double every edge of~$D$ (note that $D$ remains to be a~solution). What we do
 with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Fig.~\ref{fig:collapsing}.
 \end{enumerate}
 Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the ascending order and in the lexicographic order on every level. If for the current node~$v$ there is a~pair if edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
-A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm lifts down all edges of the doubles set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm lifts down all edges of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
 
 \begin{figure}
 \begin{mypic}
@@ -331,7 +385,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \end{scope}
 \end{scope}
 \end{mypic}
-\caption{Collapsing a~pair of edges is replacing a~pair of dashed edges with a~pair of solid edges: general case (left) and example (right). A~``physical'' meaning of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and then append~{\tt c} to the end and these two operations commute.}
+\caption{Collapsing a~pair of edges is replacing a~pair of dashed edges with a~pair of solid edges: general case (left) and example (right). A~``physical'' meaning of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
 \label{fig:collapsing}
 \end{figure}
 
