@@ -6,11 +6,11 @@ Here we explain how to deploy the webpage on an amazon ec2 server.
 
 Install all the required packages using yum
 
-
 	chmod 400 firstkeypair.pem
     ssh -i firstkeypair.pem ec2-user@18.220.191.231
    
 ## Install all the required packages
+
 
 	sudo yum group install "Development Tools"
     sudo yum install python-pip
@@ -32,3 +32,12 @@ In order to check that flask is running, one can run the following commands:
 	ssh -i firstkeypair.pem ec2-user@18.220.191.231
     links
     http://localhost:5000
+    
+## Install Apache
+
+	sudo yum install httpd mod_ssl
+    sudo /usr/sbin/apachectl start
+    sudo yum install mod_wsgi
+    sudo ln -sT ~/greedy-superstring-conjecture/ /var/www/html/csc
+    
+
