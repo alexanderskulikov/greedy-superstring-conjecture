@@ -10,9 +10,15 @@ separator = '--------'
 distinct = 0
 
 
+def graph_contains(larger, smaller):
+    for e in smaller.edges():
+        if not larger.has_edge(*e):
+            return False
+    return True
+
+
 def compare_graphs(g, h):
-    return nx.difference(g, h).number_of_edges() == 0 and \
-           nx.difference(h, g).number_of_edges() == 0
+    return graph_contains(g, h) and graph_contains(h, g)
 
 
 def log(input_strings, exact_sol, hier_sol):
