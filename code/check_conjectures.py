@@ -10,15 +10,18 @@ separator = '--------'
 distinct = 0
 
 
-def graph_contains(larger, smaller):
-    for e in smaller.edges():
-        if not larger.has_edge(*e):
-            return False
-    return True
-
-
+# compares two graphs including edges multiplicities.
+# in Python 3.6 one can safely use the method nx.symmetric_difference instead,
+# but this method doesn't necessarily work correctly in Python 3.5
 def compare_graphs(g, h):
-    return graph_contains(g, h) and graph_contains(h, g)
+    d = nx.MultiDiGraph()
+    for e in g.edges():
+        d.add_edge(*e)
+    for e in h.edges:
+        if not d.has_edge(*e):
+            return False
+        d.remove_edge(*e)
+    return True
 
 
 def log(input_strings, exact_sol, hier_sol):
