@@ -101,8 +101,8 @@ def compute(strings):
     return render_template('index.html', input_strings=input_strings, hier=hier, exact=exact, trivial=trivial, exact_sol=exact_sol, hier_sol=hier_sol)
 
 
-@app.route('/', methods=['GET', 'POST'])
-@app.route('/index', methods=['GET', 'POST'])
+@app.route('/scs', methods=['GET', 'POST'])
+@app.route('/scs/index', methods=['GET', 'POST'])
 def index():
     try:
         if request.method == "POST":
