@@ -36,8 +36,41 @@ In order to check that flask is running, one can run the following commands:
 ## Install Apache
 
 	sudo yum install httpd mod_ssl
-    sudo /usr/sbin/apachectl start
     sudo yum install mod_wsgi
-    sudo ln -sT ~/greedy-superstring-conjecture/ /var/www/html/csc
-    
 
+Start Apache:
+
+	sudo systemctl start httpd
+
+Be sure that Apache starts at boot:
+
+	sudo systemctl enable httpd
+
+To check the status of Apache:
+
+	sudo systemctl status httpd
+
+To stop Apache:
+
+	sudo systemctl stop httpd    
+
+To restart Apache:
+
+	sudo apachectl restart
+
+Apache config file:
+
+	/etc/httpd/conf/httpd.conf
+
+Apache log file:
+
+	/etc/httpd/logs/error_log
+
+
+## Setup Flask
+
+	sudo mkdir /var/www/html/csc
+	sudo cp -R ~/greedy-superstring-conjecture/* /var/www/html/csc/
+	sudo chmod -R 755 /var/www/html/csc
+	
+	
