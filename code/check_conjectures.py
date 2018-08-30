@@ -17,7 +17,7 @@ def compare_graphs(g, h):
     d = nx.MultiDiGraph()
     for e in g.edges():
         d.add_edge(*e)
-    for e in h.edges:
+    for e in h.edges():
         if not d.has_edge(*e):
             return False
         d.remove_edge(*e)
