@@ -76,3 +76,22 @@ You can find Apache's logs here:
 ```
 /var/log/apache2/error.log
 ```
+
+In order to restart Apache, run:
+```
+sudo apachectl restart
+```
+
+## Logs, History and Exceptions
+
+```
+ssh -i "firstkeypair.pem" ubuntu@ec2-52-14-166-19.us-east-2.compute.amazonaws.com
+```
+
+Here are the outputs: `/greedy-superstring-conjecture/web/static/output/`
+
+Here is the history: `/greedy-superstring-conjecture/web/static/logs/history/`
+
+Here is the list of exceptions: `/greedy-superstring-conjecture/web/static/logs/exceptions.txt`
+
+Here is the list of counter-examples: `/greedy-superstring-conjecture/web/static/logs/counter-examples.txt`
