@@ -11,7 +11,7 @@ distinct = 0
 
 
 # compares two graphs including edges multiplicities.
-# in Python 3.6 one can safely use the method nx.symmetric_difference instead,
+# in Python 3.6 one can use the method nx.symmetric_difference instead,
 # but this method doesn't necessarily work correctly in Python 3.5
 def compare_graphs(g, h):
     d = nx.MultiDiGraph()
@@ -21,7 +21,7 @@ def compare_graphs(g, h):
         if not d.has_edge(*e):
             return False
         d.remove_edge(*e)
-    return True
+    return d.number_of_edges() == 0
 
 
 def log(input_strings, exact_sol, hier_sol):
