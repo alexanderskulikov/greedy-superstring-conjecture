@@ -58,7 +58,7 @@ The corresponding algorithm and its analyzes are complicated.
 At the same time, an~intriguing {\em greedy conjecture} remains open
 for about 30 years already. It states that a~greedy algorithm whose pseudocode is given in Algorithm~\ref{algo:ga} is 2-approximate.
 
-\begin{algorithm}
+\begin{algorithm}[ht]
 \label{algo:ga}
 \caption{Greedy Algorithm (GA)}
 \hspace*{\algorithmicindent} \textbf{Input:} set of strings~${\cal S}$.\\
@@ -366,7 +366,7 @@ with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and
 Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the ascending order and in the lexicographic order on every level. If for the current node~$v$ there is a~pair if edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
 A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm lifts down all edges of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
 
-\begin{figure}
+\begin{figure}[ht]
 \begin{mypic}
 \begin{scope}[minimum size=6mm]
 %\draw[help lines] (0,0) grid (14,3);
@@ -395,7 +395,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \label{fig:collapsing}
 \end{figure}
 
-\begin{algorithm}
+\begin{algorithm}[ht]
 \caption{Collapse}\label{alg:collapse}
 \hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$, node $v \in V$.
 %\hspace*{\algorithmicindent} \textbf{Output:} a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
@@ -409,7 +409,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}
+\begin{algorithm}[ht]
 \caption{Collapsing Algorithm (CA)}
 \label{alg:ca}
 \hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$.\\
@@ -430,7 +430,131 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 When $l>1$, the collapsing procedure does not change the total length of~$D$. 
 What one normally sees at the beginning of the
 $l=1$ iteration is a~solution with many 
-redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure.
+redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Fig.~\ref{fig:coll} for an~example.
+
+\begin{figure}[ht]
+\begin{mypic}
+\we{0}{0}{a}{
+\foreach \f/\t/\a in {eps/a/10, eps/a/20, 
+a/aa/10, a/aa/20, 
+aa/aaa/10, aa/aaa/20,
+aaa/aa/10, aaa/aa/20,
+aa/a/10, aa/a/20, 
+a/ae/0, a/ae/10,
+ae/aec/0, ae/aec/10,
+aec/ec/0, aec/ec/10,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/cae/10,
+cae/ae/0, cae/ae/10,
+ae/e/0, ae/e/10,
+e/ee/10, e/ee/20,
+ee/eee/10, ee/eee/20,
+eee/ee/10, eee/ee/20,
+ee/e/10, ee/e/20,
+e/eps/10, e/eps/20}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {eps/a/10, eps/a/20, 
+a/aa/10, a/aa/20, a/aa/30, aa/a/30,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, aa/a/20, 
+a/ae/0, a/ae/10,
+ae/aec/0, ae/e/20,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0, a/ae/20,
+cae/ae/0,
+ae/e/0, ae/e/10,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, a/eps/10, a/eps/20,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+a/ae/0, a/ae/10,
+ae/aec/0, ae/e/20,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0, a/ae/20,
+cae/ae/0,
+ae/e/0, ae/e/10,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, 
+ee/e/20,
+ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{0}{-55}{d}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, 
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+ae/aec/0,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0,
+cae/ae/0,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20, e/eps/30,
+eps/e/10, eps/e/20, eps/e/30}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{-55}{e}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
+e/eps/10, eps/e/10, 
+e/eps/20, eps/e/20,
+e/eps/30, eps/e/30,
+e/eps/40, eps/e/40,
+e/eps/50, eps/e/50,
+a/eps/10, eps/a/10,
+a/eps/20, eps/a/20,
+a/eps/30, eps/a/30,
+a/eps/40, eps/a/40,
+a/eps/50, eps/a/50}
+\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{-55}{f}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
+e/eps/10, eps/e/10, 
+a/eps/10, eps/a/10}
+\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+\end{mypic}
+\caption{TBW}
+\label{fig:coll}
+\end{figure}
+
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
 %\input specialcase
