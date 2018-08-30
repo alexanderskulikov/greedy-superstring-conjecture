@@ -9,9 +9,9 @@ chmod 400 firstkeypair.pem
 ```
 
 ## SSH to the server
-Our Public DNS is *ec2-18-191-207-139.us-east-2.compute.amazonaws.com*. Thus, we can ssh to this machine using the command
+Our Public DNS is *ec2-52-14-166-19.us-east-2.compute.amazonaws.com*. Thus, we can ssh to this machine using the command
 ```
-ssh -i "firstkeypair.pem" ubuntu@ec2-18-191-207-139.us-east-2.compute.amazonaws.com
+ssh -i "firstkeypair.pem" ubuntu@ec2-52-14-166-19.us-east-2.compute.amazonaws.com
 ```
 
 ## Install Python 3, pip, and Apache
@@ -30,7 +30,7 @@ sudo apt-get install libapache2-mod-wsgi-py3
 sudo pip3 install flask
 sudo pip3 install networkx
 sudo apt-get install graphviz libgraphviz-dev graphviz-dev pkg-config
-sudo pip install pygraphviz
+sudo pip3 install pygraphviz --install-option="--include-path=/usr/include/graphviz" --install-option="--library-path=/usr/lib/graphviz/"
 ```
 
 ## Download Code
@@ -40,8 +40,10 @@ git clone https://github.com/alexanderskulikov/greedy-superstring-conjecture.git
 ```
    
 ## Setup Flask
+```
 sudo ln -sT ~/greedy-superstring-conjecture/web /var/www/html/web
 sudo vim /etc/apache2/sites-enabled/000-default.conf
+```
 After the line `DocumentRoot /var/www/html`, add the following block:
 ```
 WSGIDaemonProcess flaskapp threads=5
@@ -59,57 +61,18 @@ Now run the command
 ```
 sudo apachectl restart
 ```
-   
-## Run flask
 
-	ssh -i firstkeypair.pem ec2-user@18.220.191.231
-    cd greedy-superstring-conjecture/
-    flask run
-    
-In order to check that flask is running, one can run the following commands:
+## Writing Permissions
+```
+sudo chmod -R a+w greedy-superstring-conjecture/web/static/logs/
+sudo chmod -R a+w greedy-superstring-conjecture/web/static/output/
+```
 
-	ssh -i firstkeypair.pem ec2-user@18.220.191.231
-    links
-    http://localhost:5000
-    
-## Install Apache
+## Testing
 
-	sudo yum install httpd mod_ssl
-    sudo yum install mod_wsgi
+Open in your browser the page `http://ec2-52-14-166-19.us-east-2.compute.amazonaws.com/`
 
-Start Apache:
-
-	sudo systemctl start httpd
-
-Be sure that Apache starts at boot:
-
-	sudo systemctl enable httpd
-
-To check the status of Apache:
-
-	sudo systemctl status httpd
-
-To stop Apache:
-
-	sudo systemctl stop httpd    
-
-To restart Apache:
-
-	sudo apachectl restart
-
-Apache config file:
-
-	/etc/httpd/conf/httpd.conf
-
-Apache log file:
-
-	/etc/httpd/logs/error_log
-
-
-## Setup Flask
-
-	sudo mkdir /var/www/html/csc
-	sudo cp -R ~/greedy-superstring-conjecture/* /var/www/html/csc/
-	sudo chmod -R 755 /var/www/html/csc
-	
-	
+You can find Apache's logs here:
+```
+/var/log/apache2/error.log
+```
