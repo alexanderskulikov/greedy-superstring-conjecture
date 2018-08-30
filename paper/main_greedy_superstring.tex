@@ -25,17 +25,15 @@
 
 \tikzstyle{hgedge}=[->,gray!30!white]
 \tikzstyle{anypath}=[->,dashed]
-\tikzstyle{vertex}=[draw,ellipse,inner sep=0.25mm]
+\tikzstyle{vertex}=[draw,ellipse,inner sep=0.5mm]
 \tikzstyle{inputvertex}=[draw,rectangle,inner sep=0.5mm]
 
 \newenvironment{mypic}{\begin{center}\begin{tikzpicture}[>=latex,line width=.3mm]}{\end{tikzpicture}\end{center}}
 
-\tikzstyle{arraynodes}=[draw=gray,minimum size=5mm,inner sep=0mm,anchor=center]
-\tikzstyle{h}=[arraynodes,fill=mybluefill]
-\tikzstyle{myarray}=[draw=none,matrix of nodes,nodes={arraynodes},ampersand replacement=\&,line width=.3mm,row sep=-\pgflinewidth,column sep=-\pgflinewidth]
 
 \begin{document}
 %\hrule
+%\input pics
 
 \sloppy
 \author{}
@@ -47,13 +45,13 @@
 \todo[inline]{Sasha, write the abstract}
 \end{abstract}
 
-\tableofcontents
+%\tableofcontents
 
 \section{Introduction}
 The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
 substrings. The best known approximation ratios are 
-$2\frac{11}{23}$ due to Mucha~\cite{M2013} and $2\frac{11}{30}$ due to Paluch~\cite{P14} (see \cite[Section~2.1Z]{GKM13} for an overview of the 
+$2\frac{11}{23}$ due to Mucha~\cite{M2013} and $2\frac{11}{30}$ due to Paluch~\cite{P14} (see \cite[Section~2.1]{GKM13} for an overview of the 
 previously known approximation algorithms
 and inapproximability results).
 The corresponding algorithm and its analyzes are complicated.
@@ -70,7 +68,7 @@ for about 30 years already. It states that a~greedy algorithm whose pseudocode i
 \State extract from $\mathcal{S}$ two strings with the maximum overlap
 \State add to $\mathcal{S}$ the shortest superstring of two strings
 \EndWhile
-\State return $D$
+\State return the only string from $\mathcal{S}$
 \end{algorithmic}
 \end{algorithm}
 
@@ -133,7 +131,7 @@ By $\pref(s)$ and $\suff(s)$ we denote, respectively,
 the first and the last $|s|-1$ symbols of~$s$. See Fig.~\ref{fig:overlap} for a~visual explanation.
 The empty string is denoted by $\varepsilon$.
 
-\begin{figure}
+\begin{figure}[ht]
 \begin{mypic}
 \begin{scope}
 %\draw[help lines,step=5mm] (0,0) grid (14,3);
@@ -168,7 +166,7 @@ Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
 a~set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a given order one just
 overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple observation makes many connections to other permutation problems, including different versions of the traveling salesman problem.
 
-\begin{figure}
+\begin{figure}[ht]
 \begin{mypic}
 %\draw[help lines] (0,0) grid (16,4);
 
@@ -196,58 +194,45 @@ overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple 
 For a~set of string~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V$ with $v \neq \varepsilon$, the set of edges~$E$ contains an {\em up-edge} $(\pref(v), v)$ of weight~1 and a {\em down-edge} $(v, \suff(v))$ of weight~0. The physical meaning of an up-edge is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the physical meaning of the down-edge is cutting down one symbol from the beginning of the current string.
 %\end{definition}
 %
-Figure~\ref{fig:hgexfirst} gives an example of the hierarchical graph as well as shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$. 
-\todo[inline]{Sasha, the following graph is wrong! It does not contain the node {\tt bc} (I took from another paper where we used a~different version of the hierarchical graph). Come up with a different example. On the left show the graph. On the right show, say, a solution in this graph.}
+Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph as well as shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$. 
+%\todo[inline]{Sasha, the following graph is wrong! It does not contain the node {\tt bc} (I took from another paper where we used a~different version of the hierarchical graph). Come up with a different example. On the left show the graph. On the right show, say, a solution in this graph.}
 
 
-\newcommand{\verta}{
-    \foreach \x/\y/\n in {4/5/abba, 4/4/bab, 2/4/dbb, 7/4/cab, 9/4/aac, 8/5/abca}
-      \node[inputvertex] (\n) at (\x,\y) {\tt \n};
-%      
-    \foreach \x/\y/\n in {3/4/bba, 5/4/abb, 6/4/abc, 8/4/bca, 2/3/db, 3/3/bb, 4/3/ba, 6/3/ab, 7/3/ca, 8/3/aa, 9/3/ac, 3/2/d, 5/2/b, 6/2/a, 7/2/c}
-      \node[vertex] (\n) at (\x,\y) {\tt \n};
-%      
-    \node[vertex] (e) at (6,1) {$\varepsilon$};
+\newcommand{\we}[4]{
+\begin{scope}[xshift=#1mm,yshift=#2mm]
+\foreach \n/\x/\y in {aaa/0/3, cae/1/3, aec/3/3, eee/4/3}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+%  
+\foreach \n/\x/\y in {aa/0/2, ca/1/2, ae/2/2, ec/3/2, ee/4/2, a/1/1, c/2/1, e/3/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \n};
+%
+\node[vertex] (eps) at (2,0) {$\varepsilon$};
+%
+\foreach \f/\t/\a in {eps/e/10, e/eps/10, eps/c/10, c/eps/10, eps/a/10, a/eps/10, a/aa/10, aa/a/10, aa/aaa/10, aaa/aa/10, c/ca/0, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, e/ee/10, ee/e/10, ca/a/0, a/ae/0, ae/e/0, e/ec/0, ec/c/0}
+  \path (\f) edge[hgedge,bend left=\a] (\t);
+  
+\node at (2,-1) {(#3)};
+
+#4
+\end{scope}
 }
 
 \begin{figure}[ht]
 \begin{mypic}
-    {\verta}
-    
-%    \foreach \y in {0,...,4}
-%      \node[draw=none] at (0,\y+1) {\y};
-    
-    
-    \foreach \s/\f/\t in {db/dbb/bb, ba/bab/ab, abb/abba/bba, ca/cab/ab, abc/abca/bca, aa/aac/ac} {
-      \path (\s) edge[hgedge] (\f);
-      \path (\f) edge[hgedge] (\t);
-    }
+\we{0}{0}{a}{}
 
-    \foreach \s/\t in {d/db, b/ba, bba/ba, ba/a, ab/b, a/ab, ab/abb, ab/abc, c/ca, bca/ca, bb/b, bb/bba, abb/bb}
-      \path (\s) edge[hgedge] (\t);
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {eps/a/10, a/ae/0, ae/aec/0, aec/ec/0, ec/c/0, c/ca/0, ca/a/0, a/eps/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
 
-    \path (b) edge[bend left=15,hgedge] (bb); 
-    \path (db) edge[bend right=15,hgedge] (b); 
-    
-    \path (a) edge[bend right=10,hgedge] (aa); 
-    \path (aa) edge[bend right=10,hgedge] (a); 
-    
-    \path (a) edge[hgedge,bend right=8] (ac);
-    \path (ca) edge[hgedge,bend right=15] (a);
-    
-    \path (ac) edge[hgedge,out=-90,in=0] (c);
-      
-    \foreach \s in {a,b,c,d} {
-      \path (\s) edge[hgedge,bend left=10] (e);
-      \path (e) edge[hgedge,bend left=10] (\s);
-    }
-    
-\begin{scope}[xshift=85mm]
-{\verta}
-\end{scope}
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {eps/a/10, a/aa/10, aa/aaa/10, aaa/aa/10, aa/a/10, a/ae/0, ae/aec/0, aec/ec/0, ec/c/0, c/ca/0, ca/cae/0, cae/ae/0, ae/e/0, e/ee/10, ee/eee/10, eee/ee/10, ee/e/10, e/eps/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
 \end{mypic}
-\caption{Left: The hierarchical graph for  
-$\mathcal{S}=\{{\tt abba}, {\tt abca}, {\tt dbb}, {\tt bab}, {\tt cab}, {\tt aac}\}$. The strings from $\mathcal{S}$ are given in rectangles. Right: TBW}\label{fig:hgexfirst}
+\caption{(a)~Hierarchical graph for a~dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$. (b)~A~walk $\varepsilon \to {\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec} \to {\tt c} \to {\tt ca} \to {\tt a} \to \varepsilon$ has length (or weight)~4 and spells a~string {\tt aeca} of length~4. (c)~An~optimal superstring for~$\mathcal{S}$ is {\tt aaaecaeee}. It has length~9, corresponds to a~permutation $({\tt aaa}, {\tt aec}, {\tt cae}, {\tt eee})$, and defines a~walk of length~9 shown in black.}
+\label{fig:hgex}
 \end{figure}
 
 What we are looking for in this graph is a shortest
@@ -258,18 +243,16 @@ from $\varepsilon$ to $\varepsilon$ equals the
 length of the string spelled by this walk. 
 This is just because each arc going up has 
 weight~$1$ and adds one symbol to 
-the current string. 
-For example, in the graph of Fig.~\ref{fig:hgexfirst} 
-a~walk $\varepsilon\to{\tt b}\to{\tt ba}
-\to{\tt bab}\to{\tt ab}\to{\tt abc}
-\to{\tt abca}\to{\tt bca}\to{\tt ca}\to{\tt a}
-\to\varepsilon$ has length $5$ and spells 
-a~string {\tt babca} 
-of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
+the current string. See Figure~\ref{fig:hgex}(b) for an~example.
+%For example, in the graph of Fig.~\ref{fig:hgexfirst} 
+%a~walk $\varepsilon\to{\tt b}\to{\tt ba}
+%\to{\tt bab}\to{\tt ab}\to{\tt abc}
+%\to{\tt abca}\to{\tt bca}\to{\tt ca}\to{\tt a}
+%\to\varepsilon$ has length $5$ and spells 
+%a~string {\tt babca} 
+%of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
 
-Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. By saying a~walk here we mean that it may contain repeated nodes and edges. Note that the multiset of edges of such a~walk must be Eulerian. It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. 
-
-
+Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. By saying a~walk here we mean that it may contain repeated nodes and edges. Note that the multiset of edges of such a~walk must be Eulerian. It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
 
 \section{Greedy Hierarchical Algorithm}
 \subsection{Algorithm and Conjecture}
@@ -283,7 +266,7 @@ More precisely, it starts from considering the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG_{\cal S}$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges $\{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous level. In case $v$ is balanced, we just skip it. The only exception when we do not skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}.
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges $\{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous level. In case $v$ is balanced, we just skip it. The only exception when we do not skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
 \begin{algorithm}
@@ -310,6 +293,28 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \State return $D$
 \end{algorithmic}
 \end{algorithm}
+
+\begin{figure}[ht]
+\begin{mypic}
+\we{0}{0}{a}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, e/eps/10, eps/e/10, a/eps/10, eps/a/10}
+\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+\end{mypic}
+\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower edges ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contain imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower edges to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is therefore suboptimal.}
+\label{fig:hgexa}
+\end{figure}
+
 
 \todo[inline]{Sasha G, think about a good example highlighting all properties of this algorithm. In particular, it should highlight the lines 8--11 of the algorithm. The same example should be used for the collapsing algorithm.}
 
