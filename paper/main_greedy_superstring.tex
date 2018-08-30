@@ -551,7 +551,7 @@ a/eps/10, eps/a/10}
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
 \end{mypic}
-\caption{TBW}
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its optimal solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). (b)~After collapsing all nodes at level $l=3$. (c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of edges $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of edges for this node as it lies in the same component as a~node~{\tt c}. (e)~After processing the whole level~$l=2$ (i.e., nodes {\tt ec} and {\tt ee}). (f)~Finally, after collapsing all the unnecessary pairs of edges from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
 \label{fig:coll}
 \end{figure}
 
