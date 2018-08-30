@@ -241,7 +241,7 @@ through all the nodes from~$\mathcal{S}$.
 It is not difficult to see that the length of a~walk 
 from $\varepsilon$ to $\varepsilon$ equals the 
 length of the string spelled by this walk. 
-This is just because each arc going up has 
+This is just because each up-edge has 
 weight~$1$ and adds one symbol to 
 the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 %For example, in the graph of Fig.~\ref{fig:hgexfirst} 
@@ -269,7 +269,7 @@ $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG_{\cal S}$.
 This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges $\{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous level. In case $v$ is balanced, we just skip it. The only exception when we do not skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
-\begin{algorithm}
+\begin{algorithm}[ht]
 \label{algo:gha}
 \caption{Greedy Hierarchical Algorithm (GHA)}
 \hspace*{\algorithmicindent} \textbf{Input:} set of strings~${\cal S}$.\\
