@@ -530,6 +530,56 @@ eps/e/10, eps/e/20, eps/e/30}
 }
 
 \we{57}{-55}{e}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, eps/a/50,
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+ae/aec/0,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20, e/eps/30,
+eps/e/10, eps/e/20, eps/e/30,
+c/eps/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{-55}{f}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, eps/a/50,
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20, e/eps/30, e/eps/40,
+eps/e/10, eps/e/20, eps/e/30,
+c/eps/10, eps/c/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{0}{-110}{g}{
 \foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
 e/eps/10, eps/e/10, 
 e/eps/20, eps/e/20,
@@ -544,14 +594,27 @@ a/eps/50, eps/a/50}
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
 
-\we{114}{-55}{f}{
+\we{57}{-110}{h}{
 \foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
 e/eps/10, eps/e/10, 
 a/eps/10, eps/a/10}
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
+
+%\we{114}{-110}{i}{
+%\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
+%e/eps/10, eps/e/10, 
+%a/eps/10, eps/a/10}
+%\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+%}
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its optimal solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). (b)~After collapsing all nodes at level $l=3$. (c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of edges $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of edges for this node as it lies in the same component as a~node~{\tt c}. (e)~After processing the whole level~$l=2$ (i.e., nodes {\tt ec} and {\tt ee}). (f)~Finally, after collapsing all the unnecessary pairs of edges from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its optimal solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). 
+(b)~After collapsing all nodes at level $l=3$. 
+(c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of edges $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of edges for this node as it lies in the same component as a~node~{\tt c}. 
+(e)~After processing the {\tt ca} node.
+(f)~After processing the {\tt ec} node.
+(g)~After processing the {\tt ee} node. Note that at this point the solution has exactly the same length as at the very beginning (at stage~(a)).
+(h)~Finally, after collapsing all the unnecessary pairs of edges from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
 \label{fig:coll}
 \end{figure}
 
