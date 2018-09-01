@@ -315,11 +315,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \label{fig:hgexa}
 \end{figure}
 
-
-\todo[inline]{Sasha G, think about a good example highlighting all properties of this algorithm. In particular, it should highlight the lines 8--11 of the algorithm. The same example should be used for the collapsing algorithm.}
-
 The advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings will be given by the corresponding Eulerian cycle through~$D$.
-
 
 We are now ready to state the main conjecture of this paper.
 \newtheorem*{ghcc}{Greedy Hierarchical Superstring Conjecture}
@@ -430,7 +426,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 When $l>1$, the collapsing procedure does not change the total length of~$D$. 
 What one normally sees at the beginning of the
 $l=1$ iteration is a~solution with many 
-redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Fig.~\ref{fig:coll} for an~example.
+redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} give examples of applying the Collapsing Algorithms for the cases when~$D$ is an optimal and naive solution respectively.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -601,14 +597,8 @@ a/eps/10, eps/a/10}
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
 
-%\we{114}{-110}{i}{
-%\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
-%e/eps/10, eps/e/10, 
-%a/eps/10, eps/a/10}
-%\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
-%}
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its optimal solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). 
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). 
 (b)~After collapsing all nodes at level $l=3$. 
 (c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of edges $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of edges for this node as it lies in the same component as a~node~{\tt c}. 
 (e)~After processing the {\tt ca} node.
@@ -618,7 +608,147 @@ a/eps/10, eps/a/10}
 \label{fig:coll}
 \end{figure}
 
+\begin{figure}[ht]
+\begin{mypic}
+\we{0}{0}{a}{
+\foreach \f/\t/\a in {
+eps/a/10,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10,
+a/eps/10,
+eps/c/10,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/eps/10,
+eps/e/10,
+e/ee/10,
+ee/eee/10,
+eee/ee/10,
+ee/e/10,
+e/eps/10
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20,
+a/aa/10, a/aa/20,
+aa/aaa/10, aa/aaa/20,
+aaa/aa/10, aaa/aa/20,
+aa/a/10, aa/a/20,
+a/eps/10, a/eps/20,
+eps/c/10, eps/c/20,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/cae/10,
+cae/ae/0, cae/ae/10,
+ae/aec/0, ae/aec/10,
+aec/ec/0, aec/ec/10,
+ec/c/0, ec/c/10,
+c/eps/10, c/eps/20,
+eps/e/10, eps/e/20,
+e/ee/10, e/ee/20,
+ee/eee/10, ee/eee/20,
+eee/ee/10, eee/ee/20,
+ee/e/10, ee/e/20,
+e/eps/10, e/eps/20
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20,
+a/aa/10, a/aa/20, a/aa/30,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, aa/a/20, aa/a/30,
+a/eps/10, a/eps/20,
+eps/c/10, eps/c/20,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0,
+cae/ae/0, a/ae/0,
+ae/aec/0, ae/e/0,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/eps/10, c/eps/20,
+eps/e/10, eps/e/20,
+e/ee/10, e/ee/20,
+ee/eee/10, ee/e/30,
+eee/ee/10, e/ee/30,
+ee/e/10, ee/e/20,
+e/eps/10, e/eps/20
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{0}{-55}{d}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, eps/a/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10,
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+eps/c/10, eps/c/20, eps/c/30,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/eps/10, c/eps/20, c/eps/30,
+eps/e/10, eps/e/20, eps/e/30, eps/e/40, eps/e/50,
+e/ee/10, 
+ee/eee/10, 
+eee/ee/10, 
+ee/e/10, 
+e/eps/10, e/eps/20, e/eps/30, e/eps/40, e/eps/50
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{-55}{e}{
+\foreach \f/\t/\a in {
+eps/a/10, 
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10,
+a/eps/10, 
+eps/c/10, 
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/eps/10, 
+eps/e/10, 
+e/ee/10, 
+ee/eee/10, 
+eee/ee/10, 
+ee/e/10, 
+e/eps/10
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+
+\end{mypic}
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. }
+\label{fig:collnaive}
+\end{figure}
+
 \todo[inline]{Sasha, state the conjecture}
+
+
 
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
