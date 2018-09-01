@@ -56,6 +56,7 @@ and inapproximability results).
 The corresponding algorithm and its analyzes are complicated.
 At the same time, an~intriguing {\em greedy conjecture} remains open
 for about 30 years already. It states that a~greedy algorithm whose pseudocode is given in Algorithm~\ref{algo:ga} is 2-approximate.
+\todo[inline]{Sasha, mention our paper with Savinov and the paper by Rivals}
 
 \begin{algorithm}[ht]
 \label{algo:ga}
@@ -65,7 +66,7 @@ for about 30 years already. It states that a~greedy algorithm whose pseudocode i
 \begin{algorithmic}[1]
 \While{$\mathcal{S}$ contains at least two strings}
 \State extract from $\mathcal{S}$ two strings with the maximum overlap
-\State add to $\mathcal{S}$ the shortest superstring of two strings
+\State add to $\mathcal{S}$ the shortest superstring of these two strings
 \EndWhile
 \State return the only string from $\mathcal{S}$
 \end{algorithmic}
@@ -673,7 +674,7 @@ a/eps/10, eps/a/10}
 }
 
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). 
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). 
 (b)~After collapsing all nodes at level $l=3$. 
 (c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of edges $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of edges for this node as it lies in the same component as a~node~{\tt c}. 
 (e)~After processing the {\tt ca} node.
@@ -817,7 +818,7 @@ e/eps/10
 
 
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. }
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. }
 \label{fig:collnaive}
 \end{figure}
 
