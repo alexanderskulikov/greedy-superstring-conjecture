@@ -342,7 +342,7 @@ Let ${\cal S}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ 
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
  while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to a~permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
  
-The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node ${\tt ea}^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$.
+The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$.
 
 %\newcommand{\ged}[3]{
 %\begin{scope}[xshift=#1mm]
@@ -420,10 +420,6 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 \caption{Top: optimal solution for the dataset $\{ {\tt cc}({\tt ae})^n, ({\tt ea})^{n+1}, ({\tt ae})^n{\tt cc} \}$. Bottom: solution constructed by GHA.}
 \label{fig:tough}
 \end{figure}
-
-\end{document}
-
-
 
 \section{Collapsing Algorithm}
 In this section, we introduce another conjecture that
