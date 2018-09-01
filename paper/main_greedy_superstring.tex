@@ -21,7 +21,6 @@
 \DeclareMathOperator{\overlap}{overlap}
 \DeclareMathOperator{\pref}{pref}
 \DeclareMathOperator{\suff}{suff}
-\DeclareMathOperator{\inter}{inter}
 
 \tikzstyle{hgedge}=[->,gray!30!white]
 \tikzstyle{anypath}=[->,dashed]
@@ -324,6 +323,8 @@ GHA is 2-approximate.
 \end{ghcc}
 In the rest of this section, we show the behavior of GHA on various datasets. In particular, we prove that GHA solves optimally two well-known polynomialy solvable special cases of SCS. In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
+\todo[inline]{Sasha, should we move the next three subsections to the Appendix?}
+
 \subsection{Strings of Length~2}
 \todo[inline]{Sasha, please write}
 
@@ -338,11 +339,89 @@ Let ${\cal S}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ 
 \todo[inline]{Sasha, please write this subsection}
 
 \subsection{Tough Dataset}
-There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1=cc(ab)^n$, $s_2=(ba)^{n+1}$, $s_3=(ab)^ndd$. Since $\overlap(s_1, s_3)=2n$,
+There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
  while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to a~permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
  
- The algorithm GHA makes a~similar mistake on this dataset. We illustrate this for the case $n=3$.
- \todo[inline]{Sasha, give an example} 
+The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node ${\tt ea}^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$.
+
+%\newcommand{\ged}[3]{
+%\begin{scope}[xshift=#1mm]
+%\foreach \n/\x/\y in {ccae/0.625/4, aecc/3.125/4, eaea/5.625/4}
+%  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+%\foreach \n/\x/\y in {cca/0/3, cae/1.25/3, aec/2.5/3, ecc/3.75/3, eae/5/3, aea/6.25/3, cc/1.5/2, ca/2.5/2, ae/3.5/2, ec/4.5/2, ea/5.5/2, c/2.5/1, a/3.5/1, e/4.5/1}
+%  \node[vertex] (\n) at (\x,\y) {\tt \n};
+%\node[vertex] (eps) at (3.5,0) {$\varepsilon$};
+%\node at (3.5,-1) {(#2)};
+%
+%\foreach \f/\t/\a in {eps/c/10, c/eps/10, eps/a/10, a/eps/10, eps/e/10, e/eps/10, c/cc/10, cc/c/10, c/ca/0, ca/a/0, a/ae/0, ae/e/0, e/ec/0, ec/c/0, e/ea/0, ea/a/0, cc/cca/0, cca/ca/0, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ec/ecc/0, ecc/cc/0, ea/eae/0, eae/ae/0, ae/aea/0, aea/ea/0, cca/ccae/0, ccae/cae/0, aec/aecc/0, aecc/ecc/0, eae/eaea/0, eaea/aea/0}
+%  \path (\f) edge[hgedge,bend left=\a] (\t);
+%
+%#3
+%\end{scope}
+%}
+% 
+%\begin{figure}
+%\begin{mypic}
+%\ged{0}{a}{
+%\foreach \f/\t/\a in {eps/c/10, c/cc/10, cc/cca/0, cca/ccae/0, ccae/cae/0, cae/ae/0, ae/e/0, e/ea/0, ea/eae/0, eae/eaea/0, eaea/aea/0, aea/ea/0, ea/a/0, a/ae/0, ae/aec/0, aec/aecc/0, aecc/ecc/0, ecc/cc/0, cc/c/10, c/eps/10}
+%  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+%}
+%
+%\ged{80}{b}{}
+%\end{mypic}
+%\caption{(a)~A~solution of length~10 corresponding to an optimal superstring {\tt ccaeaeaecc}. (b)~A~solution of length~11 constructed by GHA.}
+%\label{fig:tough}
+%\end{figure}
+
+\newcommand{\ged}[2]{
+\tikzstyle{t}=[vertex,draw=black]
+\tikzstyle{p}=[->,decorate,decoration=snake,bend left=10]
+\begin{scope}[yshift=#1mm]
+\node[inputvertex] (ccaen) at (0,5) {{\tt cc}({\tt ae})$^n$};
+\node[inputvertex] (eann) at (10,5) {({\tt ea})$^{n+1}$};
+\node[inputvertex] (aencc) at (4.5,5) {({\tt ae})$^n${\tt cc}};
+\node[t] (ccaena) at (-1,4) {\tt cc(ae)$^{n-1}$a};
+\node[t] (caen) at (1.5,4) {\tt c(ae)$^{n}$};
+\node[t] (eane) at (9,4) {\tt (ea)$^{n}$e};
+\node[t] (aean) at (11,4) {\tt a(ea)$^{n}$};
+\node[t] (aenc) at (3.5,4) {\tt (ae)$^{n}$c};
+\node[t] (eaencc) at (6,4) {\tt e(ae)$^{n-1}$cc};
+\node[t] (ccaenn) at (1,3) {\tt cc(ae)$^{n-1}$};
+\node[t] (aen) at (3.5,3) {\tt (ae)$^{n}$};
+\node[t] (ean) at (10,3) {\tt (ea)$^{n}$};
+\node[t] (aenncc) at (6,3) {\tt (ae)$^{n-1}$cc};
+\node[t] (eaenn) at (3.5,2) {\tt e(ae)$^{n-1}$};
+\node[t] (aeann) at (7,2) {\tt a(ea)$^{n-1}$};
+\node[t] (eps) at (5,0) {$\varepsilon$};
+
+\foreach \f/\t in {ccaena/ccaen, ccaen/caen, eane/eann, eann/aean, aenc/aencc, aencc/eaencc, ccaenn/ccaena, caen/aen, ean/eane, aean/ean, aen/aenc, eaencc/aenncc, ean/aeann, eaenn/ean}
+  \draw[->] (\f) -- (\t);
+  
+\path (eps) edge[p] (ccaenn);
+\path (aenncc) edge[p] (eps);
+
+#2
+\end{scope}
+}
+
+ 
+\begin{figure}
+\begin{mypic}
+\ged{0}{
+\foreach \f/\t in {aeann/aen, aen/eaenn}
+  \draw[->] (\f) -- (\t);
+}
+
+\ged{-60}{
+\path (eps) edge[p] (eaenn);
+\path (aeann) edge[p] (eps);
+}
+\end{mypic}
+\caption{Top: optimal solution for the dataset $\{ {\tt cc}({\tt ae})^n, ({\tt ea})^{n+1}, ({\tt ae})^n{\tt cc} \}$. Bottom: solution constructed by GHA.}
+\label{fig:tough}
+\end{figure}
+
+\end{document}
 
 
 
@@ -409,7 +488,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \caption{Collapsing Algorithm (CA)}
 \label{alg:ca}
 \hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$.\\
-\hspace*{\algorithmicindent} \textbf{Output:} TBW.
+\hspace*{\algorithmicindent} \textbf{Output:} (possibly) shortened solution.
 % a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
 \begin{algorithmic}[1]
 \For{level~$l$ in $HG$ in descending order}
