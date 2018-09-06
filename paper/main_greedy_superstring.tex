@@ -163,6 +163,7 @@ We implemented the Greedy Hierarchical Algorithm~\cite{github}, and tested our c
 \subsection{Shortest Common Superstring Problem}
 \label{sec:def_scs}
 %By $u\sqsupset v$ ($u\sqsubset v$) we denote that $u$ is a suffix (prefix) of $v$.
+For a string $s$, by $|s|$ we denote the length of $s$. 
 For strings~$s$ and~$t$, by $\overlap(s,t)$
 we denote the longest suffix of~$s$ that is also 
 a~prefix of~$t$. By $\pref(s,t)$
@@ -235,9 +236,7 @@ overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple 
 For a~set of strings~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V,\, v \neq \varepsilon$, the set of edges~$E$ contains an {\em up-edge} $(\pref(v), v)$ of weight~1 and a {\em down-edge} $(v, \suff(v))$ of weight~0. The meaning of an up-edge is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the meaning of a down-edge is cutting down one symbol from the beginning of the current string.
 %\end{definition}
 %
-Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph ands shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$. 
-%\todo[inline]{Sasha, the following graph is wrong! It does not contain the node {\tt bc} (I took from another paper where we used a~different version of the hierarchical graph). Come up with a different example. On the left show the graph. On the right show, say, a solution in this graph.}
-
+Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph ands shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$.  In all the figures in this paper, the input strings are shown in rectangles, while all other vertices are ellipses.
 
 \newcommand{\we}[4]{
 \begin{scope}[xshift=#1mm,yshift=#2mm]
@@ -299,15 +298,15 @@ Hence, what we are looking for in this graph is a~shortest closed walk from $\va
 \subsection{Algorithm and Conjecture}
 In this section, we present a~greedy algorithm for
 finding a~superstring in the hierarchical graph. 
-It constructs a~solution~$D$ in a~stingy fashion. 
-Namely, the algorithm only add edges to~$D$ 
+It constructs a~solution~$D$ in a~stingy way. 
+Namely, the algorithm only adds edges to~$D$ 
 if it is absolutely necessary: either to balance the degree of a~node or to ensure connectivity 
 (as $D$ must be Eulerian). 
-More precisely, it starts from considering the input
+More precisely,first it considers the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG_{\cal S}$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges $\{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous level. In case $v$ is balanced, we just skip it. The only exception when we do not skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges $\{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous (i.e., lower) level. In case $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
 \begin{algorithm}[ht]
@@ -321,7 +320,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}
 \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
 \If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
-\State balance the total degree of $v$ in $E$ by adding an appropriate number of lower edges
+\State balance the degree of $v$ in $E$ by adding an appropriate number of lower edges
 \Else
 \State ${\cal C} \gets \text{weakly connected component of $v$ in $D$}$
 \State $u \gets \text{the lexicographically largest string among shortest strings in ${\cal C}$}$
@@ -352,7 +351,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
 \end{mypic}
-\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower edges ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contain imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower edges to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is therefore suboptimal.}
+\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower edges ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contains imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower edges to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is, therefore, suboptimal.}
 \label{fig:hgexa}
 \end{figure}
 
@@ -367,15 +366,17 @@ In the rest of this section, we show the behavior of GHA on various datasets. In
 
 
 \subsection{Strings of Length~2}
-\cite{GMS1980}
+Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hardt, while SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
+
+\begin{lemma}
+Let $S=\{s_1,\ldots,s_n\}$ be a set of strings of length $n$, and let $s$ be an optimal superstring for $S$. Then$GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
+\end{lemma}
 
 \subsection{Spectrum of a~String}
-\cite{pevzner2001eulerian}
-
-
 By a~$k$-spectrum of a~string $s$ 
 (of length at least~$k$)
 we call a~set of all substrings of~$s$ of length~$k$.
+Pevzner et al.~\cite{pevzner2001eulerian} give a polynomial time exact algorithm for the case when the input strings form a spectrum of an unknown string. Now we show that GHA also finds an optimal solution in this case.
 
 \begin{lemma}
 Let ${\cal S}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
@@ -383,9 +384,9 @@ Let ${\cal S}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ 
 
 \subsection{Tough Dataset}
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
- while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to a~permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
+ while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to the permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
  
-The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$.
+The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$. This example shows that GHA does not give a better than $2$-approximation for SCS.
 
 %\newcommand{\ged}[3]{
 %\begin{scope}[xshift=#1mm]
