@@ -35,6 +35,8 @@
 \DeclareMathOperator{\bal}{\Delta}
 \DeclareMathOperator{\lvl}{level}
 \DeclareMathOperator{\defn}{def}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\inp}{input}
 
 \renewcommand{\geq}{\geqslant}
 \renewcommand{\leq}{\leqslant}
@@ -85,6 +87,7 @@ Except for its conjectured good approximation ratio, the Greedy Hierarchical Alg
 %\tableofcontents
 
 \section{Introduction}
+\label{sec:intro}
 The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
 substrings. This problems finds applications in genome assembly~\cite{waterman1995introduction, pevzner2001eulerian}, and data compression~\cite{GMS1980, phdthesis, storer1987data} (see \cite{gevezes2014shortest, mucha2007tutorial} for an overview of SCS, its applications and algorithms).  SCS is known to be $\mathbf{NP}$-hard~\cite{GMS1980} and even $\mathbf{MAX}$-$\mathbf{SNP}$-hard~\cite{BJLTY1991}, but it admits constant-factor approximation in polynomial time.
@@ -119,11 +122,11 @@ It is known that the Greedy Conjecture holds for the case when all input strings
 
 
 Most of the approaches for approximating SCS are based on the
-{\em overlap graph}: it has input strings as nodes, and a pair of nodes 
-is joined by an~arc of weight equal to their overlap (see Section~\ref{sec:def_scs} for a formal definition of overlap).
-SCS is equivalent to the Traveling Salesman Problem (TSP) on the overlap graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor. We do not know the full characterization of the graphs in this special case, but we know some of its properties: Monge inequality~\cite{monge}, Triple ineqaulity~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
+{\em overlap graph} or the equivalent {\emph suffix graph}. The suffix graph has input strings as nodes, and a pair of nodes 
+is joined by an~arc of weight equal to their suffix (see Section~\ref{sec:def_scs} for a formal definition of overlap and suffix).
+SCS is equivalent to the Traveling Salesman Problem (TSP) on the suffix graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor. We do not know the full characterization of the graphs in this special case, but we know some of its properties: Monge inequality~\cite{monge}, Triple ineqaulity~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
 
-While the overlap graph is a~convenient graph structure, our current knowledge of its properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this paper is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
+While the overlap and suffix graphs give a~convenient graph structure, our current knowledge of their properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this paper is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
 
 In this paper, we continue the study of the so-called {\em hierarchical graph}
 introduced by Golovnev et al.~\cite{scs_exact}. This graph in a~sense generalizes de~Bruijn graph and is designed specifically 
@@ -873,7 +876,7 @@ e/eps/10
 
 
 \section{Further Directions and Open Problems}
-The natural open problem is to prove the Collapsing Superstring Conjecture.
+One natural open problem is to prove the Collapsing Superstring Conjecture.
 It would also be interesting to find other applications of the 
 hierarchical graphs. We list two such potential applications below.
 \begin{description}
@@ -883,11 +886,10 @@ in genome assembly~\cite{pevzner2001eulerian}.
 Can one adopt the hierarchical graph for this task? For this, one
 would need to come up with a~compact representation of the graph
 (as datasets in genome assembly are massive) as well as with a~way of
-handling errors in the input data.
+handling errors in the input data. Cazaux and Rivals~\cite{cazaux2018hierarchical} propose a linear-space counterpart of the hierarchicalgGraph.
 
 \item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
-\todo[inline]{Sasha, tell more about it}
-The SCS problem is a special case of the Traveling Salesman problem. Indeed, one can consider the \emph{prefix graph} where each vertex corresponds to an input string, and every pair $(s_i, s_j)$ of vertices is connected by an arc of weight $|\prefix(s_i, s_j)|$, that is, the length of .... 
+It was mentioned in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithm stay the best for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} in an algorithm solving SCS on strings of any constant length can be solved in time $(2-\eps)^n$ for a constant $\eps$. Can one use the hierarchical graph to solve SCS exactly in fewer than $2^n$ steps?
 \end{description}
 
 \bibliographystyle{alpha}
