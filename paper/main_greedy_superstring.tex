@@ -28,7 +28,6 @@
 
 \DeclareMathOperator{\overlap}{overlap}
 \DeclareMathOperator{\pref}{pref}
-\DeclareMathOperator{\prefix}{prefix}
 \DeclareMathOperator{\suff}{suff}
 \DeclareMathOperator{\ein}{in}
 \DeclareMathOperator{\eout}{out}
@@ -171,8 +170,7 @@ we denote the first $|s|-|\overlap(s,t)|$ symbols of $s$.
 Similarly, $\suff(s,t)$ is the last
 $|t|-|\overlap(s,t)|$ symbols of~$t$. 
 By $\pref(s)$ and $\suff(s)$ we denote, respectively,
-the first and the last $|s|-1$ symbols of~$s$. See Fig.~\ref{fig:overlap} for a~visual explanation.
-The empty string is denoted by $\varepsilon$.
+the first and the last $|s|-1$ symbols of~$s$. See Fig.~\ref{fig:overlap} for a~visual explanation. We also denote the empty string by $\varepsilon$.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -206,8 +204,8 @@ The empty string is denoted by $\varepsilon$.
 
 
 Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
-a~set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a given order one just
-overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple observation makes many connections to other permutation problems, including different versions of the traveling salesman problem.
+the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a given order one just
+overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple observation relates SCS to other permutation problems, including different versions of the Traveling Salesman Problem.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -234,10 +232,10 @@ overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple 
 
 \subsection{Hierarchical Graph}
 %\begin{definition}[hierarchical graph]
-For a~set of string~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V$ with $v \neq \varepsilon$, the set of edges~$E$ contains an {\em up-edge} $(\pref(v), v)$ of weight~1 and a {\em down-edge} $(v, \suff(v))$ of weight~0. The physical meaning of an up-edge is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the physical meaning of the down-edge is cutting down one symbol from the beginning of the current string.
+For a~set of strings~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V,\, v \neq \varepsilon$, the set of edges~$E$ contains an {\em up-edge} $(\pref(v), v)$ of weight~1 and a {\em down-edge} $(v, \suff(v))$ of weight~0. The meaning of an up-edge is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the meaning of a down-edge is cutting down one symbol from the beginning of the current string.
 %\end{definition}
 %
-Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph as well as shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$. 
+Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph ands shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$. 
 %\todo[inline]{Sasha, the following graph is wrong! It does not contain the node {\tt bc} (I took from another paper where we used a~different version of the hierarchical graph). Come up with a different example. On the left show the graph. On the right show, say, a solution in this graph.}
 
 
@@ -274,7 +272,7 @@ Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph as well as s
   \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
 \end{mypic}
-\caption{(a)~Hierarchical graph for a~dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$. (b)~A~walk $\varepsilon \to {\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec} \to {\tt c} \to {\tt ca} \to {\tt a} \to \varepsilon$ has length (or weight)~4 and spells a~string {\tt aeca} of length~4. (c)~An~optimal superstring for~$\mathcal{S}$ is {\tt aaaecaeee}. It has length~9, corresponds to a~permutation $({\tt aaa}, {\tt aec}, {\tt cae}, {\tt eee})$, and defines a~walk of length~9 shown in black.}
+\caption{(a)~Hierarchical graph for the~dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$. (b)~The~walk $\varepsilon \to {\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec} \to {\tt c} \to {\tt ca} \to {\tt a} \to \varepsilon$ has length (or weight)~4 and spells the~string {\tt aeca} of length~4. (c)~An~optimal superstring for~$\mathcal{S}$ is {\tt aaaecaeee}. It has length~9, corresponds to the~permutation $({\tt aaa}, {\tt aec}, {\tt cae}, {\tt eee})$, and defines the~walk of length~9 shown in black.}
 \label{fig:hgex}
 \end{figure}
 
@@ -295,7 +293,7 @@ the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 %a~string {\tt babca} 
 %of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
 
-Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. By saying a~walk here we mean that it may contain repeated nodes and edges. Note that the multiset of edges of such a~walk must be Eulerian. It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
+Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and edges. The multiset of edges of such a~walk must be Eulerian (each vertex must have the same in- out out-degree). It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
 
 \section{Greedy Hierarchical Algorithm}
 \subsection{Algorithm and Conjecture}
