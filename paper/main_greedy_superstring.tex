@@ -357,19 +357,18 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 
 The advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings will be given by the corresponding Eulerian cycle through~$D$.
 
-We are now ready to state the main conjecture of this paper.
+We are now ready to state our conjecture about the Greedy Hierarchical Conjecture.
 \newtheorem*{ghcc}{Greedy Hierarchical Superstring Conjecture}
 \begin{ghcc}
 GHA is 2-approximate.
 \end{ghcc}
 In the rest of this section, we show the behavior of GHA on various datasets. In particular, we prove that GHA solves optimally two well-known polynomialy solvable special cases of SCS. In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
-
 \subsection{Strings of Length~2}
 Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hardt, while SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
 
 \begin{lemma}
-Let $S=\{s_1,\ldots,s_n\}$ be a set of strings of length $n$, and let $s$ be an optimal superstring for $S$. Then$GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
+Let $S=\{s_1,\ldots,s_n\}$ be a set of strings of length $n$, and let $s$ be an optimal superstring for $S$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
 \end{lemma}
 
 \subsection{Spectrum of a~String}
@@ -466,19 +465,23 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 \end{figure}
 
 \section{Collapsing Algorithm}
-In this section, we introduce another conjecture that
-we call Collapsing Superstring Conjecture. It implies immediately the Greedy Hierarchical Superstring Conjecture. Moreover, it is based on an~alternative simple algorithm in the hierarchical graph. If the conjecture is true, then this algorithm is also 2-approximate. We have verified the conjecture on various datasets. In Subsec.~\ref{subsec:scs3} we support it by proving its special case for strings of length~3.
+In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring into a differenet superstring of the same set of strings which is no longer than the original one. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings $S$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of edges chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
+
+Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
+
+In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In the consecutive sections we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets on the following webpage~\cite{webpage}.
 
 \subsection{Algorithm and Conjecture}
-The idea is the algorithm is the following. 
+\label{sec:alg_conj}
+The idea of the Collapsing Algorithm is the following. 
 We start with any solution~$D$ in the hierarchical graph. 
-We double every edge of~$D$ (note that $D$ remains to be a~solution). What we do next can be informally described as follows:
+We double every edge of~$D$ (note that $D$ remains a~solution). What we do next can be informally described as follows:
 \begin{enumerate}
 \item Imagine that the edges of~$D$ constitute a~circular thread and that there is a~nail in every node~$s \in {\cal S}$.
 \item We apply gravitation to the thread, i.e., we replace every pair of edges $(\pref(v), v)$, $(v, \suff(v))$ 
 with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Fig.~\ref{fig:collapsing}.
 \end{enumerate}
-Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the ascending order and in the lexicographic order on every level. If for the current node~$v$ there is a~pair if edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
+Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
 A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm lifts down all edges of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
 
 \begin{figure}[ht]
@@ -506,7 +509,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \end{scope}
 \end{scope}
 \end{mypic}
-\caption{Collapsing a~pair of edges is replacing a~pair of dashed edges with a~pair of solid edges: general case (left) and example (right). A~``physical'' meaning of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
+\caption{Collapsing a~pair of edges is replacing a~pair of dashed edges with a~pair of solid edges: general case (left) and example (right). The~``physical meaning'' of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
 \label{fig:collapsing}
 \end{figure}
 
@@ -528,7 +531,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \caption{Collapsing Algorithm (CA)}
 \label{alg:ca}
 \hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$.\\
-\hspace*{\algorithmicindent} \textbf{Output:} (possibly) shortened solution.
+\hspace*{\algorithmicindent} \textbf{Output:} solution $D'\colon |D'|\leq|D|$
 % a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
 \begin{algorithmic}[1]
 \For{level~$l$ in $HG$ in descending order}
@@ -545,9 +548,9 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 When $l>1$, the collapsing procedure does not change the total length of~$D$. 
 What one normally sees at the beginning of the
 $l=1$ iteration is a~solution with many 
-redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} give examples of applying the Collapsing Algorithms for the cases when~$D$ is an optimal and naive solution respectively.
+redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{mypic}
 \we{0}{0}{a}{
 \foreach \f/\t/\a in {eps/a/10, eps/a/20, 
@@ -727,7 +730,7 @@ a/eps/10, eps/a/10}
 \label{fig:coll}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[h]
 \begin{mypic}
 \we{0}{0}{a}{
 \foreach \f/\t/\a in {
@@ -861,17 +864,19 @@ e/eps/10
 
 
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. }
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order as they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
 \label{fig:collnaive}
 \end{figure}
 
-\todo[inline]{Sasha, state the conjecture}
 
-
+\newtheorem*{scs}{Greedy Hierarchical Superstring Conjecture}
+\begin{scs}
+Let $S$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of $S$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA(S)$.
+\end{scs}
 
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
-%\input specialcase
+\input specialcase
 
 
 \section{Further Directions and Open Problems}
