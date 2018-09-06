@@ -91,13 +91,7 @@ substrings. This problems finds applications in genome assembly~\cite{waterman19
 
 The recent breakthrough results by Mucha~\cite{M2013} and Paluch~\cite{P14} give polynomial-time $2\frac{11}{23}$- and $2\frac{11}{30}$-approximations for SCS (see \cite[Section~2.1]{GKM13} for an overview of the 
 previously known approximation algorithms
-and inapproximability results). While these approximation algorithms use an algorithm for Maximum Weight Perfect Matching as a subroutine, the $30$ years old Greedy Conjecture~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial Greedy Algorithm whose pseudocode is given in Algorithm~\ref{algo:ga} is 2-approximate.
-
-
-
-The known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph. Since our current knowledge of the overlap graph properties is provably not sufficient for showing strong approximation factors, these algorithms also separately take into account string properties. The goal of this paper is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
-
-\todo[inline]{Sasha, mention our paper with Savinov and the paper by Rivals}
+and inapproximability results). While these approximation algorithms use an algorithm for Maximum Weight Perfect Matching as a subroutine, the $30$ years old \emph{Greedy Conjecture}~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial \emph{Greedy Algorithm}, whose pseudocode is given in Algorithm~\ref{algo:ga}, is 2-approximate. Ukkonen~\cite{ukkonen1990linear} shows that for a fixed alphabet, the Greedy Algorithm can be implemented in linear time $\Sigma$.
 
 \begin{algorithm}[ht]
 \label{algo:ga}
@@ -114,18 +108,22 @@ The known approximation algorithms (including the Greedy Algorithm) estimate the
 \end{algorithm}
 
 
+Blum et al.~\cite{BJLTY1991} prove that the Greedy Algorithm returns a $4$-approximation of SCS, and Kaplan and Shafrir~\cite{KS2005} improve this bound to $3.5$. A slight modification of the Greedy Algorithm gives a $3$-approximation of SCS~\cite{BJLTY1991}, and other greedy algorithms are studied from theoretical~\cite{BJLTY1991,rivals2018superstrings} and practical perspectives~\cite{romero2004experimental, cazaux2018practical}.
+
+It is known that the Greedy Conjecture holds for the case when all input strings have length at most $3$~\cite{TU1988, cazaux20143}, and it was recently shown to hold in the case of string of length $4$~\cite{kulikov2015greedy}. Also, the Greedy Conjecture holds if the Greedy Algorithm happens to merge strings in a particular order~\cite{weinard2006greedy, laube2005conditional}. The Greedy Algorithm gives a $2$-approximation of a different metric called compression~\cite{TU1988}. The compression is defined as the sum of all input strings minus the length of a superstring.
 
 %following simple 
 %greedy algorithm is 2-approximate: while there are more than two strings 
 %in the set, take two of them with the maximum overlap and replace them
 %with their shortest superstring.
 
+
 Most of the approaches for approximating SCS are based on the
-{\em overlap graph}: it has input strings as nodes, any two nodes 
-are joined by an~edge of weight equal to their overlap.  
-While it is a~convenient graph structure, it does not seem to be sufficient
-for proving the greedy conjecture.
-\todo[inline]{Sasha, review mouse approaches}
+{\em overlap graph}: it has input strings as nodes, and a pair of nodes 
+is joined by an~arc of weight equal to their overlap (see Section~\ref{sec:def_scs} for a formal definition of overlap).
+SCS is equivalent to the Traveling Salesman Problem (TSP) on the overlap graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor. We do not know the full characterization of the graphs in this special case, but we know some of its properties: Monge inequality~\cite{monge}, Triple ineqaulity~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
+
+While the overlap graph is a~convenient graph structure, our current knowledge of its properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this paper is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
 
 In this paper, we continue the study of the so-called {\em hierarchical graph}
 introduced by Golovnev et al.~\cite{scs_exact}. This graph in a~sense generalizes de~Bruijn graph and is designed specifically 
@@ -133,10 +131,10 @@ for the SCS problem and contains more useful information about input strings
 than just all pairwise overlaps. We present a simple and natural greedy algorithm
 on the hierarchical graph. 
 We demonstrate its usefulness by showing that it finds an optimal solution 
-in two well-known polynomially solvable special cases: strings of length~2 and
+in two well-known polynomially solvable special cases: strings of length~$2$ and
 a~$k$-spectrum of a~string.
 
-We then conjecture that this greedy algorithm is 2-approximate. For this, we introduce an {\em even stronger} conjecture that we call 
+We then conjecture that this greedy algorithm is $2$-approximate. For this, we introduce an {\em even stronger} conjecture that we call 
 {\em Collapsing Superstring Conjecture}. 
 Roughly, it says that it is possible to transform a~doubled optimal 
 solution into a~greedy solution. 
@@ -157,10 +155,11 @@ solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS
 One way of showing this is to prove that $GS \subseteq DOS$. 
 The conjecture, at the same time, states that this inclusion holds with equality.
 
-We implemented the Greedy Hierarchical Algorithm~\cite{github}. We tested it on tens of thousands of examples, and did not find counterexamples for our conjectures. We provide a web interface~\cite{webpage} so that anyone could test the conjectures on arbitrary datasets. The webpage visualizes how the Hierarchical Greedy and Collapsing algorithms work.
+We implemented the Greedy Hierarchical Algorithm~\cite{github}, and tested our conjectures on tens of thousands of examples. We provide a web interface~\cite{webpage} so that anyone could test the conjectures on arbitrary datasets. The webpage also gives detailed visualizations of how the Hierarchical Greedy and Collapsing algorithms work.
 
 \section{Definitions}
 \subsection{Shortest Common Superstring Problem}
+\label{sec:def_scs}
 %By $u\sqsupset v$ ($u\sqsubset v$) we denote that $u$ is a suffix (prefix) of $v$.
 For strings~$s$ and~$t$, by $\overlap(s,t)$
 we denote the longest suffix of~$s$ that is also 
@@ -367,9 +366,12 @@ In the rest of this section, we show the behavior of GHA on various datasets. In
 
 
 \subsection{Strings of Length~2}
-\todo[inline]{Sasha, please write}
+\cite{GMS1980}
 
 \subsection{Spectrum of a~String}
+\cite{pevzner2001eulerian}
+
+
 By a~$k$-spectrum of a~string $s$ 
 (of length at least~$k$)
 we call a~set of all substrings of~$s$ of length~$k$.
@@ -377,7 +379,6 @@ we call a~set of all substrings of~$s$ of length~$k$.
 \begin{lemma}
 Let ${\cal S}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
 \end{lemma}
-\todo[inline]{Sasha, please write this subsection}
 
 \subsection{Tough Dataset}
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
