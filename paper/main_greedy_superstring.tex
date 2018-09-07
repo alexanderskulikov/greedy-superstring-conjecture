@@ -465,7 +465,43 @@ For any set of strings ${\cal S}$ and for any superstring $C$ of ${\cal S}$, $CA
 
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
-\input specialcase
+In the remaining subsections, we support the Collapsing Superstring Conjecture by proving it in a~special case when all input strings have length~3.
+
+The Collapsing Algorithm (CA) starts with $D$ equal to a doubled (arbitrary) solution, and the Greedy Hierarchical Algorithm (GHA) starts with epmty $D$. Then both algorithms consider all vertices of the hierarchical graph $HG=(V, E)$ in the same order (descending order of the levels, lexicographic order within a level). Let $s_0$ be the first vertex considered by CA and GHA ($s_0$ corresponds to an input string). For a vertex $s$, by $V(s)$ we denote the set of vertices considered by the algorithms no later than the vertex $s$ (including the vertex $s$: $s\in V(s)$).
+
+Both algorithms continiously change their partial solutions $D$. While CA and GHA are examining a vertex $s$, we denote the set of edges included in their partial solutions $D$ before examing $s$ by $\cld{}$ and $\grd{}$, respectfully. Let $\clgraph = (V, \cld), \grgraph = (V, \grd)$, where $V$ is the set of vertices of the hierarchical graph $HG$. 
+
+Finally, for CA we define the set $\cldr{s}$, consisting of edges of $\cld{}$ which are incident to at least one vertex from $ V (s) \setminus \{s \} $ (recall that $\cld{}$ is the set of edges strictly before the examination of the vertex $s$). For convenience, for GHA we define $\grdr{s}$ in the same way, but note that since GHA always adds arcs adjacent to the vertex it is currently considering, $\grdr{s}=\grd$.\footnote{On the other hand, $\cld$ does not necessarily equal $\cldr{s}$, because $\cld{}$ initially consists of edges connecting all vertices from $ {\cal S} $ to $\varepsilon$.}
+
+Let us sort all vertices of $V$ in the order in which the two algorithms process them, and let $s$ and $t$ be two consecutive vertices in this order. Now look at the two algorithms processing the vertex $s$. CA and GHA both only change arcs below $s$. Since $\cld{t}$ and $\grd{t}$ only consider the arcs neighboring vertices from $V(t)$, we have that for both algorithms the following holds
+\begin{equation}
+\label{eqn:stepcase}
+    D(t) = D(s) \sqcup \bigsqcup_{i=1}^{a} (\pref(s) \to s) \sqcup \bigsqcup_{j=1}^{b} (s \to \suff(s))
+\end{equation}
+for some non-negative $ a $ and $ b $.
+
+In the next subsections we will prove the followig lemma.
+\begin{lemma}
+\label{lem:technical}
+Let ${\cal S}$ be a set of strings of length at most $3$. For each vertex $ s $ at a level at least $1$, if the collapsing algorithm after its examination leaves $ a $ arcs $ (\pref (s) \to s) $ and $ b$ arcs $ (s \to \suff(s) ) $, and the greedy algorithm leaves $ a_{gr} $ and $ b_{gr} $ arcs, respectively, then $ a = a_{gr}, b = b_{gr} $.
+\end{lemma}
+
+Now we are ready to finish the proof of Collapsing Superstring Conjecture for strings of length at most $3$. Note that this also implies that the Greedy Hierarchical Superstring Conjecture holds for the case of strings of length at most $3$.
+
+\begin{theorem}
+For any set ${\cal S}$ of strings of length at most $3$ and for any superstring $C$ of ${\cal S}$, $CA(HG({\cal S}), C \sqcup C) = GHA({\cal S})$.
+\end{theorem}
+
+\begin{proof}
+We will prove that
+\begin{align*}
+\forall s \in V\colon\, \cldr{s}=\grdr{s} \; .
+\end{align*}
+For $s=\varepsilon$, this statement is equivalent to the Collapsing Superstring Conjecture, as it asserts that the two algorithms end up with the same multiset of arcs. 
+
+We prove this statement by induction on $s$, where $s$ starts with $s_0$ and goes through all the vertices of $HG$ in the same order as CA and GHA. The base case $s=s_0$ of the induction argument follows trivially from the definition: $\cldr(s_0)=\grdr(s_0)=\emptyset$. Now the induction step is proved in Lemma~\ref{lem:technical}.
+\end{proof}
+%\input specialcase2
 
 
 \section{Further Directions and Open Problems}
