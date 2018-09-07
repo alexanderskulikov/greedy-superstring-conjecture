@@ -538,7 +538,7 @@ When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exact
 Let $G$ be a directed graph, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
 \begin{align}
 \label{eq:gms}
-n + \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v_i) - \outdegree(v_i)|}{2} }\right)} \; .
+n + \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
 \end{align}
 \end{proposition}
 
@@ -553,9 +553,9 @@ Above we saw that we can only consider the case of $n$ primitive strings $\{s_1,
 
 Note that by the definition of the graph $G$ above, $G$ contains an arc $(a, b)$ if and only if $D$ has the arcs $(a, ab)$ and $(ab, b)$ of the graph HG. Thus, the indegree (outdegree) of a vertex $a$ in $G$ equals the indegree (outdegree) of the vertex $a$ in the partial solution $D$. Also, two vertices $a$ and $b$ of $G$ belong to one weakly connected component in $G$ if and only if they belong to one weakly connected component in $D$. Therefore, the expression~\ref{eq:gms} in $G$ has the same value in the partial solution graph $D$. (Indeed, the vertices corresponding to strings of length $2$ are balanced and do not form weakly connected components.) 
 
-Now we proceed to the Steps~\ref{alg:for}--\ref{alg:last} of the GHA algorithm. GHA will go through all strings of length $1$, and add $|\indegree(v_i) - \outdegree(v_i)|$ arcs for each unbalanced vertex. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-edges, we have increased the weight of the partial solution $D$ by
+Now we proceed to the Steps~\ref{alg:for}--\ref{alg:last} of the GHA algorithm. GHA will go through all strings of length $1$, and add $|\indegree(v) - \outdegree(v)|$ arcs for each unbalanced vertex $v$. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-edges, we have increased the weight of the partial solution $D$ by
 \begin{align*}
-\sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v_i) - \outdegree(v_i)|}{2} }\right)} \; .
+\sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
 \end{align*}
 \end{proof}
 
@@ -660,6 +660,7 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 \label{fig:tough}
 \end{figure}
 
+%\clearpage
 \section{Collapsing Algorithm. Examples}
 \label{app:b}
 \begin{figure}[h]

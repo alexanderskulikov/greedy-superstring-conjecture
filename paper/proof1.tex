@@ -79,13 +79,17 @@ Hence both vertices $ t $ and $ u $ do not lie in $ V (s) \backslash \{s \} $. W
 
 Since $ (t \to u) $ is the first edge on the path that does not lie in $ D_{cl} (s) $, all the edges in the path before it lie in $ D_{cl} (s) $. Let $ (r \to t) $ be the last such edge. Since $ D_{cl} (s) = D_{gr} (s) $, the entire path from $ s $ to $ t $ lies in $ D_{gr} (s) $, therefore $ t \in C_{gr} (s) $. But we just showed that $ t \notin V (s) $, which contradicts $ C_{gr} (s) \subset V (s) $.
 
-This finisges the proof of $ C_{cl} (s) = C_{gr} (s) $, which implies that $a_{gr}=b_{gr}=0$ in Case~3.
+This finishes the proof of $ C_{cl} (s) = C_{gr} (s) $, which implies that $a_{gr}=b_{gr}=0$ in Case~3.
 
 \textbf {Case 4.} We will prove that of CA leaves two edges $ (\pref (s) \to s) $ and $ (s \to \suff (s)) $ after the examination of $ s $, then GHA during its examination of $ s $ adds these two edges, too. As it was previously noted, GHA will add these two edges if and only if all the other vertices in the weakly connected component of $ s $ have already been examined. So, in this case we need to prove that $ C_{gr} (s) \subset V (s) $.
 
 Assume towards contradiction that there is $ t \in C_{gr} (s) \backslash V (s) $.
 
-Let us denote by $ C'_{cl} (s) $ the weakly connected component of $s$ in the graph $ G'_{cl} = (V, D_{cl} \backslash \{(\pref (s) \to s), (s \to \suff (s)) \}) $. In the same way as in Case~3, it implies that  $ C_{gr} (s) \subset C'_{cl} (s) $. Hence,
+Let us denote by $ C'_{cl} (s) $ the weakly connected component of $s$ in the graph 
+\begin{align*}
+G'_{cl} = (V, D_{cl} \backslash \{(\pref (s) \to s), (s \to \suff (s)) \}) \; .
+\end{align*}
+ In the same way as in Case~3, it implies that  $ C_{gr} (s) \subset C'_{cl} (s) $. Hence,
 
 \begin{equation}
 \label{eqn:contradiction}
