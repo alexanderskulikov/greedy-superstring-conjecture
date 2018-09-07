@@ -20,6 +20,7 @@
 
 \newtheorem{lemma}{Lemma}
 \newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
 \newtheorem{claim}{Claim}
 \newtheorem{definition}{Definition}
 \newtheorem*{statement}{Statement}
@@ -316,16 +317,16 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \hspace*{\algorithmicindent} \textbf{Output:} solution~$D$.
 \begin{algorithmic}[1]
 \State $HG(V,E) \gets \text{hierarchical graph of ${\cal S}$}$ 
-\State $D \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$
-\For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}
+\State\label{alg:gha_init} $D \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$
+\For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}\label{alg:for}
 \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
 \If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
 \State balance the degree of $v$ in $E$ by adding an appropriate number of lower edges
 \Else
-\State ${\cal C} \gets \text{weakly connected component of $v$ in $D$}$
+\State\label{alg:else} ${\cal C} \gets \text{weakly connected component of $v$ in $D$}$
 \State $u \gets \text{the lexicographically largest string among shortest strings in ${\cal C}$}$
 \If{${\cal C}$ is Eulerian, $\varepsilon \not \in {\cal C}$, and $v = u$}
-\State $D \gets D \cup \{(\pref(v), v), (v, \suff(v))\}$
+\State\label{alg:last} $D \gets D \cup \{(\pref(v), v), (v, \suff(v))\}$
 \EndIf
 \EndIf
 \EndFor
@@ -365,11 +366,35 @@ GHA is 2-approximate.
 In the rest of this section, we show the behavior of GHA on various datasets. In particular, we prove that GHA solves optimally two well-known polynomialy solvable special cases of SCS. In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
 \subsection{Strings of Length~2}
-Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hardt, while SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
+Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hardt, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
+
+First, we can assume that all input strings from $S$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for $S$ is $k$ if and only if the optimal superstring length for $S\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init} the GHA algorithm will include the edges $\{(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
+
+When considering primitive strings $S=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(S, E)$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
+\begin{proposition}[\cite{GMS1980}]
+Let $G$ be a directed graph, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
+\begin{align}
+\label{eq:gms}
+n + \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\operatorname{indegree(v_i)} - \operatorname{outdegree(v_i)}|}{2} }\right)} \; .
+\end{align}
+\end{proposition}
+
+We will now show that in this case, GHA finds essentially the same solution.
 
 \begin{lemma}
-Let $S=\{s_1,\ldots,s_n\}$ be a set of strings of length $n$, and let $s$ be an optimal superstring for $S$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
+Let $S=\{s_1,\ldots,s_n\}$ be a set of strings of length at most $2$, and let $s$ be an optimal superstring for $S$. Then $GHA({\cal S})$ returns a~superstring of length~$|s|$. 
 \end{lemma}
+
+\begin{proof}
+Above we saw that we can only consider the case of $n$ primitive strings $\{s_1,\ldots,s_n\}$ of length exactly $2$. For $1\leq i\leq n$, let $s_i=a_i b_i$, where $a_i\neq b_i$. Consider the partial greedy hierarchical solution $D$ after the Step~\ref{alg:gha_init} of the GHA algorithm: $D=\{(a_i, a_ib_i), (a_ib_i, b_i): 1\leq i\leq n \}$. (We abuse notation by identifying the set of arcs $D$ with the graph induced by $D$.) This partial solution has $n$ up-edges, so its current weight is $n$. 
+
+Note that by the definition of the graph $G$ above, $G$ contains an arc $(a, b)$ if and only if $D$ has the arcs $(a, ab)$ and $(ab, b)$ of the graph HG. Thus, the indegree (outdegree) of a vertex $a$ in $G$ equals the indegree (outdegree) of the vertex $a$ in the partial solution $D$. Also, two vertices $a$ and $b$ of $G$ belong to one weakly connected component in $G$ if and only if they belong to one weakly connected component in $D$. Therefore, the expression~\ref{eq:gms} in $G$ has the same value in the partial solution graph $D$. (Indeed, the vertices corresponding to strings of length $2$ are balanced and do not form weakly connected components.) 
+
+Now we proceed to the Steps~\ref{alg:for}--\ref{alg:last} of the GHA algorithm. GHA will go through all strings of length $1$, and add $|\operatorname{indegree(v_i)} - \operatorname{outdegree(v_i)}|$ arcs for each unbalanced vertex. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-edges, we have increased the weight of the partial solution $D$ by
+\begin{align*}
+\sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\operatorname{indegree(v_i)} - \operatorname{outdegree(v_i)}|}{2} }\right)} \; .
+\end{align*}
+\end{proof}
 
 \subsection{Spectrum of a~String}
 By a~$k$-spectrum of a~string $s$ 
@@ -876,7 +901,7 @@ Let $S$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C
 
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
-\input specialcase
+%\input specialcase
 
 
 \section{Further Directions and Open Problems}
