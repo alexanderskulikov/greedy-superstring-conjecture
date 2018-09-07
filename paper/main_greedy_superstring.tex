@@ -321,7 +321,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through edges
 \For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}\label{alg:for}
 \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
 \If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
-\State balance the degree of $v$ in $E$ by adding an appropriate number of lower edges
+\State\label{alg:step6} balance the degree of $v$ in $E$ by adding an appropriate number of lower edges
 \Else
 \State\label{alg:else} ${\cal C} \gets \text{weakly connected component of $v$ in $D$}$
 \State $u \gets \text{the lexicographically largest string among shortest strings in ${\cal C}$}$
@@ -366,11 +366,11 @@ GHA is 2-approximate.
 In the rest of this section, we show the behavior of GHA on various datasets. In particular, we prove that GHA solves optimally two well-known polynomialy solvable special cases of SCS. In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
 \subsection{Strings of Length~2}
-Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hardt, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
+Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
 
-First, we can assume that all input strings from $S$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for $S$ is $k$ if and only if the optimal superstring length for $S\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init} the GHA algorithm will include the edges $\{(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
+First, we can assume that all input strings from ${\cal S}$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for $S\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init} the GHA algorithm will include the edges $\{(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
 
-When considering primitive strings $S=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(S, E)$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
+When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(S, E)$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
 \begin{proposition}[\cite{GMS1980}]
 Let $G$ be a directed graph, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
 \begin{align}
@@ -382,7 +382,7 @@ n + \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\operatorname{indegr
 We will now show that in this case, GHA finds essentially the same solution.
 
 \begin{lemma}
-Let $S=\{s_1,\ldots,s_n\}$ be a set of strings of length at most $2$, and let $s$ be an optimal superstring for $S$. Then $GHA({\cal S})$ returns a~superstring of length~$|s|$. 
+Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a set of strings of length at most $2$, and let $s$ be an optimal superstring for ${\cal S}$. Then $GHA({\cal S})$ returns a~superstring of length~$|s|$. 
 \end{lemma}
 
 \begin{proof}
@@ -403,8 +403,16 @@ we call a~set of all substrings of~$s$ of length~$k$.
 Pevzner et al.~\cite{pevzner2001eulerian} give a polynomial time exact algorithm for the case when the input strings form a spectrum of an unknown string. Now we show that GHA also finds an optimal solution in this case.
 
 \begin{lemma}
-Let ${\cal S}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$. 
+Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$.
 \end{lemma}
+
+\begin{proof}
+Since $s$ has $n$ distinct substrings of length $k, \, |s|\geq n+k-1$. We will show that GHA finds a superstring of length $n+k-1$. After Step~\ref{alg:gha_init} of GHA, the partial solution $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. In particular, $D$ is of weight $n$. For $1\leq i\leq k-1$, let $u_{i}$ be the first $i$ symbols of $s$, and let $v_{i}$ be the last $i$ symbols of $s$. Note that $u_{k-1}$ and $v_{k-1}$ are the only unbalanced vertices of the partial solution $D$ after Step~\ref{alg:gha_init}: all other strings of length $k-1$ appear equal number of times as prefixes and suffixes of strings from ${\cal S}$. Therefore, while processing the level $\ell=k-1$, GHA will add one arc to each of the vertices $u_{k-1}$ and $v_{k-1}$, and will not add arcs to other strings of length $k-1$. 
+
+In general, while processing the level $\ell=i$, GHA adds one up-edge to $u_i$ and one down-edge to $v_i$. in order to show this, we consider two cases. If $u_i \neq v_i$, then $u_i$ has an incoming arc from the previous step and does not have outgoing arcs, therefore GHA adds an up-edge to $u_i$ in Step~\ref{alg:step6}. Similarly, GHA adds a down-edge to $v_i$. Note that there are no other strings of length $i<k-1$ in the partial solution, so the algorithm moves to the next level. In the case where $u_i=v_i$, we have that all vertices are balanced, but the string $u_i$ is now the shortest string in this only connected component ${\cal C}$ of the graph. Therefore, for $i>0$ we have $\varepsilon\not\in{\cal C}$, and GHA adds an up- and down-edge to $u_i$ in Step~\ref{alg:last}. 
+
+We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-edges (and the weight of the solution) is $n+k-1$.
+\end{proof}
 
 \subsection{Tough Dataset}
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
