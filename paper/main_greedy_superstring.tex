@@ -368,9 +368,9 @@ In the rest of this section, we show the behavior of GHA on various datasets. In
 \subsection{Strings of Length~2}
 Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well.
 
-First, we can assume that all input strings from ${\cal S}$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for $S\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init} the GHA algorithm will include the edges $\{(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
+First, we can assume that all input strings from ${\cal S}$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init} the GHA algorithm will include the edges $\{(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
 
-When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(S, E)$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
+When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=({\cal S}, E)$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
 \begin{proposition}[\cite{GMS1980}]
 Let $G$ be a directed graph, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
 \begin{align}
@@ -498,7 +498,7 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 \end{figure}
 
 \section{Collapsing Algorithm}
-In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring into a differenet superstring of the same set of strings which is no longer than the original one. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings $S$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of edges chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
+In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring into a differenet superstring of the same set of strings which is no longer than the original one. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of edges chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
 
 Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
 
@@ -904,12 +904,12 @@ e/eps/10
 
 \newtheorem*{scs}{Greedy Hierarchical Superstring Conjecture}
 \begin{scs}
-Let $S$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of $S$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA(S)$.
+Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
 \end{scs}
 
 
 \subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
-%\input specialcase
+\input specialcase
 
 
 \section{Further Directions and Open Problems}
