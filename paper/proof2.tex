@@ -3,11 +3,11 @@
 We denote the level of the vertex $ s $ as $ \lvl (s) $, and consider the three possible values of $\lvl(s)$.
 
 
-\paragraph{Analysis of vertices of the level \texorpdfstring{$3$}{3}}
+\paragraph{Analysis of vertices of the level \texorpdfstring{$3$}{3}.}
 
 In this case $ s \in {\cal S} $, and vertex $ s $, is incident only to arcs $ (\pref (s) \to s)$ and $(s \to \suff (s)) $. The Collapse procedure leaves only one instance of each such arc. Hence, in the graph $ G'_{cl} $, $ C'_{cl} (s) = \{s \} $. This implies that (\ref{eqn:contradiction}) does not hold in this case.
 
-\paragraph{Analysis of vertices of the level \texorpdfstring{$2$}{2}}
+\paragraph{Analysis of vertices of the level \texorpdfstring{$2$}{2}.}
 
 Assume $ C'_{cl} (s) \backslash V (s) \ne\emptyset$. Choose a vertex $ t\in C'_{cl} (s) \backslash V (s)$ with the shortest weak path to $s$. Let $P = v_1 - v_2 - \ldots - v_n $ be a weak path from $s$ to $t$. In particular, $s=v_1$ and $t=v_n$.
 
@@ -175,44 +175,41 @@ If $ \lvl (v_{n}) = 2 $, then $ n = 2k + 1 $ for some $ k $. Hence, by the Claim
 \caption{A weak path connecting $v_1$ and $u_2$ for $n=5$.}\label{fig:lvl2n5pathvu}
 \end{figure}
 
-\paragraph{Analysis of vertices of the level \texorpdfstring{$1$}{1}}
+\paragraph{Analysis of vertices of the level \texorpdfstring{$1$}{1}.}
 
 In this case, all the vertices at the levels $ 2 $ and $ 3 $ are already considered.
 
-Note that the collapse from the vertex $ s $ can potentially violate only the connectivity of $ s $ and $ \varepsilon $. Therefore $ \varepsilon \notin C'_{cl} (s) $. Let's take an arbitrary vertex $ t $ from the statement \ref{eqn:contradiction}. From what has just been said, it follows that $ \lvl (t) = 1 $.
+Note that the collapse from the vertex $ s $ can potentially violate only the connectivity of $ s $ and $ \varepsilon $. Therefore $ \varepsilon \notin C'_{cl} (s) $. Let's take an arbitrary vertex $ t \in C'_{cl}(s) \backslash V(s)$. Since the vertices at levels $2$ and $3$ have been considered by CA, $ \lvl (t) = 1 $.
 
-In view of the fact that $ t $ is connected with $ s $, the vertex $ t $ is incident to at least one arc. But it can not be connected with the vertex on the level $ 0 $, because only $ \varepsilon $ is located at this level, and $ \varepsilon \notin C'_{cl} (s) $. Hence, $ t $ is incident to at least one arc leading to the level $ 2 $. Moreover, since $ \bal (t) = 0 $, at least one such arc comes to $ t $, and at least one such arc leaves $ t $.
+Since $t$ is weakly connected to $s$, the vertex $ t $ is incident to at least one arc. But it cannot be connected with the vertex on the level $ 0 $, because only $ \varepsilon $ is located at this level, and $ \varepsilon \notin C'_{cl} (s) $. Hence, $ t $ is incident to at least one arc leading to the level $ 2 $. Moreover, since $ \indegree(t)=\outdegree(t)$, at least one arc from level $2$ comes to $ t $, and at least one such arc leaves $ t $.
 
-Starting from this point, we will call all vertices as strings which they correspond to. So, $ t $ corresponds to some string $ \tt b $ consisting of one symbol. We have just shown that there are arcs $ ({\tt xb}, {\tt b}) $ and $ ({\tt b}, {\tt bc}) $ for some symbols $ {\tt x} $ and $ {\tt c} $.
+We will identify vertices with the strings they correspond to. In particular, $ t $ corresponds to some string $ \tt b $ consisting of one symbol. We have just shown that there are arcs $ ({\tt xb}, {\tt b}) $ and $ ({\tt b}, {\tt bc}) $ for some symbols $ {\tt x} $ and $ {\tt c} $.
 
-First we prove several auxiliary lemmas.
+First we prove several auxiliary claims.
 
-\begin{lemma}
+\begin{claim}
 \label{lem:nobeps}
-In the graph there neither was an arc $ ({\tt b}, \varepsilon) $ nor an arc $ (\varepsilon, {\tt b}) $.
-\end{lemma}
+The Collapsing Algorithm did not have the arc $ ({\tt b}, \varepsilon) $ nor $ (\varepsilon, {\tt b}) $ in its partial solution at any previous iteration.
+\end{claim}
 \begin{proof}
-Let at least one of such arcs appear in the graph at some iteration. According to the algorithm, such an arc can disappear from the graph only after the collapse in the vertex $ {\tt b} $. Since this vertex has not yet been examined, such an arc is present in the graph at this moment. But this means that $ \varepsilon \in C'_{cl} (s) $. Contradiction.
+If the partial solution of CA had an one of these arcs, then it could loose it only after the collapse in the vertex $ {\tt b} $. Since this vertex $ {\tt b} $ has not been examined yet, this arc must still be in the current solution. But this would imply that $ \varepsilon \in C'_{cl} (s) $, and lead to a contradiction.
 \end{proof}
 
-\begin{lemma}
+\begin{claim}
 \label{lem:bccsave}
-Each arc of the form \sedge{bc}{c}, \sedge{b}{bc}, or \sedge{ab}{b} that ever appeared in the graph was not collapsed until the current iteration.
-\end{lemma}
+Let $a$ be an arbitrary symbol. If any of the arcs \sedge{ba}{a}, \sedge{b}{ba}, or \sedge{ab}{b} was in the partial solution of CA at a previous step, then it still belongs to the partial solution until this iteration.
+\end{claim}
 \begin{proof}
-Each arc of the form \sedge{bc}{c} can only be collapsed with the arc \sedge{b}{bc}. Then, if a collapse actually occurs from the vertex $ {\tt bc} $, it leads to the appearance of the arc $ ({\tt b}, \varepsilon) $. But according to the lemma \ref{lem:nobeps}, there never were any such arcs in the graph. Contradiction.
-
-The proofs for \sedge{b}{bc} and \sedge{ab}{b} are the same.
-\end{proof}
+We show a proof for the arc \sedge{ba}{a}, and the proofs for \sedge{b}{ba} and \sedge{ab}{b} are analogous.  Note the arc \sedge{ba}{a} can only be collapsed with the arc \sedge{b}{ba}. Then, if a collapse actually occurs at the vertex $ {\tt ba} $, it creates the arc $ ({\tt b}, \varepsilon) $. By Claim~\ref{lem:nobeps}, there never was any such arc in the graph. \end{proof}
 
 \begin{lemma}
 \label{lem:bbcone}
-At the current iteration, there is exactly one instance of the arc \sedge{b}{bc}.
+At the current iteration, there is exactly one copy of the arc \sedge{b}{bc}.
 \end{lemma}
 \begin{proof}
-Let there be at least two such arcs. Then at least two different arcs must come from $ {\tt bc} $.
+From the discussion above, we know that there must be at least one copy of the arc \sedge{b}{bc}. Assume that there are at least two such arcs. Then at least two different arcs must leave $ {\tt bc} $.
 
-Suppose that there exists at least one arc \sedge{bc}{c}. But then, if we make a collapse from the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ still remain weakly connected by arcs \sedge{b}{bc}, $ ({\tt b}, \varepsilon) $ and $ (\varepsilon, {\tt c}) $. Hence, this collapse is correct (see figure \ref{fig:lvl1lemmabcc}). But then the collapsing algorithm during examination of the vertex $ {\tt bc} $, should have made at least one more collapse. It contradicts the fact that it does the maximum possible number of correct collapses.
+Suppose that there exists at least one arc \sedge{bc}{c}. Then, if we make a collapse from the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ still remain weakly connected by the arcs \sedge{b}{bc}, $ ({\tt b}, \varepsilon) $ and $ (\varepsilon, {\tt c}) $. Hence, this collapse is valid (see figure \ref{fig:lvl1lemmabcc}), but the collapsing algorithm during the examination of the vertex $ {\tt bc} $ did not collapse it. This gives a contradiction, so there cannot be arcs \sedge{bc}{c}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -244,10 +241,10 @@ Suppose that there exists at least one arc \sedge{bc}{c}. But then, if we make a
 \end{tikzpicture}
 \end{center}
 
-\caption{Correctness of the collapse in case when the arc \sedge{bc}{c} is present.}\label{fig:lvl1lemmabcc}
+\caption{Correctness of the collapse in case when the graph contains the arc \sedge{bc}{c}.}\label{fig:lvl1lemmabcc}
 \end{figure}
 
-Hence, there is at least one arc \sedge{bc}{bcd}. Then $ {\tt bcd} \in {\cal S} $, and then initially there were two pairs of arcs \sedge{bc}{bcd} and \sedge{bcd}{cd} in the graph. So, from {\tt bcd}, at least one collapse was made, and it led to the appearance of the arc \sedge{bc}{c}. But at the current iteration the arc \sedge{bc}{c} can't exist, so it was also collapsed. It's a contradiction with the lemma \ref{lem:bccsave}.
+Therefore, there is at least one arc \sedge{bc}{bcd}. Then $ {\tt bcd} \in {\cal S} $ must be an input string. Therefore, the original graph contained two copies of the arcs \sedge{bc}{bcd} and \sedge{bcd}{cd}. So, at least one collapse was done in the vertex {\tt bcd}, and it created the arc \sedge{bc}{c}. But at the current iteration the arc \sedge{bc}{c} does not exist, so it was also collapsed. This contradicts Claim~\ref{lem:bccsave}.
 \end{proof}
 
 \begin{figure}[ht]
@@ -289,40 +286,40 @@ Hence, there is at least one arc \sedge{bc}{bcd}. Then $ {\tt bcd} \in {\cal S} 
 \end{tikzpicture}
 \end{center}
 
-\caption{The scheme of proof of the lemma \ref{lem:bbcone}.}\label{fig:lvl1lemmabbcone}
+\caption{The scheme of the proof of Lemma~\ref{lem:bbcone}.}\label{fig:lvl1lemmabbcone}
 \end{figure}
 
-So, there is only one arc \sedge{b}{bc}.
+%So, there is only one arc \sedge{b}{bc}.
 
-\begin{lemma}
+\begin{claim}
 \label{lem:bcup}
-The vertex $ {\tt bc} $ is weakly connected with at least one vertex at the level $ 3 $.
-\end{lemma}
+The vertex $ {\tt bc} $ is weakly connected to at least one vertex at the level $ 3 $.
+\end{claim}
 \begin{proof}
-Let it not be so. Then $ {\tt bc} $ can contain only arcs \sedge{b}{bc}, and only arcs \sedge{bc}{c} can come from it. By the lemma \ref{lem:bbcone}, there is only one instance of the arc \sedge{b}{bc}. Hence, there is exactly one instance of the arc \sedge{bc}{c}. But then the algorithm had to collapse this pair of arcs when examining $ {\tt bc} $, because this operation would only separate $ {\tt bc} $ from all other vertices without violating the connectivity of $ \varepsilon $ and $ {\cal S} $. Contradiction.
+Assume towards a contradiction that $ {\tt bc} $ is not connected to vertices at level $3$. Then $ {\tt bc} $ can only be incident to arcs \sedge{b}{bc} and \sedge{bc}{c}. By Lemma~\ref{lem:bbcone}, there is only one copy of the arc \sedge{b}{bc}. Hence, there is exactly one copy of the arc \sedge{bc}{c}. In this case, the Collapsing Algorithm had to collapse this pair of arcs when examining $ {\tt bc} $ (because this operation would only separate $ {\tt bc} $ from all other vertices without violating the connectivity of $ \varepsilon $ and $ {\cal S} $). This contradiction implies that the vertex $ {\tt bc} $ is connected to a vertex on the level $3$.
 \end{proof}
 
-By lemma \ref{lem:bcup} either there exists $ {\tt d} $ such that there is an arc \sedge{bc}{bcd}, or there is a symbol $ {\tt a} $ such that there is an arc \sedge{abc}{bc}. Suppose there is no such $ {\tt a} $, which means that there exists some $ {\tt d} $.
+By Claim~\ref{lem:bcup}, either there exists $ {\tt d} $ such that there is an arc \sedge{bc}{bcd}, or there is a symbol $ {\tt a} $ such that there is an arc \sedge{abc}{bc}. Suppose there is no such $ {\tt a} $, which implies that there must be some $ {\tt d} $.
 
-Then $ {\tt bcd} \in {\cal S} $, and therefore initially there were two instances of arcs \sedge{bc}{bcd} and \sedge{bcd}{cd} in the graph. So, at least one collapse was made from {\tt bcd}, and it led to the appearance of the arc \sedge{bc}{c}. The arc \sedge{bc}{c} could not be collapsed by the lemma \ref{lem:bccsave}. Hence, some other arc must come to $ {\tt bc} $, and by lemma \ref{lem:bbcone} it can not be another instance of \sedge{b}{bc}.
+Then $ {\tt bcd} \in {\cal S} $, and, therefore, initially there were two copies of the arcs \sedge{bc}{bcd} and \sedge{bcd}{cd} in the graph. So, at least one collapse was made at the vertex {\tt bcd}, and it created the arc \sedge{bc}{c}. The arc \sedge{bc}{c} could not be collapsed by Claim~\ref{lem:bccsave}. Hence, some other arc must come to $ {\tt bc} $, and, by Lemma~\ref{lem:bbcone}, it cannot be another copy of \sedge{b}{bc}.
 
-Hence, there is an $ {\tt a} $ such that there is an arc \sedge{abc}{bc}. Then $ {\tt abc} \in {\cal S} $, and from $ {\tt abc} $ exactly one collapse was made, which led to the appearance of two arcs \sedge{ab}{b} and \sedge{b}{bc}, which were not collapsed at the current moment by the lemma \ref{lem:bccsave}.
+Hence, there is an $ {\tt a} $ such that there is an arc \sedge{abc}{bc}. Then $ {\tt abc} \in {\cal S} $, and from $ {\tt abc} $ exactly one collapse was made, which created two arcs \sedge{ab}{b} and \sedge{b}{bc}, which were not collapsed until now by Claim~\ref{lem:bccsave}.
 
-Therefore, $ {\tt bc} $ contains at least two arcs: \sedge{abc}{bc} and \sedge{b}{bc}. Hence, at least two arcs come from $ {\tt bc} $.
+Therefore, $ {\tt bc} $ contains at least two arcs: \sedge{abc}{bc} and \sedge{b}{bc}. Hence, at least two arcs leave $ {\tt bc} $.
 
-\begin{lemma}
+\begin{claim}
 \label{lem:bccexist}
 At the current iteration, there is at least one arc \sedge{bc}{c}.
-\end{lemma}
+\end{claim}
 \begin{proof}
-Let it not be so. Then, since at least one arc must come from $ {\tt bc} $, it is an arc of the form \sedge{bc}{bcd}. So, $ {\tt bcd} \in {\cal S} $, initially there were two instances of arcs \sedge{bc}{bcd} and \sedge{bcd}{cd} in the graph, and there was made at least one collapse from {\tt bcd}, which led to the appearance of the arc \sedge{bc}{c}. Contradiction.
+Assume there is no arc \sedge{bc}{c}. Then, since at least one arc must leave $ {\tt bc} $, it is an arc of the form \sedge{bc}{bcd}. So, $ {\tt bcd} \in {\cal S} $. Again, initially the graph contained two instances of the arcs \sedge{bc}{bcd} and \sedge{bcd}{cd}, and there was made at least one collapse at the vertex {\tt bcd}. This collapse created the arc \sedge{bc}{c}, a contradiction.
 \end{proof}
 
-So, by the lemma \ref{lem:bbcone}, there is one arc \sedge{b}{bc} in the graph, and by the \ref{lem:bccexist} lemma there is at least one arc \sedge{bc}{c}.
+So, by Lemma~\ref{lem:bbcone}, there is one arc \sedge{b}{bc} in the graph, and by Claim~\ref{lem:bccexist} there is at least one arc \sedge{bc}{c}.
 
-But we assert that this pair of arcs should have been collapsed, which will contradict the lemma \ref{lem:bccsave} and the definition of the algorithm which makes the maximum possible number of collapses.
+We will now show that this pair of arcs should have been collapsed, which will contradict Claim~\ref{lem:bccsave}.
 
-The point is that even after the collapse there will be weak paths $ {\tt b} - \varepsilon - {\tt c} $ and $ {\tt b} - {\tt ab} - {\tt abc} - {\tt bc} $, and hence the connectivity of the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will be preserved after the collapse (see figure \ref{fig:lvl1final}).
+To this end, we show that even after this collapse, there will be weak paths $ {\tt b} - \varepsilon - {\tt c} $ and $ {\tt b} - {\tt ab} - {\tt abc} - {\tt bc} $, and hence the connectivity of the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will be preserved (see Figure \ref{fig:lvl1final}).
 \begin{figure}[ht]
 \begin{center}
 
@@ -348,9 +345,7 @@ The point is that even after the collapse there will be weak paths $ {\tt b} - \
 \end{tikzpicture}
 \end{center}
 
-\caption{The final state of the graph.}\label{fig:lvl1final}
+\caption{After the collapse at the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will still belong to one weakly connected component.}\label{fig:lvl1final}
 \end{figure}
 
-In this case, one more correct collapse can be made from $ {\tt bc} $. Contradiction.
-
-This completes the proof of the theorem for the $3$-SCS instance.
+This completes the proof of Lemma~\ref{lem:technical} and of Theorem~\ref{thm:main}.
