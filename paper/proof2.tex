@@ -181,7 +181,7 @@ In this case, all the vertices at the levels $ 2 $ and $ 3 $ are already conside
 
 Note that the collapse from the vertex $ s $ can potentially violate only the connectivity of $ s $ and $ \varepsilon $. Therefore $ \varepsilon \notin C'_{cl} (s) $. Let's take an arbitrary vertex $ t \in C'_{cl}(s) \backslash V(s)$. Since the vertices at levels $2$ and $3$ have been considered by CA, $ \lvl (t) = 1 $.
 
-Since $t$ is weakly connected to $s$, the vertex $ t $ is incident to at least one arc. But it cannot be connected with the vertex on the level $ 0 $, because only $ \varepsilon $ is located at this level, and $ \varepsilon \notin C'_{cl} (s) $. Hence, $ t $ is incident to at least one arc leading to the level $ 2 $. Moreover, since $ \indegree(t)=\outdegree(t)$, at least one arc from level $2$ comes to $ t $, and at least one such arc leaves $ t $.
+Since $t$ is weakly connected to $s$, the vertex $ t $ is incident to at least one arc. But it cannot be connected with the vertex at the level $ 0 $, because only $ \varepsilon $ is located at this level, and $ \varepsilon \notin C'_{cl} (s) $. Hence, $ t $ is incident to at least one arc leading to the level $ 2 $. Moreover, since $ \indegree(t)=\outdegree(t)$, at least one arc from level $2$ comes to $ t $, and at least one such arc leaves $ t $.
 
 We will identify vertices with the strings they correspond to. In particular, $ t $ corresponds to some string $ \tt b $ consisting of one symbol. We have just shown that there are arcs $ ({\tt xb}, {\tt b}) $ and $ ({\tt b}, {\tt bc}) $ for some symbols $ {\tt x} $ and $ {\tt c} $.
 
@@ -192,7 +192,7 @@ First we prove several auxiliary claims.
 The Collapsing Algorithm did not have the arc $ ({\tt b}, \varepsilon) $ nor $ (\varepsilon, {\tt b}) $ in its partial solution at any previous iteration.
 \end{claim}
 \begin{proof}
-If the partial solution of CA had an one of these arcs, then it could loose it only after the collapse in the vertex $ {\tt b} $. Since this vertex $ {\tt b} $ has not been examined yet, this arc must still be in the current solution. But this would imply that $ \varepsilon \in C'_{cl} (s) $, and lead to a contradiction.
+If the partial solution of CA had one of these arcs, then it could loose it only after the collapse in the vertex $ {\tt b} $. Since this vertex $ {\tt b} $ has not been examined yet, this arc must still be in the current solution. But this would imply that $ \varepsilon \in C'_{cl} (s) $, and lead to a contradiction.
 \end{proof}
 
 \begin{claim}
@@ -207,9 +207,9 @@ We show a proof for the arc \sedge{ba}{a}, and the proofs for \sedge{b}{ba} and 
 At the current iteration, there is exactly one copy of the arc \sedge{b}{bc}.
 \end{lemma}
 \begin{proof}
-From the discussion above, we know that there must be at least one copy of the arc \sedge{b}{bc}. Assume that there are at least two such arcs. Then at least two different arcs must leave $ {\tt bc} $.
+From the discussion above, we know that there must be at least one copy of the arc \sedge{b}{bc}. Assume that there are at least two such arcs. Then at least two arcs must leave $ {\tt bc} $.
 
-Suppose that there exists at least one arc \sedge{bc}{c}. Then, if we make a collapse from the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ still remain weakly connected by the arcs \sedge{b}{bc}, $ ({\tt b}, \varepsilon) $ and $ (\varepsilon, {\tt c}) $. Hence, this collapse is valid (see figure \ref{fig:lvl1lemmabcc}), but the collapsing algorithm during the examination of the vertex $ {\tt bc} $ did not collapse it. This gives a contradiction, so there cannot be arcs \sedge{bc}{c}.
+Suppose that there exists at least one arc \sedge{bc}{c}. Then, if we make a collapse at the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ still remain weakly connected by the arcs \sedge{b}{bc}, $ ({\tt b}, \varepsilon) $ and $ (\varepsilon, {\tt c}) $. Hence, this collapse is valid (see Figure~\ref{fig:lvl1lemmabcc}), but the collapsing algorithm during the examination of the vertex $ {\tt bc} $ did not collapse it. This gives a contradiction, so there cannot be arcs \sedge{bc}{c}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -241,7 +241,7 @@ Suppose that there exists at least one arc \sedge{bc}{c}. Then, if we make a col
 \end{tikzpicture}
 \end{center}
 
-\caption{Correctness of the collapse in case when the graph contains the arc \sedge{bc}{c}.}\label{fig:lvl1lemmabcc}
+\caption{Correctness of the collapse in the case when the graph contains the arc \sedge{bc}{c}.}\label{fig:lvl1lemmabcc}
 \end{figure}
 
 Therefore, there is at least one arc \sedge{bc}{bcd}. Then $ {\tt bcd} \in {\cal S} $ must be an input string. Therefore, the original graph contained two copies of the arcs \sedge{bc}{bcd} and \sedge{bcd}{cd}. So, at least one collapse was done in the vertex {\tt bcd}, and it created the arc \sedge{bc}{c}. But at the current iteration the arc \sedge{bc}{c} does not exist, so it was also collapsed. This contradicts Claim~\ref{lem:bccsave}.
@@ -345,7 +345,7 @@ To this end, we show that even after this collapse, there will be weak paths $ {
 \end{tikzpicture}
 \end{center}
 
-\caption{After the collapse at the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will still belong to one weakly connected component.}\label{fig:lvl1final}
+\caption{After the collapse at the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will still belong to one weakly connected component. The removed arcs are crossed out, and the new arcs are dashed.}\label{fig:lvl1final}
 \end{figure}
 
-This completes the proof of Lemma~\ref{lem:technical} and of Theorem~\ref{thm:main}.
+This completes the proofs of Lemma~\ref{lem:technical} and Theorem~\ref{thm:main}.
