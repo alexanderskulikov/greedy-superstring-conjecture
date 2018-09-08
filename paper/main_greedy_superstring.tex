@@ -81,9 +81,9 @@
 \begin{abstract}
 In the Shortest Common Superstring (SCS) problem, one is given a collection of strings, and needs to find a shortest string containing each of them as a substring. SCS admits $2\frac{11}{23}$- and $2\frac{11}{30}$-approximations in polynomial time. While these approximation algorithms and their analyzes are technically involved, the $30$ years old Greedy Conjecture claims that the trivial and efficient Greedy Algorithm gives a $2$-approximation for SCS. The Greedy Algorithm repeatedly merges two strings with the largest intersection into one, until only one string remains.
 
-We develop a graph-theoretic framework for studying approximation algorithms for SCS. In this framework, we give a (stronger) counterpart to the Greedy Conjecture: We conjecture that the presented in this paper Greedy Hierarchical Algorithm gives a $2$-approximation for SCS. This algorithm is almost as simple as the standard Greedy Algorithm, and we suggest a combinatorial approach for proving this conjecture. We advocate the conjecture by showing that the Greedy Hierarchical Algorithm gives a $2$-approximation in the case where all input strings have length at most $3$ (which until recently had been the only case where the Greedy Conjecture was proven). We also tested our conjecture on tens of thousands of instances of SCS.
+We develop a graph-theoretic framework for studying approximation algorithms for SCS. In this framework, we give a (stronger) counterpart to the Greedy Conjecture: We conjecture that the presented in this paper Greedy Hierarchical Algorithm gives a $2$-approximation for SCS. This algorithm is almost as simple as the standard Greedy Algorithm, and we suggest a combinatorial approach for proving this conjecture. We support the conjecture by showing that the Greedy Hierarchical Algorithm gives a $2$-approximation in the case where all input strings have length at most $3$ (which until recently had been the only case where the Greedy Conjecture was proven). We also tested our conjecture on tens of thousands of instances of SCS.
 
-Except for its conjectured good approximation ratio, the Greedy Hierarchical Algorithm finds \emph{exact} solutions for the special cases where we know polynomial-time (not greedy) exact algorithms: (1) when the input strings form a spectrum of a string (2) when all input strings have length at most $2$.
+Except for its conjectured good approximation ratio, the Greedy Hierarchical Algorithm finds \emph{exact} solutions for the special cases where we know polynomial time (not greedy) exact algorithms: (1) when the input strings form a spectrum of a string (2) when all input strings have length at most $2$.
 \end{abstract}
 
 %\tableofcontents
@@ -92,10 +92,10 @@ Except for its conjectured good approximation ratio, the Greedy Hierarchical Alg
 \label{sec:intro}
 The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
-substrings. This problems finds applications in genome assembly~\cite{waterman1995introduction, pevzner2001eulerian}, and data compression~\cite{GMS1980, phdthesis, storer1987data} (see \cite{gevezes2014shortest, mucha2007tutorial} for an overview of SCS, its applications and algorithms).  SCS is known to be $\mathbf{NP}$-hard~\cite{GMS1980} and even $\mathbf{MAX}$-$\mathbf{SNP}$-hard~\cite{BJLTY1991}, but it admits constant-factor approximation in polynomial time.
+substrings. This problem finds applications in genome assembly~\cite{waterman1995introduction, pevzner2001eulerian}, and data compression~\cite{GMS1980, phdthesis, storer1987data} (see \cite{gevezes2014shortest, mucha2007tutorial} for an overview of SCS, its applications and algorithms).  SCS is known to be $\mathbf{NP}$-hard~\cite{GMS1980} and even $\mathbf{MAX}$-$\mathbf{SNP}$-hard~\cite{BJLTY1991}, but it admits constant-factor approximation in polynomial time.
 
 The best known approximation ratios are $2\frac{11}{23}$ due to Mucha~\cite{M2013} and $2\frac{11}{30}$ due to Paluch~\cite{P14} (see \cite[Section~2.1]{GKM13} for an overview of the 
-previously known approximation algorithms
+previous approximation algorithms
 and inapproximability results). While these approximation algorithms use an algorithm for Maximum Weight Perfect Matching as a subroutine, the $30$ years old \emph{Greedy Conjecture}~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial \emph{Greedy Algorithm}, whose pseudocode is given in Algorithm~\ref{algo:ga}, is 2-approximate. Ukkonen~\cite{ukkonen1990linear} shows that for a fixed alphabet, the Greedy Algorithm can be implemented in linear time.
 
 \begin{algorithm}[ht]
@@ -115,7 +115,7 @@ and inapproximability results). While these approximation algorithms use an algo
 
 Blum et al.~\cite{BJLTY1991} prove that the Greedy Algorithm returns a $4$-approximation of SCS, and Kaplan and Shafrir~\cite{KS2005} improve this bound to $3.5$. A slight modification of the Greedy Algorithm gives a $3$-approximation of SCS~\cite{BJLTY1991}, and other greedy algorithms are studied from theoretical~\cite{BJLTY1991,rivals2018superstrings} and practical perspectives~\cite{romero2004experimental, cazaux2018practical}.
 
-It is known that the Greedy Conjecture holds for the case when all input strings have length at most $3$~\cite{TU1988, cazaux20143}, and it was recently shown to hold in the case of string of length $4$~\cite{kulikov2015greedy}. Also, the Greedy Conjecture holds if the Greedy Algorithm happens to merge strings in a particular order~\cite{weinard2006greedy, laube2005conditional}. The Greedy Algorithm gives a $2$-approximation of a different metric called compression~\cite{TU1988}. The compression is defined as the sum of all input strings minus the length of a superstring.
+It is known that the Greedy Conjecture holds for the case when all input strings have length at most $3$~\cite{TU1988, cazaux20143}, and it was recently shown to hold in the case of string of length $4$~\cite{kulikov2015greedy}. Also, the Greedy Conjecture holds if the Greedy Algorithm happens to merge strings in a particular order~\cite{weinard2006greedy, laube2005conditional}. The Greedy Algorithm gives a $2$-approximation of a different metric called compression~\cite{TU1988}. The compression is defined as the sum of the lengths of all input strings minus the length of a superstring.
 
 %following simple 
 %greedy algorithm is 2-approximate: while there are more than two strings 
@@ -125,32 +125,34 @@ It is known that the Greedy Conjecture holds for the case when all input strings
 
 Most of the approaches for approximating SCS are based on the
 {\em overlap graph} or the equivalent \emph{suffix graph}. The suffix graph has input strings as nodes, and a pair of nodes 
-is joined by an~arc of weight equal to their suffix (see Section~\ref{sec:def_scs} for a formal definition of overlap and suffix).
+is joined by an~arc of weight equal to their suffix (see Section~\ref{sec:def_scs} for formal definitions of overlap and suffix).
 SCS is equivalent to the Traveling Salesman Problem (TSP) on the suffix graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor. We do not know the full characterization of the graphs in this special case, but we know some of its properties: Monge inequality~\cite{monge}, Triple ineqaulity~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
 
 While the overlap and suffix graphs give a~convenient graph structure, our current knowledge of their properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this paper is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
 
 We continue the study of the so-called {\em hierarchical graph}
-introduced by Golovnev et al.~\cite{scs_exact}. This graph in a~sense generalizes de~Bruijn graph and is designed specifically 
-for the SCS problem and contains more useful information about input strings
+introduced by Golovnev et al.~\cite{scs_exact}. This graph in a~sense generalizes de~Bruijn graph, it is designed specifically 
+for the SCS problem, and contains more useful information about input strings
 than just all pairwise overlaps. We present a simple and natural greedy algorithm
-on the hierarchical graph. 
+in the hierarchical graph. 
 We demonstrate its usefulness by showing that it finds an optimal solution 
 in two well-known polynomially solvable special cases: strings of length~$2$ and
 a~$k$-spectrum of a~string.
 
-We then conjecture that this greedy algorithm is $2$-approximate. For this, we introduce an {\em even stronger} conjecture that we call 
+We then conjecture that this greedy algorithm is $2$-approximate. We suggest a combinatorial way of proving this conjecture. For this, we introduce an {\em even stronger} conjecture that we call 
 {\em Collapsing Superstring Conjecture}. 
 Roughly, it says that it is possible to transform a~doubled optimal 
 solution into a~greedy solution. 
 The corresponding transformation, that we call {\em collapsing}, 
 is just replacing two edges $a\alpha \to a\alpha b \to \alpha b$ 
 by two edges $a\alpha \to \alpha \to \alpha b$ (where $\alpha$ is an arbitrary string). 
-We report on computational experiments that verified the 
-conjecture on many datasets (both hand-crafted and generated randomly
-according to various distributions). 
-We then support the Collapsing Superstring Conjecture by 
+We support the Collapsing Superstring Conjecture by 
 proving that it holds for the~special case when the input strings have length~3.
+
+%We report on computational experiments that verified the 
+%conjecture on many datasets (both hand-crafted and generated randomly
+%according to various distributions). 
+
 
 The Collapsing Superstring Conjecture immediately implies that the Greedy
 Hierarchical Algorithm is 2-approximate. Remarkably, it seems to be much
@@ -160,7 +162,7 @@ solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS
 One way of showing this is to prove that $GS \subseteq DOS$. 
 The conjecture, at the same time, states that this inclusion holds with equality.
 
-We implemented the Greedy Hierarchical Algorithm~\cite{github}, and tested our conjectures on tens of thousands of examples. We provide a web interface~\cite{webpage} so that anyone could test the conjectures on arbitrary datasets. The webpage also gives detailed visualizations of how the Hierarchical Greedy and Collapsing algorithms work.
+We implemented the Greedy Hierarchical Algorithm~\cite{github}, and tested our conjectures on tens of thousands of datasets (both hand-crafted and generated randomly according to various distributions). We provide a web interface~\cite{webpage} so that anyone could test the conjectures on arbitrary datasets. The webpage also gives detailed visualizations of how the Greedy Hierarchical and Collapsing algorithms work.
 
 \section{Definitions}
 \subsection{Shortest Common Superstring Problem}
@@ -174,7 +176,7 @@ we denote the first $|s|-|\overlap(s,t)|$ symbols of $s$.
 Similarly, $\suff(s,t)$ is the last
 $|t|-|\overlap(s,t)|$ symbols of~$t$. 
 By $\pref(s)$ and $\suff(s)$ we denote, respectively,
-the first and the last $|s|-1$ symbols of~$s$. See Fig.~\ref{fig:overlap} for a~visual explanation. We also denote the empty string by $\varepsilon$.
+the first and the last $|s|-1$ symbols of~$s$. See Figure~\ref{fig:overlap} for a~visual explanation. We also denote the empty string by $\varepsilon$.
 
 If $U$ and $V$ are two multisets, the by $U\sqcup V$ we denote the multiset $W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$.
 
@@ -211,7 +213,7 @@ If $U$ and $V$ are two multisets, the by $U\sqcup V$ we denote the multiset $W$ 
 
 Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
 the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a given order one just
-overlaps the strings in this order, see Fig.~\ref{fig:permutation}. This simple observation relates SCS to other permutation problems, including different versions of the Traveling Salesman Problem.
+overlaps the strings in this order, see Figure~\ref{fig:permutation}. This simple observation relates SCS to other permutation problems, including different versions of the Traveling Salesman Problem.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -289,7 +291,7 @@ length of the string spelled by this walk.
 This is just because each up-edge has 
 weight~$1$ and adds one symbol to 
 the current string. See Figure~\ref{fig:hgex}(b) for an~example.
-%For example, in the graph of Fig.~\ref{fig:hgexfirst} 
+%For example, in the graph of Fiure.~\ref{fig:hgexfirst} 
 %a~walk $\varepsilon\to{\tt b}\to{\tt ba}
 %\to{\tt bab}\to{\tt ab}\to{\tt abc}
 %\to{\tt abca}\to{\tt bca}\to{\tt ca}\to{\tt a}
@@ -297,7 +299,7 @@ the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 %a~string {\tt babca} 
 %of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
 
-Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and edges. The multiset of edges of such a~walk must be Eulerian (each vertex must have the same in- out out-degree). It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
+Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and edges. The multiset of edges of such a~walk must be Eulerian (each vertex must have the same in- out out-degree, and the set of edges must be connected). It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
 
 \section{Greedy Hierarchical Algorithm}
 %\subsection{Algorithm and Conjecture}
@@ -311,7 +313,7 @@ More precisely, first it considers the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG_{\cal S}$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous (i.e., lower) level. In case $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous (i.e., lower) level. In case $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
 \begin{algorithm}[ht]
@@ -321,7 +323,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \hspace*{\algorithmicindent} \textbf{Output:} solution~$D$.
 \begin{algorithmic}[1]
 \State $HG(V,E) \gets \text{hierarchical graph of ${\cal S}$}$ 
-\State\label{alg:gha_init} $D \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$
+\State\label{alg:gha_init} $D \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$
 \For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}\label{alg:for}
 \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
 \If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
@@ -375,7 +377,7 @@ In this section, we suggest a way to prove the Greedy Hierarchical Superstring C
 
 Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
 
-In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In the consecutive sections we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}.
+In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}.
 
 \subsection{Algorithm and Conjecture}
 \label{sec:alg_conj}
@@ -385,10 +387,10 @@ We double every edge of~$D$ (note that $D$ remains a~solution). What we do next 
 \begin{enumerate}
 \item Imagine that the edges of~$D$ constitute a~circular thread and that there is a~nail in every node~$s \in {\cal S}$.
 \item We apply gravitation to the thread, i.e., we replace every pair of edges $(\pref(v), v)$, $(v, \suff(v))$ 
-with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Fig.~\ref{fig:collapsing}.
+with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
 \end{enumerate}
-Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
-A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm lifts down all edges of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
+A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all edges of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -454,7 +456,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 When $l>1$, the collapsing procedure does not change the total length of~$D$. 
 What one normally sees at the beginning of the
 $l=1$ iteration is a~solution with many 
-redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} in Appendix~\ref{app:b} for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
+redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} in Appendix~\ref{app:a} for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
 
 
 \newtheorem*{scs}{Collapsing Superstring Conjecture}
@@ -514,7 +516,7 @@ It would also be interesting to find other applications of the
 hierarchical graphs. We list two such potential applications below.
 \begin{description}
 \item[Genome assembly.] As we illustrated, the hierarchical graph in a~sense
-generalizes de Bruijn graph. The latter one is used heavily 
+generalizes de Bruijn graph. The latter one is heavily used
 in genome assembly~\cite{pevzner2001eulerian}.
 Can one adopt the hierarchical graph for this task? For this, one
 would need to come up with a~compact representation of the graph
@@ -522,7 +524,7 @@ would need to come up with a~compact representation of the graph
 handling errors in the input data. Cazaux and Rivals~\cite{cazaux2018hierarchical} propose a linear-space counterpart of the hierarchical graph.
 
 \item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
-It was mentioned in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithms stay the best for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} for an algorithm solving SCS on strings of arbitrary constant length at most $r$ in time $(2-\varepsilon)^n$ (where $\varepsilon$ is a constant which depends only on $r$). Can one use the hierarchical graph to solve SCS exactly in fewer than $2^n$ steps?
+It was mentioned in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithms stay the best for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} for an algorithm solving SCS on strings of length at most $r$ in time $(2-\varepsilon)^n$ (where $\varepsilon$ depends only on $r$). Can one use the hierarchical graph to solve exactly the general case of SCS in time $(2-\varepsilon)^n$ for a constant $\varepsilon$?
 \end{description}
 
 \bibliographystyle{alpha}
@@ -532,13 +534,13 @@ It was mentioned in Section~\ref{sec:intro} that the SCS problem is a special ca
 \section{Greedy Hierarchical Algorithm. Special Cases}
 \label{app:a}
 \subsection{Strings of Length~2}
-Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well. We note that the standard Greedy Algorithm does not necessarily finds an optimal solution in this case. For example, if ${\cal S}=\{ab, ba, bb\}$, the Greedy Algorithm may first merge $ab$ and $ba$, which would lead it to a suboptimal solution $ababb$. 
+Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well. We note that the standard Greedy Algorithm does not necessarily finds an optimal solution in this case. For example, if ${\cal S}=\{ab, ba, bb\}$, the Greedy Algorithm may first merge $ab$ and $ba$, which would lead to a suboptimal solution $ababb$. 
 
-First, we can assume that all input strings from ${\cal S}$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init} the GHA algorithm will include the edges $\{(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
+First, we can assume that all input strings from ${\cal S}$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Hierarchical Greedy Algorithm shows the same behavior. In Step~\ref{alg:gha_init}, GHA will include the arcs $(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
 
-When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=({\cal S}, E)$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
+When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(V, E)$, where $V$ contains a vertex for every symbol which appears in strings from ${\cal S}$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
 \begin{proposition}[\cite{GMS1980}]
-Let $G$ be a directed graph, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
+Let $G$ be the graph defined above, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
 \begin{align}
 \label{eq:gms}
 n + \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
@@ -552,11 +554,11 @@ Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a set of strings of length at most $2$, and
 \end{lemma}
 
 \begin{proof}
-Above we saw that we can only consider the case of $n$ primitive strings $\{s_1,\ldots,s_n\}$ of length exactly $2$. For $1\leq i\leq n$, let $s_i=a_i b_i$, where $a_i\neq b_i$. Consider the partial greedy hierarchical solution $D$ after the Step~\ref{alg:gha_init} of the GHA algorithm: $D=\{(a_i, a_ib_i), (a_ib_i, b_i): 1\leq i\leq n \}$. (We abuse notation by identifying the set of arcs $D$ with the graph induced by $D$.) This partial solution has $n$ up-edges, so its current weight is $n$. 
+We showed above that we can only consider the case of $n$ primitive strings $\{s_1,\ldots,s_n\}$ of length exactly $2$. For $1\leq i\leq n$, let $s_i=a_i b_i$, where $a_i\neq b_i$. Consider the partial greedy hierarchical solution $D$ after the Step~\ref{alg:gha_init} of the GHA algorithm: $D=\{(a_i, a_ib_i), (a_ib_i, b_i): 1\leq i\leq n \}$. (We abuse notation by identifying the set of arcs $D$ with the graph induced by $D$.) This partial solution has $n$ up-edges, so its current weight is $n$. 
 
 Note that by the definition of the graph $G$ above, $G$ contains an arc $(a, b)$ if and only if $D$ has the arcs $(a, ab)$ and $(ab, b)$ of the graph HG. Thus, the indegree (outdegree) of a vertex $a$ in $G$ equals the indegree (outdegree) of the vertex $a$ in the partial solution $D$. Also, two vertices $a$ and $b$ of $G$ belong to one weakly connected component in $G$ if and only if they belong to one weakly connected component in $D$. Therefore, the expression~\ref{eq:gms} in $G$ has the same value in the partial solution graph $D$. (Indeed, the vertices corresponding to strings of length $2$ are balanced and do not form weakly connected components.) 
 
-Now we proceed to the Steps~\ref{alg:for}--\ref{alg:last} of the GHA algorithm. GHA will go through all strings of length $1$, and add $|\indegree(v) - \outdegree(v)|$ arcs for each unbalanced vertex $v$. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-edges, we have increased the weight of the partial solution $D$ by
+Now we proceed to Steps~\ref{alg:for}--\ref{alg:last} of GHA. GHA will go through all strings of length $1$, and add $|\indegree(v) - \outdegree(v)|$ arcs for each unbalanced vertex $v$. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-edges, we have increased the weight of the partial solution $D$ by
 \begin{align*}
 \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
 \end{align*}
@@ -566,25 +568,25 @@ Now we proceed to the Steps~\ref{alg:for}--\ref{alg:last} of the GHA algorithm. 
 By a~$k$-spectrum of a~string $s$ 
 (of length at least~$k$)
 we call a~set of all substrings of~$s$ of length~$k$.
-Pevzner et al.~\cite{pevzner2001eulerian} give a polynomial time exact algorithm for the case when the input strings form a spectrum of an unknown string. Now we show that GHA also finds an optimal solution in this case.
+Pevzner et al.~\cite{pevzner2001eulerian} give a polynomial time exact algorithm for the case when the input strings form a spectrum of an unknown string. We show that GHA also finds an optimal solution in this case.
 
 \begin{lemma}
 Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$.
 \end{lemma}
 
 \begin{proof}
-Since $s$ has $n$ distinct substrings of length $k, \, |s|\geq n+k-1$. We will show that GHA finds a superstring of length $n+k-1$. After Step~\ref{alg:gha_init} of GHA, the partial solution $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$. In particular, $D$ is of weight $n$. For $1\leq i\leq k-1$, let $u_{i}$ be the first $i$ symbols of $s$, and let $v_{i}$ be the last $i$ symbols of $s$. Note that $u_{k-1}$ and $v_{k-1}$ are the only unbalanced vertices of the partial solution $D$ after Step~\ref{alg:gha_init}: all other strings of length $k-1$ appear equal number of times as prefixes and suffixes of strings from ${\cal S}$. Therefore, while processing the level $\ell=k-1$, GHA will add one arc to each of the vertices $u_{k-1}$ and $v_{k-1}$, and will not add arcs to other strings of length $k-1$. 
+Since $s$ has $n$ distinct substrings of length $k, \, |s|\geq n+k-1$. We will show that GHA finds a superstring of length $n+k-1$. After Step~\ref{alg:gha_init} of GHA, the partial solution $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. In particular, $D$ is of weight $n$. For $1\leq i\leq k-1$, let $u_{i}$ be the first $i$ symbols of $s$, and let $v_{i}$ be the last $i$ symbols of $s$. Note that $u_{k-1}$ and $v_{k-1}$ are the only unbalanced vertices of the partial solution $D$ after Step~\ref{alg:gha_init}: all other strings of length $k-1$ appear equal number of times as prefixes and suffixes of strings from ${\cal S}$. Therefore, while processing the level $\ell=k-1$, GHA will add one arc to each of the vertices $u_{k-1}$ and $v_{k-1}$, and will not add arcs to other strings of length $k-1$. 
 
-In general, while processing the level $\ell=i$, GHA adds one up-edge to $u_i$ and one down-edge to $v_i$. in order to show this, we consider two cases. If $u_i \neq v_i$, then $u_i$ has an incoming arc from the previous step and does not have outgoing arcs, therefore GHA adds an up-edge to $u_i$ in Step~\ref{alg:step6}. Similarly, GHA adds a down-edge to $v_i$. Note that there are no other strings of length $i<k-1$ in the partial solution, so the algorithm moves to the next level. In the case where $u_i=v_i$, we have that all vertices are balanced, but the string $u_i$ is now the shortest string in this only connected component ${\cal C}$ of the graph. Therefore, for $i>0$ we have $\varepsilon\not\in{\cal C}$, and GHA adds an up- and down-edge to $u_i$ in Step~\ref{alg:last}. 
+In general, while processing the level $\ell=i$, GHA adds one up-edge to $u_i$ and one down-edge to $v_i$. In order to show this, we consider two cases. If $u_i \neq v_i$, then $u_i$ has an incoming arc from the previous step and does not have outgoing arcs, therefore GHA adds an up-edge to $u_i$ in Step~\ref{alg:step6}. Similarly, GHA adds a down-edge from $v_i$. Note that there are no other strings of length $i<k-1$ in the partial solution, so the algorithm moves to the next level. In the case when $u_i=v_i$, we have that all vertices are balanced, but the string $u_i$ is now the shortest string in this only connected component ${\cal C}$ of the graph. Therefore, for $i>0$ we have $\varepsilon\not\in{\cal C}$, and GHA adds an up- and down-edge to $u_i$ in Step~\ref{alg:last}. 
 
-We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suf}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-edges (and the weight of the solution) is $n+k-1$.
+We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-edges (and the weight of the solution) is $n+k-1$.
 \end{proof}
 
 \subsection{Tough Dataset}
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
  while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to the permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
  
-The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$. This example shows that GHA does not give a better than $2$-approximation for SCS.
+The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$. This example shows that GHA also does not give a better than $2$-approximation for SCS.
 
 %\newcommand{\ged}[3]{
 %\begin{scope}[xshift=#1mm]
@@ -664,8 +666,8 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 \end{figure}
 
 %\clearpage
-\section{Collapsing Algorithm. Examples}
-\label{app:b}
+%\section{Collapsing Algorithm. Examples}
+%\label{app:b}
 \begin{figure}[h]
 \begin{mypic}
 \we{0}{0}{a}{
