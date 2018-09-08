@@ -19,10 +19,10 @@ Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, verti
 \begin{tikzpicture}[xscale=1.3] 
   \begin{scope}
     \foreach \i in {0,...,1} {
-        \node[inputvertex] (s\i) at (\i*5+1,3) {$s$};
-        \node[inputvertex] (ps\i) at (\i*5+0,2) {$\pref(s)$};
-        \node[inputvertex] (ss\i) at (\i*5+2,2) {$\suff(s)$};
-        \node[inputvertex] (t\i) at (\i*5+1,1) {$\pref(\suff(s))$};
+        \node[vertex] (s\i) at (\i*5+1,3) {$s$};
+        \node[vertex] (ps\i) at (\i*5+0,2) {$\pref(s)$};
+        \node[vertex] (ss\i) at (\i*5+2,2) {$\suff(s)$};
+        \node[vertex] (t\i) at (\i*5+1,1) {$\pref(\suff(s))$};
     }
     \draw [-] (3,2) -- (3.06,2);
     \draw [->,decorate,decoration={snake, post length=0.4mm}] (3.06,2) -- (4,2);
@@ -40,7 +40,7 @@ Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, verti
 \end{tikzpicture}
 \end{center}
     
-\caption{Collapsing the arcs $(\pref{s}, s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$.}\label{fig:collapsea2b1}
+\caption{Collapsing the arcs $(\pref{s}, s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$. The removed arcs are dashed. }\label{fig:collapsea2b1}
 \end{figure}
 
 Now assume that the level of $s$ is $1$.Then $ \pref (s) = \suff (s) = \varepsilon $, and after the collapse $s$ and $ \varepsilon $ will still be connected.

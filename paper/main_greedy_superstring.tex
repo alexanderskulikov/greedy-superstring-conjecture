@@ -375,7 +375,7 @@ In this section, we suggest a way to prove the Greedy Hierarchical Superstring C
 
 Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
 
-In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In the consecutive sections we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets on the following webpage~\cite{webpage}.
+In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In the consecutive sections we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}.
 
 \subsection{Algorithm and Conjecture}
 \label{sec:alg_conj}
@@ -459,7 +459,10 @@ redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It 
 
 \newtheorem*{scs}{Collapsing Superstring Conjecture}
 \begin{scs}
-For any set of strings ${\cal S}$ and for any superstring $C$ of ${\cal S}$, $CA(HG({\cal S}), C \sqcup C) = GHA({\cal S})$.
+For any set of strings ${\cal S}$ and for any superstring $C$ of ${\cal S}$, 
+\begin{align*}
+CA(HG({\cal S}), C \sqcup C) = GHA({\cal S}) \; .
+\end{align*}
 %Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
 \end{scs}
 
@@ -499,7 +502,7 @@ We will prove that
 \end{align*}
 For $s=\varepsilon$, this statement is equivalent to the Collapsing Superstring Conjecture, as it asserts that the two algorithms end up with the same multiset of arcs. 
 
-We prove this statement by induction on $s$, where $s$ starts with $s_0$ and goes through all the vertices of $HG$ in the same order as CA and GHA. The base case $s=s_0$ of the induction argument follows trivially from the definition: $\cldr(s_0)=\grdr(s_0)=\emptyset$. Now the induction step is proved in Lemma~\ref{lem:technical}.
+We prove this statement by induction on $s$, where $s$ starts with $s_0$ and goes through all the vertices of $HG$ in the same order as CA and GHA. The base case $s=s_0$ of the induction argument follows trivially from the definition: $\cldr{s_0}=\grdr{s_0}=\emptyset$. Now the induction step is proved in Lemma~\ref{lem:technical}.
 \end{proof}
 \input proof1
 \input proof2
