@@ -144,8 +144,8 @@ We then conjecture that this greedy algorithm is $2$-approximate. We suggest a c
 Roughly, it says that it is possible to transform a~doubled optimal 
 solution into a~greedy solution. 
 The corresponding transformation, that we call {\em collapsing}, 
-is just replacing two edges $a\alpha \to a\alpha b \to \alpha b$ 
-by two edges $a\alpha \to \alpha \to \alpha b$ (where $\alpha$ is an arbitrary string). 
+is just replacing two arcs $a\alpha \to a\alpha b \to \alpha b$ 
+by two arcs $a\alpha \to \alpha \to \alpha b$ (where $\alpha$ is an arbitrary string). 
 We support the Collapsing Superstring Conjecture by 
 proving that it holds for the~special case when the input strings have length~3.
 
@@ -156,8 +156,8 @@ proving that it holds for the~special case when the input strings have length~3.
 
 The Collapsing Superstring Conjecture immediately implies that the Greedy
 Hierarchical Algorithm is 2-approximate. Remarkably, it seems to be much
-stronger in the following sense. Let $GS$ be the set of edges of a~greedy
-solution and let $DOS$ be the set of edges of a~collapsed doubled optimal
+stronger in the following sense. Let $GS$ be the set of arcs of a~greedy
+solution and let $DOS$ be the set of arcs of a~collapsed doubled optimal
 solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. 
 One way of showing this is to prove that $GS \subseteq DOS$. 
 The conjecture, at the same time, states that this inclusion holds with equality.
@@ -240,10 +240,10 @@ overlaps the strings in this order, see Figure~\ref{fig:permutation}. This simpl
 
 \subsection{Hierarchical Graph}
 %\begin{definition}[hierarchical graph]
-For a~set of strings~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V,\, v \neq \varepsilon$, the set of edges~$E$ contains an {\em up-edge} $(\pref(v), v)$ of weight~1 and a {\em down-edge} $(v, \suff(v))$ of weight~0. The meaning of an up-edge is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the meaning of a down-edge is cutting down one symbol from the beginning of the current string.
+For a~set of strings~${\cal S}$, a~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V,\, v \neq \varepsilon$, the set of arcs~$E$ contains an {\em up-arc} $(\pref(v), v)$ of weight~1 and a {\em down-arc} $(v, \suff(v))$ of weight~0. The meaning of an up-arc is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the meaning of a down-arc is cutting down one symbol from the beginning of the current string.
 %\end{definition}
 %
-Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph ands shows that the terminology of up- and down-edges comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$.  In all the figures in this paper, the input strings are shown in rectangles, while all other vertices are ellipses.
+Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph ands shows that the terminology of up- and down-arcs comes from placing all the strings of the same length at the same layer where the $i$-th layer contains strings of length~$i$.  In all the figures in this paper, the input strings are shown in rectangles, while all other vertices are ellipses.
 
 \newcommand{\we}[4]{
 \begin{scope}[xshift=#1mm,yshift=#2mm]
@@ -288,7 +288,7 @@ through all the nodes from~$\mathcal{S}$.
 It is not difficult to see that the length of a~walk 
 from $\varepsilon$ to $\varepsilon$ equals the 
 length of the string spelled by this walk. 
-This is just because each up-edge has 
+This is just because each up-arc has 
 weight~$1$ and adds one symbol to 
 the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 %For example, in the graph of Fiure.~\ref{fig:hgexfirst} 
@@ -299,21 +299,21 @@ the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 %a~string {\tt babca} 
 %of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
 
-Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and edges. The multiset of edges of such a~walk must be Eulerian (each vertex must have the same in- out out-degree, and the set of edges must be connected). It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of edges~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
+Hence, what we are looking for in this graph is a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and arcs. The multiset of arcs of such a~walk must be Eulerian (each vertex must have the same in- out out-degree, and the set of arcs must be connected). It will prove convenient to define a~{\em solution} in hierarchical graph as an~Eulerian multiset of arcs~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
 
 \section{Greedy Hierarchical Algorithm}
 %\subsection{Algorithm and Conjecture}
 In this section, we present a~greedy algorithm for
 finding a~superstring in the hierarchical graph. 
 It constructs a~solution~$D$ in a~stingy way. 
-Namely, the algorithm only adds edges to~$D$ 
+Namely, the algorithm only adds arcs to~$D$ 
 if it is absolutely necessary: either to balance the degree of a~node or to ensure connectivity 
 (as $D$ must be Eulerian). 
 More precisely, first it considers the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG_{\cal S}$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) edges from the previous (i.e., lower) level. In case $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the edges in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In case $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
 \begin{algorithm}[ht]
@@ -327,7 +327,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}\label{alg:for}
 \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
 \If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
-\State\label{alg:step6} balance the degree of $v$ in $E$ by adding an appropriate number of lower edges
+\State\label{alg:step6} balance the degree of $v$ in $E$ by adding an appropriate number of lower arcs
 \Else
 \State\label{alg:else} ${\cal C} \gets \text{weakly connected component of $v$ in $D$}$
 \State $u \gets \text{the lexicographically largest string among shortest strings in ${\cal C}$}$
@@ -358,7 +358,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
 \end{mypic}
-\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower edges ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contains imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower edges to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is, therefore, suboptimal.}
+\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower arcs ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contains imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower arcs to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is, therefore, suboptimal.}
 \label{fig:hgexa}
 \end{figure}
 
@@ -373,7 +373,7 @@ In Appendix~\ref{app:a} we show the behavior of GHA on various datasets. In part
 %In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
 \section{Collapsing Algorithm}
-In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring into a different superstring of the same set of strings which is no longer than the original one. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of edges chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal to an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
+In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring into a different superstring of the same set of strings which is no longer than the original one. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of arcs chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal to an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
 
 Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
 
@@ -383,14 +383,14 @@ In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In 
 \label{sec:alg_conj}
 The idea of the Collapsing Algorithm is the following. 
 We start with any solution~$D$ in the hierarchical graph. 
-We double every edge of~$D$ (note that $D$ remains a~solution). What we do next can be informally described as follows:
+We double every arc of~$D$ (note that $D$ remains a~solution). What we do next can be informally described as follows:
 \begin{enumerate}
-\item Imagine that the edges of~$D$ constitute a~circular thread and that there is a~nail in every node~$s \in {\cal S}$.
-\item We apply gravitation to the thread, i.e., we replace every pair of edges $(\pref(v), v)$, $(v, \suff(v))$ 
+\item Imagine that the arcs of~$D$ constitute a~circular thread and that there is a~nail in every node~$s \in {\cal S}$.
+\item We apply gravitation to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
 with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
 \end{enumerate}
-Formally, after doubling every edge of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of edges $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of edges $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of edges. 
-A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all edges of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+Formally, after doubling every arc of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of arcs $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of arcs $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs. 
+A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -417,7 +417,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \end{scope}
 \end{scope}
 \end{mypic}
-\caption{Collapsing a~pair of edges is replacing a~pair of dashed edges with a~pair of solid edges: general case (left) and example (right). The~``physical meaning'' of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
+\caption{Collapsing a~pair of arcs is replacing a~pair of dashed arcs with a~pair of solid arcs: general case (left) and example (right). The~``physical meaning'' of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
 \label{fig:collapsing}
 \end{figure}
 
@@ -456,7 +456,7 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 When $l>1$, the collapsing procedure does not change the total length of~$D$. 
 What one normally sees at the beginning of the
 $l=1$ iteration is a~solution with many 
-redundant pairs of edges of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} in Appendix~\ref{app:a} for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
+redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} in Appendix~\ref{app:a} for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
 
 
 \newtheorem*{scs}{Collapsing Superstring Conjecture}
@@ -474,21 +474,21 @@ In the remaining subsections, we support the Collapsing Superstring Conjecture b
 
 The Collapsing Algorithm (CA) starts with $D$ equal to a doubled (arbitrary) solution, and the Greedy Hierarchical Algorithm (GHA) starts with epmty $D$. Then both algorithms consider all vertices of the hierarchical graph $HG=(V, E)$ in the same order (descending order of the levels, lexicographic order within a level). Let $s_0$ be the first vertex considered by CA and GHA ($s_0$ corresponds to an input string). For a vertex $s$, by $V(s)$ we denote the set of vertices considered by the algorithms no later than the vertex $s$ (including the vertex $s$: $s\in V(s)$).
 
-Both algorithms continiously change their partial solutions $D$. While CA and GHA are examining a vertex $s$, we denote the set of edges included in their partial solutions $D$ before examing $s$ by $\cld{}$ and $\grd{}$, respectfully. Let $\clgraph = (V, \cld), \grgraph = (V, \grd)$, where $V$ is the set of vertices of the hierarchical graph $HG$. 
+Both algorithms continiously change their partial solutions $D$. While CA and GHA are examining a vertex $s$, we denote the set of arcs included in their partial solutions $D$ before examing $s$ by $\cld{}$ and $\grd{}$, respectfully. Let $\clgraph = (V, \cld), \grgraph = (V, \grd)$, where $V$ is the set of vertices of the hierarchical graph $HG$. 
 
-Finally, for CA we define the set $\cldr{s}$, consisting of edges of $\cld{}$ which are incident to at least one vertex from $ V (s) \setminus \{s \} $ (recall that $\cld{}$ is the set of edges strictly before the examination of the vertex $s$). For convenience, for GHA we define $\grdr{s}$ in the same way, but note that since GHA always adds arcs adjacent to the vertex it is currently considering, $\grdr{s}=\grd$.\footnote{On the other hand, $\cld$ does not necessarily equal $\cldr{s}$, because $\cld{}$ initially consists of edges connecting all vertices from $ {\cal S} $ to $\varepsilon$.}
+Finally, for CA we define the set $\cldr{s}$, consisting of arcs of $\cld{}$ which are incident to at least one vertex from $ V (s) \setminus \{s \} $ (recall that $\cld{}$ is the set of arcs strictly before the examination of the vertex $s$). For convenience, for GHA we define $\grdr{s}$ in the same way, but note that since GHA always adds arcs adjacent to the vertex it is currently considering, $\grdr{s}=\grd$.\footnote{On the other hand, $\cld$ does not necessarily equal $\cldr{s}$, because $\cld{}$ initially consists of arcs connecting all vertices from $ {\cal S} $ to $\varepsilon$.}
 
 Let us sort all vertices of $V$ in the order in which the two algorithms process them, and let $s$ and $t$ be two consecutive vertices in this order. Now look at the two algorithms processing the vertex $s$. CA and GHA both only change arcs below $s$. Since $\cld{t}$ and $\grd{t}$ only consider the arcs neighboring vertices from $V(t)$, we have that for both algorithms the following holds
 \begin{equation}
 \label{eqn:stepcase}
-    D(t) = D(s) \sqcup \bigsqcup_{i=1}^{a} (\pref(s) \to s) \sqcup \bigsqcup_{j=1}^{b} (s \to \suff(s))
+    D(t) = D(s) \sqcup \bigsqcup_{i=1}^{a} (\pref(s), s) \sqcup \bigsqcup_{j=1}^{b} (s, \suff(s))
 \end{equation}
 for some non-negative $ a $ and $ b $.
 
 In the next subsections we will prove the followig lemma.
 \begin{lemma}
 \label{lem:technical}
-Let ${\cal S}$ be a set of strings of length at most $3$. For each vertex $ s $ at a level at least $1$, if the collapsing algorithm after its examination leaves $ a $ arcs $ (\pref (s) \to s) $ and $ b$ arcs $ (s \to \suff(s) ) $, and the greedy algorithm leaves $ a_{gr} $ and $ b_{gr} $ arcs, respectively, then $ a = a_{gr}, b = b_{gr} $.
+Let ${\cal S}$ be a set of strings of length at most $3$. For each vertex $ s $ at a level at least $1$, if the collapsing algorithm after its examination leaves $ a $ arcs $ (\pref (s), s) $ and $ b$ arcs $ (s, \suff(s) ) $, and the greedy algorithm leaves $ a_{gr} $ and $ b_{gr} $ arcs, respectively, then $ a = a_{gr}, b = b_{gr} $.
 \end{lemma}
 
 Now we are ready to finish the proof of Collapsing Superstring Conjecture for strings of length at most $3$. Note that this also implies that the Greedy Hierarchical Superstring Conjecture holds for the case of strings of length at most $3$.
@@ -554,11 +554,11 @@ Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a set of strings of length at most $2$, and
 \end{lemma}
 
 \begin{proof}
-We showed above that we can only consider the case of $n$ primitive strings $\{s_1,\ldots,s_n\}$ of length exactly $2$. For $1\leq i\leq n$, let $s_i=a_i b_i$, where $a_i\neq b_i$. Consider the partial greedy hierarchical solution $D$ after the Step~\ref{alg:gha_init} of the GHA algorithm: $D=\{(a_i, a_ib_i), (a_ib_i, b_i): 1\leq i\leq n \}$. (We abuse notation by identifying the set of arcs $D$ with the graph induced by $D$.) This partial solution has $n$ up-edges, so its current weight is $n$. 
+We showed above that we can only consider the case of $n$ primitive strings $\{s_1,\ldots,s_n\}$ of length exactly $2$. For $1\leq i\leq n$, let $s_i=a_i b_i$, where $a_i\neq b_i$. Consider the partial greedy hierarchical solution $D$ after the Step~\ref{alg:gha_init} of the GHA algorithm: $D=\{(a_i, a_ib_i), (a_ib_i, b_i): 1\leq i\leq n \}$. (We abuse notation by identifying the set of arcs $D$ with the graph induced by $D$.) This partial solution has $n$ up-arcs, so its current weight is $n$. 
 
 Note that by the definition of the graph $G$ above, $G$ contains an arc $(a, b)$ if and only if $D$ has the arcs $(a, ab)$ and $(ab, b)$ of the graph HG. Thus, the indegree (outdegree) of a vertex $a$ in $G$ equals the indegree (outdegree) of the vertex $a$ in the partial solution $D$. Also, two vertices $a$ and $b$ of $G$ belong to one weakly connected component in $G$ if and only if they belong to one weakly connected component in $D$. Therefore, the expression~\ref{eq:gms} in $G$ has the same value in the partial solution graph $D$. (Indeed, the vertices corresponding to strings of length $2$ are balanced and do not form weakly connected components.) 
 
-Now we proceed to Steps~\ref{alg:for}--\ref{alg:last} of GHA. GHA will go through all strings of length $1$, and add $|\indegree(v) - \outdegree(v)|$ arcs for each unbalanced vertex $v$. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-edges, we have increased the weight of the partial solution $D$ by
+Now we proceed to Steps~\ref{alg:for}--\ref{alg:last} of GHA. GHA will go through all strings of length $1$, and add $|\indegree(v) - \outdegree(v)|$ arcs for each unbalanced vertex $v$. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-arcs, we have increased the weight of the partial solution $D$ by
 \begin{align*}
 \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
 \end{align*}
@@ -577,16 +577,16 @@ Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a~$k$-spectrum of an unknown string~$s$. Th
 \begin{proof}
 Since $s$ has $n$ distinct substrings of length $k, \, |s|\geq n+k-1$. We will show that GHA finds a superstring of length $n+k-1$. After Step~\ref{alg:gha_init} of GHA, the partial solution $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. In particular, $D$ is of weight $n$. For $1\leq i\leq k-1$, let $u_{i}$ be the first $i$ symbols of $s$, and let $v_{i}$ be the last $i$ symbols of $s$. Note that $u_{k-1}$ and $v_{k-1}$ are the only unbalanced vertices of the partial solution $D$ after Step~\ref{alg:gha_init}: all other strings of length $k-1$ appear equal number of times as prefixes and suffixes of strings from ${\cal S}$. Therefore, while processing the level $\ell=k-1$, GHA will add one arc to each of the vertices $u_{k-1}$ and $v_{k-1}$, and will not add arcs to other strings of length $k-1$. 
 
-In general, while processing the level $\ell=i$, GHA adds one up-edge to $u_i$ and one down-edge to $v_i$. In order to show this, we consider two cases. If $u_i \neq v_i$, then $u_i$ has an incoming arc from the previous step and does not have outgoing arcs, therefore GHA adds an up-edge to $u_i$ in Step~\ref{alg:step6}. Similarly, GHA adds a down-edge from $v_i$. Note that there are no other strings of length $i<k-1$ in the partial solution, so the algorithm moves to the next level. In the case when $u_i=v_i$, we have that all vertices are balanced, but the string $u_i$ is now the shortest string in this only connected component ${\cal C}$ of the graph. Therefore, for $i>0$ we have $\varepsilon\not\in{\cal C}$, and GHA adds an up- and down-edge to $u_i$ in Step~\ref{alg:last}. 
+In general, while processing the level $\ell=i$, GHA adds one up-arc to $u_i$ and one down-arc to $v_i$. In order to show this, we consider two cases. If $u_i \neq v_i$, then $u_i$ has an incoming arc from the previous step and does not have outgoing arcs, therefore GHA adds an up-arc to $u_i$ in Step~\ref{alg:step6}. Similarly, GHA adds a down-arc from $v_i$. Note that there are no other strings of length $i<k-1$ in the partial solution, so the algorithm moves to the next level. In the case when $u_i=v_i$, we have that all vertices are balanced, but the string $u_i$ is now the shortest string in this only connected component ${\cal C}$ of the graph. Therefore, for $i>0$ we have $\varepsilon\not\in{\cal C}$, and GHA adds an up- and down-arc to $u_i$ in Step~\ref{alg:last}. 
 
-We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-edges (and the weight of the solution) is $n+k-1$.
+We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-arcs (and the weight of the solution) is $n+k-1$.
 \end{proof}
 
 \subsection{Tough Dataset}
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
  while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to the permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
  
-The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower edges to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$. This example shows that GHA also does not give a better than $2$-approximation for SCS.
+The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower arcs to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$. This example shows that GHA also does not give a better than $2$-approximation for SCS.
 
 %\newcommand{\ged}[3]{
 %\begin{scope}[xshift=#1mm]
@@ -838,13 +838,13 @@ a/eps/10, eps/a/10}
 }
 
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every edge of the optimal solution from Figure~\ref{fig:hgex}(c). 
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every arc of the optimal solution from Figure~\ref{fig:hgex}(c). 
 (b)~After collapsing all nodes at level $l=3$. 
-(c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of edges $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of edges for this node as it lies in the same component as a~node~{\tt c}. 
+(c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of arcs $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of arcs for this node as it lies in the same component as a~node~{\tt c}. 
 (e)~After processing the {\tt ca} node.
 (f)~After processing the {\tt ec} node.
 (g)~After processing the {\tt ee} node. Note that at this point the solution has exactly the same length as at the very beginning (at stage~(a)).
-(h)~Finally, after collapsing all the unnecessary pairs of edges from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
+(h)~Finally, after collapsing all the unnecessary pairs of arcs from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
 \label{fig:coll}
 \end{figure}
 
