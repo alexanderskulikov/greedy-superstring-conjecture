@@ -5,13 +5,13 @@ We denote the level of the vertex $ s $ as $ \lvl (s) $, and consider the three 
 
 \paragraph{Analysis of vertices of the level \texorpdfstring{$3$}{3}.}
 
-In this case $ s \in {\cal S} $, and vertex $ s $, is incident only to arcs $ (\pref (s) \to s)$ and $(s \to \suff (s)) $. The Collapse procedure leaves only one instance of each such arc. Hence, in the graph $ G'_{cl} $, $ C'_{cl} (s) = \{s \} $. This implies that (\ref{eqn:contradiction}) does not hold in this case.
+In this case $ s \in {\cal S} $, and the vertex $ s $ is incident only to the arcs $ (\pref (s) \to s)$ and $(s \to \suff (s)) $. The Collapse procedure leaves only one instance of each such arc. Hence, in the graph $ G'_{cl} $, $ C'_{cl} (s) = \{s \} $. This implies that (\ref{eqn:contradiction}) does not hold in this case.
 
 \paragraph{Analysis of vertices of the level \texorpdfstring{$2$}{2}.}
 
 Assume $ C'_{cl} (s) \backslash V (s) \ne\emptyset$. Choose a vertex $ t\in C'_{cl} (s) \backslash V (s)$ with the shortest weak path to $s$. Let $P = v_1 - v_2 - \ldots - v_n $ be a weak path from $s$ to $t$. In particular, $s=v_1$ and $t=v_n$.
 
-Note that if $ \lvl (u) = 1 $, then $ u \notin V (s) $. Then $ \lvl (v_i) \ge 2 $ holds for $ i<n $, since otherwise there would be a vertex with a shorter weak path to $s$. Since for every arc $(a,b)$ of the hierarchic graph $ | \lvl (a) - \lvl (b) | = 1 $,  the levels of vertices (possibly until the last one) of the path $P$ alternateas follows: $ \lvl (v_1) = 2, \lvl (v_2) = 3, \lvl (v_3) = 2,\ldots$. See an example of $P$ in Figure~\ref{fig:lvl2path6}.
+Note that if $ \lvl (u) = 1 $, then $ u \notin V (s) $. Then $ \lvl (v_i) \ge 2 $ holds for $ i<n $, since otherwise there would be a vertex with a shorter weak path to $s$. Since for every arc $(a,b)$ of the hierarchic graph $ | \lvl (a) - \lvl (b) | = 1 $,  the levels of the vertices (possibly except the last one) of the path $P$ alternate as follows: $ \lvl (v_1) = 2, \lvl (v_2) = 3, \lvl (v_3) = 2,\ldots$. See an example of $P$ in Figure~\ref{fig:lvl2path6}.
 
 \begin{figure}[ht]
 \begin{center}
@@ -44,9 +44,9 @@ Note that if $ \lvl (u) = 1 $, then $ u \notin V (s) $. Then $ \lvl (v_i) \ge 2 
 \caption{An example of a path $P$ for $n=6$.}\label{fig:lvl2path6}
 \end{figure}
 
-For a vertex $v_{2k}$ at the $\lvl (v_{2k}) = 3 $, let us denote the by $u=\pref(\suff(v_{2k}))$. The meaning of this vertex is that the pair of arcs $( v_{2k-1}, v_{2k}), (v_{2k}, v_{2k + 1})$ can potentially be collapsed into $( v_{2k-1}, u_{2k}), (u_{2k}, v_{2k + 1})$. Recall that we are considering Case~4 which means $a=b=1$, and $s=v_1$ has an up-arc and a down-arc. That is, $ G_{cl} $ contains arcs $ (u_0, v_1) $ and $ (v_1, u_2) $, where $ u_0 = \pref (s) $ and $ u_2 = \suff (s) $. 
+For a vertex $v_{2k}$ at the $\lvl (v_{2k}) = 3 $, let us denote by $u_{2k}=\pref(\suff(v_{2k}))$. The meaning of this vertex is that the pair of arcs $( v_{2k-1}, v_{2k}), (v_{2k}, v_{2k + 1})$ can potentially be collapsed into $( v_{2k-1}, u_{2k}), (u_{2k}, v_{2k + 1})$. Recall that we are considering Case~4 which means $a=b=1$, and $s=v_1$ has an up-arc and a down-arc. That is, $ G_{cl} $ contains arcs $ (u_0, v_1) $ and $ (v_1, u_2) $, where $ u_0 = \pref (s) $ and $ u_2 = \suff (s) $. 
 
-We also remark that if there is a pair of arcs $ (u_{2k}, v_{2k + 1}) $ and $ (v_{2k + 1}, u_{2k + 2}) $ in the graph, then there is a vertex $ u_{2k + 1} $, into which these arcs could be collapsed.
+Also, for a pair of arcs $ (u_{2k}, v_{2k + 1}) $ and $ (v_{2k + 1}, u_{2k + 2}) $ in the graph, let $ u_{2k + 1}=\pref(\suff(v_{2k + 1})) $. Again, the arcs $ (u_{2k}, v_{2k + 1}) $ and $ (v_{2k + 1}, u_{2k + 2}) $ could potentially be collapsed into $ (u_{2k}, u_{2k + 1}) $ and $ (u_{2k + 1}, u_{2k + 2}) $.
 
 Since the arcs $ (v_{2k-1}, v_{2k}) $ and $ (v_{2k} , v_{2k + 1}) $ are the only ones that are incident to the vertex $ v_{2k} \in S $ in the hierarchical graph, the initial (doubled) solution had two copies of each of them. Moreover, since $ \lvl (s) = 2 $, all the vertices of the level $ 3 $ have already been examined, and therefore at least one collapse has been performed from each vertex $ v_ {2k} $ at the level $ 3 $. Thus, at some point the graph contained the arcs $ (v_{2k-1} , u_{2k}) $ and $ (u_{2k}, v_{2k + 1}) $ (see Figure~\ref {fig:lvl2pathuv} for an example).
 
@@ -83,11 +83,11 @@ Since the arcs $ (v_{2k-1}, v_{2k}) $ and $ (v_{2k} , v_{2k + 1}) $ are the only
 \caption{An example of arrangement of the vertices $ v_i $ and $ u_i $ for $ n = 6 $. Note that $u_1=u_3=u_5=\varepsilon$. The graph contained the dashed arcs at some point. Removal of arcs $(u_0, v_1), (v_1, u_2)$ would violate weak connectivity of the graph.}\label{fig:lvl2pathuv}
 \end{figure}
 
-Now we will use the fact that the pair of arcs $ (u_0, v_1) $ and $ (v_1, u_2) $ has not been collapsed. This means that after this collapse the graph would loose weak connectivity. Note that $ u_1 = \varepsilon $; after the collapse $ u_0 $ and $ u_2 $ would be weakly connected through $ \varepsilon $. This means that the weak connectivity could only be violated because there is no other weak path between $ v_1 $ and $ u_2 $.
+Now we will use the fact that the pair of arcs $ (u_0, v_1) $ and $ (v_1, u_2) $ has not been collapsed. This means that after this collapse, the graph would loose weak connectivity. Note that $ u_1 = \varepsilon $; after the collapse $ u_0 $ and $ u_2 $ would be weakly connected through $ \varepsilon $. This means that the weak connectivity could only be violated because there is no other weak path between $ v_1 $ and $ u_2 $.
 
 \begin{claim}
 \label{lem:pathcollapse}
-For all $ k $ such that $ 3 \le 2k + 1 \le n $ at least one collapse was performed from the vertex $ v_{2k + 1} $.
+For all $ k $ such that $ 3 \le 2k + 1 \le n $ at least one collapse was performed at the vertex $ v_{2k + 1} $.
 \end{claim}
 \begin{proof}
 Suppose that at least one collapse is made from the vertex $ v_{2k '+ 1} $ for all $ k' $ such that $ 3 \le 2k '+ 1 <2k + 1 $, and the vertex $ v_{2k + 1} $ was not collapsed. This means that the arc $ (u_{2k}, v_{2k + 1}) $belongs to the graph at the current iteration.
