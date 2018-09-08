@@ -2,16 +2,16 @@
 \label{sec:proof1}
 We prove Lemma~\ref{lem:technical} in two steps. The first step, which works for strings of arbitrary lengths, shows that the lemma may not hold only in one case. The second step, presented in Section~\ref{sec:proof2}, shows that for strings of length at most $3$ this case does not occur.
 
-First we show that CA can never leave at least $2$ up-arcs to $s$ and at least $1$ down-arc from $s$ (or vice versa), because in this case it should apply the Collapse procdeure.
+First we show that CA can never leave at least $2$ up-arcs to $s$ and at least $1$ down-arc from $s$ (or vice versa), because in this case it should have applied the Collapse procedure.
 \begin{lemma}
 \label{lem:edgecases}
 The cases $a \ge 2, b \ge 1$ and $a \ge 1, b \ge 2$ do not occur.
 \end{lemma}
 
 \begin{proof}
-In both cases, the collapsing algorithm has the ability to make at least one collapse from the vertex $ s $. We will show that this collapse is correct, that is, $ a $ and $ b $ must be reduced by at least one. To this end, it suffices to prove that $ s $, $ \pref (s) $ and $ \suff (s) $ after the collapse remain weakly connected.
+In both cases, the collapsing algorithm has the ability to make at least one collapse at the vertex $ s $. We will show that this collapse is correct, that is, $ a $ and $ b $ must be reduced by at least one. To this end, it suffices to prove that $ s $, $ \pref (s) $ and $ \suff (s) $ remain weakly connected after the collapse.
 
-Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, vertices $ \pref(s) $ and $ \suff (s) $ will still be weakly connected through the vertex $ \pref (\suff (s)) = \suff (\pref (s)) $. Since either $ a \ge 2 $ or $ b \ge 2 $, the vertex $ s $ will remain weakly connected with $ \pref (s) $ or $ \suff (s) $, and hence with both of these vertices (see an example in Figure \ref{fig:collapsea2b1}).
+Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, vertices $ \pref(s) $ and $ \suff (s) $ will still be weakly connected through the vertex $ \pref (\suff (s)) = \suff (\pref (s)) $. Since either $ a \ge 2 $ or $ b \ge 2 $, the vertex $ s $ will remain weakly connected with $ \pref (s) $ or $ \suff (s) $, and, hence, with both of these vertices (see an example in Figure \ref{fig:collapsea2b1}).
 
 \begin{figure}[ht]
 \begin{center}
@@ -43,7 +43,7 @@ Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, verti
 \caption{Collapsing the arcs $(\pref{s}, s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$. The removed arcs are dashed. }\label{fig:collapsea2b1}
 \end{figure}
 
-Now assume that the level of $s$ is $1$.Then $ \pref (s) = \suff (s) = \varepsilon $, and after the collapse $s$ and $ \varepsilon $ will still be connected.
+Now assume that the level of $s$ is $1$.Then $ \pref (s) = \suff (s) = \varepsilon $, and after the collapse, $s$ and $ \varepsilon $ will still be connected.
 \end{proof}
 
 From Lemma~\ref{lem:edgecases}, we only need to consider four cases:
@@ -54,26 +54,26 @@ From Lemma~\ref{lem:edgecases}, we only need to consider four cases:
 \item[Case $4$:] $ a = 1, b = 1\; $.
 \end{enumerate}
 
-By the induction hypotesis, we can assume that $ D_{cl} (s) = D_{gr} (s) $. This means, in particular, that the sets of arcs in which $ s $ is the lowest vertex coincide in both algorithms, because all vertices with strictly higher levels have already been examined. Since the balance of the vertex $s$ in both algorithms must eventually become $ 0 $, the arcs in which $ s $ is the top vertex must contribute the same to the $ s $ balance in both algorithms. In other words,
+By the induction hypotesis, we can assume that $ D_{cl} (s) = D_{gr} (s) $. This means, in particular, that the sets of arcs in which $ s $ is the lowest vertex coincide in both algorithms, because all vertices with strictly higher levels have already been examined. Since the balance of the vertex $s$ in both algorithms must eventually become $ 0 $, the arcs in which $ s $ is the top vertex must contribute the same value to the balance of $ s $ in both algorithms. In other words,
 
-\begin{equation}
+\begin{align*}
 \label{eqn:balance}
     a-b = a_{gr}-b_{gr} \; .
-\end{equation}
+\end{align*}
 
 Therefore, it suffices to prove only one of the equalities $ a = a_{gr} $ or $ b = b_{gr} $.
 
-\textbf {Cases 1 and 2.} In these cases we have $a-b\ne 0$. From $ a_{gr} - b_{gr} = a-b$, we get $ a_{gr} - b_{gr}\ne 0$. This means that before considering the vertex $s$, GHA has $\operatorname{upper-indegree}(s) \neq \operatorname{upper-outdegree}(s)$, and it adds arcs in Step~\ref{alg:step6}. GHA either adds $|a-b| $ arcs from $ s $ if $ a> b $ (Case 1), or adds $ b-a$ arcs down from $ s $ if $ a <b $ (Case 2). Either way, in the first case we have $ b_{gr} = 0 $, and in the second case $ a_{gr} = 0 $, as required.
+\textbf {Cases 1 and 2.} In these cases we have $a-b\ne 0$. From $ a_{gr} - b_{gr} = a-b$, we get $ a_{gr} - b_{gr}\ne 0$. This means that before considering the vertex $s$, GHA has $\operatorname{upper-indegree}(s) \neq \operatorname{upper-outdegree}(s)$, and it adds arcs in Step~\ref{alg:step6}. GHA either adds $|a-b| $ arcs coming to $ s $ if $ a> b $ (Case 1), or adds $ b-a$ arcs leaving $ s $ if $ a <b $ (Case 2). Either way, in the first case we have $ b_{gr} = 0 $, and in the second case $ a_{gr} = 0 $, as required.
 
 In the two remaining cases we have $a=b$. This means that GHA during the examination of $ s $ either adds two arcs $ (\pref (s), s), (s, \suff (s)) $ in Step~\ref{alg:last}, or does not change the current partial solution.
 
 \textbf {Case 3.} We need to show that GHA will not add any arcs while examining the vertex $ s $. Suppose, to the contrary, that it adds two arcs $ (\pref (s), s), (s, \suff (s)) $. This happens if and only if all other vertices in the weakly connected component of $ s $ are already examined. In other words, if we denote the weakly connected component of $ s $ in $ G_{gr} $ by $ C_{gr} (s) $, then $ C_{gr} (s) \subset V (s) $.
 
-Now we denote the weakly connected component of $ s $ in $ G_{cl} $ by $ C_{cl} (s) $ and show that $ C_{cl} (s) = C_{gr} (s) $. Since $ \varepsilon \notin C_{gr} (s) $, this means that in the course of the Collapsing Algorithm, we get a weakly connected component that does not contain $ \varepsilon $, which is impossible and leads to a contradiction.
+Now we denote the weakly connected component of $ s $ in $ G_{cl} $ by $ C_{cl} (s) $ and show that $ C_{cl} (s) = C_{gr} (s) $. Since $ \varepsilon \notin C_{gr} (s) $, this means that in the course of the Collapsing Algorithm, we get a weakly connected component that does not contain $ \varepsilon $, which is impossible by the definition of CA and leads to a contradiction.
 
-Let $ v \in C_{gr} (s) $. Hence, in $ G_{gr} $ there exists a path from $ s $ to $ v $ which contains only arcs from $ D_{gr} (s) $, because there are no other arcs in the graph $G_{gr}$. By the induction hypothesis, $ D_{cl} (s) = D_{gr} (s) $. Hence, in $ G_{cl} $ there is also a path from $ s $ to $ v $, and therefore $ v \in C_{cl} (s) $.
+Let $ v \in C_{gr} (s) $. Hence, in $ G_{gr} $ there exists a weak path from $ s $ to $ v $ which contains only arcs from $ D_{gr} (s) $, because there are no other arcs in the graph $G_{gr}$. By the induction hypothesis, $ D_{cl} (s) = D_{gr} (s) $. Hence, in $ G_{cl} $ there is also a weak path from $ s $ to $ v $, and therefore $ v \in C_{cl} (s) $.
 
-Let $ v \in C_{cl} (s) $. Hence, in $ G_{cl} $ there is a path from $ s $ to $ v $. If it contains only arcs from $ D_{cl} (s) = D_{gr} (s) $, then it connects $ s $ with $ v $ in $ G_{gr} $, and then $ v \in C_{gr} (s) $. Suppose that there exists an arc in this path which does not belong to $ D_{cl} (s) $. Let $(t, u)$ be the first such arc.
+Let $ v \in C_{cl} (s) $. Hence, in $ G_{cl} $ there is a weak path from $ s $ to $ v $. If it contains only arcs from $ D_{cl} (s) = D_{gr} (s) $, then it connects $ s $ with $ v $ in $ G_{gr} $, and then $ v \in C_{gr} (s) $. Suppose that there exists an arc in this path which does not belong to $ D_{cl} (s) $. Let $(t, u)$ be the first such arc.
 
 Hence both vertices $ t $ and $ u $ do not lie in $ V (s) \backslash \{s \} $. We also note that $ t \ne s $. Indeed, otherwise, either $ u = \suff (s) $ or $ u = s + c $ for some symbol $ c $ (where $+$ denotes string concatenation). But $ b = 0 $ forbids the first case, and in the second case $ (s, s + c) \in D_{cl} (s) $. Therefore, $ t \notin V (s) $.
 
@@ -96,4 +96,4 @@ G'_{cl} = (V, D_{cl} \backslash \{(\pref (s), s), (s, \suff (s)) \}) \; .
     \exists t \in C'_{cl}(s) \backslash V(s).
 \end{equation}
 
-In the next subsection we will show that \ref{eqn:contradiction} does not happen for SCS on strings of length at most~$3$.
+In Section~\ref{sec:proof2} we will show that \eqref{eqn:contradiction} does not happen for SCS on strings of length at most~$3$.
