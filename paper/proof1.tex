@@ -1,6 +1,6 @@
 \subsection{Proof of Lemma~\ref{lem:technical}}
 \label{sec:proof1}
-We prove Lemma~\ref{lem:technical} in two steps. The first step, which works for strings of arbitrary lengths, shows that the lemma may not hold only in one case. The second step, presented in Section~\ref{sec:proof2}, shows that for strings of length at most $3$ this case does not occur.
+We prove Lemma~\ref{lem:technical} in two steps. The first step (Section~\ref{sec:proof1}), which works for strings of arbitrary length, shows that the lemma may not hold only in one case. The second step, presented in Section~\ref{sec:proof2}, shows that for strings of length at most $3$ this case does not occur.
 
 First we show that CA can never leave at least $2$ up-arcs to $s$ and at least $1$ down-arc from $s$ (or vice versa), because in this case it should have applied the Collapse procedure.
 \begin{lemma}
@@ -40,7 +40,7 @@ Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, verti
 \end{tikzpicture}
 \end{center}
     
-\caption{Collapsing the arcs $(\pref{s}, s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$. The removed arcs are dashed. }\label{fig:collapsea2b1}
+\caption{Collapsing the arcs $(\pref(s), s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$. The removed arcs are dashed. }\label{fig:collapsea2b1}
 \end{figure}
 
 Now assume that the level of $s$ is $1$.Then $ \pref (s) = \suff (s) = \varepsilon $, and after the collapse, $s$ and $ \varepsilon $ will still be connected.
@@ -69,7 +69,7 @@ In the two remaining cases we have $a=b$. This means that GHA during the examina
 
 \textbf {Case 3.} We need to show that GHA will not add any arcs while examining the vertex $ s $. Suppose, to the contrary, that it adds two arcs $ (\pref (s), s), (s, \suff (s)) $. This happens if and only if all other vertices in the weakly connected component of $ s $ are already examined. In other words, if we denote the weakly connected component of $ s $ in $ G_{gr} $ by $ C_{gr} (s) $, then $ C_{gr} (s) \subset V (s) $.
 
-Now we denote the weakly connected component of $ s $ in $ G_{cl} $ by $ C_{cl} (s) $ and show that $ C_{cl} (s) = C_{gr} (s) $. Since $ \varepsilon \notin C_{gr} (s) $, this means that in the course of the Collapsing Algorithm, we get a weakly connected component that does not contain $ \varepsilon $, which is impossible by the definition of CA and leads to a contradiction.
+Now we denote the weakly connected component of $ s $ in $ G_{cl} $ by $ C_{cl} (s) $ and show that $ C_{cl} (s) = C_{gr} (s) $. Since $ \varepsilon \notin C_{gr} (s) $, this means that in the course of the Collapsing Algorithm, we get a weakly connected component that does not contain $ \varepsilon $, which is impossible by the definition of CA, and leads to a contradiction.
 
 Let $ v \in C_{gr} (s) $. Hence, in $ G_{gr} $ there exists a weak path from $ s $ to $ v $ which contains only arcs from $ D_{gr} (s) $, because there are no other arcs in the graph $G_{gr}$. By the induction hypothesis, $ D_{cl} (s) = D_{gr} (s) $. Hence, in $ G_{cl} $ there is also a weak path from $ s $ to $ v $, and therefore $ v \in C_{cl} (s) $.
 

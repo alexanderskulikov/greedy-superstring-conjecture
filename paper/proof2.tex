@@ -1,13 +1,13 @@
 \subsection{Case Analysis}
 \label{sec:proof2}
-We denote the level of the vertex $ s $ as $ \lvl (s) $, and consider the three possible values of $\lvl(s)$.
+We denote the level of the vertex $ s $ by $ \lvl (s) $, and consider the three possible values of $\lvl(s)$.
 
 
-\paragraph{Analysis of vertices of the level \texorpdfstring{$3$}{3}.}
+\paragraph{Analysis of vertices at the level \texorpdfstring{$3$}{3}.}
 
-In this case $ s \in {\cal S} $, and the vertex $ s $ is incident only to the arcs $ (\pref (s) \to s)$ and $(s \to \suff (s)) $. The Collapse procedure leaves only one instance of each such arc. Hence, in the graph $ G'_{cl} $, $ C'_{cl} (s) = \{s \} $. This implies that (\ref{eqn:contradiction}) does not hold in this case.
+In this case $ s \in {\cal S} $, and the vertex $ s $ is incident only to the arcs $ (\pref (s), s)$ and $(s, \suff (s)) $. The Collapse procedure leaves only one instance of each such arc. Hence, in the graph $ G'_{cl} $, $ C'_{cl} (s) = \{s \} $. This implies that (\ref{eqn:contradiction}) does not hold in this case.
 
-\paragraph{Analysis of vertices of the level \texorpdfstring{$2$}{2}.}
+\paragraph{Analysis of vertices at the level \texorpdfstring{$2$}{2}.}
 
 Assume $ C'_{cl} (s) \backslash V (s) \ne\emptyset$. Choose a vertex $ t\in C'_{cl} (s) \backslash V (s)$ with the shortest weak path to $s$. Let $P = v_1 - v_2 - \ldots - v_n $ be a weak path from $s$ to $t$. In particular, $s=v_1$ and $t=v_n$.
 
@@ -18,11 +18,11 @@ Note that if $ \lvl (u) = 1 $, then $ u \notin V (s) $. Then $ \lvl (v_i) \ge 2 
 
 \begin{tikzpicture}[xscale=1.3] 
   \begin{scope}
-    \foreach \x/\y/\n in {2/3/v2, 4/3/v4}
-      \node[inputvertex] (\n) at (\x,\y) {\n};
+    \foreach \x/\y/\n/\m in {2/3/v2/$v_2$, 4/3/v4/$v_4$}
+      \node[inputvertex] (\n) at (\x,\y) {\m};
       
-    \foreach \x/\y/\n in {1/2/v1, 3/2/v3, 5/2/v5, 6/1/v6}
-      \node[vertex] (\n) at (\x,\y) {\n};
+    \foreach \x/\y/\n/\m in {1/2/v1/$v_1$, 3/2/v3/$v_3$, 5/2/v5/$v_5$, 6/1/v6/$v_6$}
+      \node[vertex] (\n) at (\x,\y) {\m};
 
     
     \node[vertex] (e) at (3,0) {$\varepsilon$};
@@ -55,12 +55,12 @@ Since the arcs $ (v_{2k-1}, v_{2k}) $ and $ (v_{2k} , v_{2k + 1}) $ are the only
 
 \begin{tikzpicture}[xscale=1.3] 
   \begin{scope}
-  \foreach \x/\y/\n in {2/3/v2, 4/3/v4}
-      \node[inputvertex] (\n) at (\x,\y) { \n};
-    \foreach \x/\y/\n in {1/2/v1, 3/2/v3, 5/2/v5, 6/1/v6}
-      \node[vertex] (\n) at (\x,\y) { \n};
-    \foreach \x/\y/\n in {0/1/u0, 1/0/u1, 2/1/u2, 3/0/u3, 4/1/u4, 5/0/u5}
-      \node[vertex] (\n) at (\x,\y) { \n};
+  \foreach \x/\y/\n/\m in {2/3/v2/$v_2$, 4/3/v4/$v_4$}
+      \node[inputvertex] (\n) at (\x,\y) { \m};
+    \foreach \x/\y/\n/\m in {1/2/v1/$v_1$, 3/2/v3/$v_3$, 5/2/v5/$v_5$, 6/1/v6/$v_6$}
+      \node[vertex] (\n) at (\x,\y) { \m};
+    \foreach \x/\y/\n/\m in {0/1/u0/$u_0$, 1/0/u1/$u_1$, 2/1/u2/$u_2$, 3/0/u3/$u_3$, 4/1/u4/$u_4$, 5/0/u5/$u_5$}
+      \node[vertex] (\n) at (\x,\y) { \m};
     
     \foreach \y in {0,...,3}
       \node[draw=none] at (-1,\y) {\y};
@@ -90,7 +90,7 @@ Now we will use the fact that the pair of arcs $ (u_0, v_1) $ and $ (v_1, u_2) $
 For all $ k $ such that $ 3 \le 2k + 1 \le n $ at least one collapse was performed at the vertex $ v_{2k + 1} $.
 \end{claim}
 \begin{proof}
-Suppose that at least one collapse is made from the vertex $ v_{2k '+ 1} $ for all $ k' $ such that $ 3 \le 2k '+ 1 <2k + 1 $, and the vertex $ v_{2k + 1} $ was not collapsed. This means that the arc $ (u_{2k}, v_{2k + 1}) $belongs to the graph at the current iteration.
+Suppose that at least one collapse is made at the vertex $ v_{2k '+ 1} $ for all $ k' $ such that $ 3 \le 2k '+ 1 <2k + 1 $, and the vertex $ v_{2k + 1} $ was not collapsed. This means that the arc $ (u_{2k}, v_{2k + 1}) $belongs to the graph at the current iteration.
 
 By definition, after a collapse from the vertex $ v_{2k '+ 1} $, a pair of arcs $ (u_{2k'}, u_{2k '+ 1}), (u_{2k' + 1}, u_{2k '+ 2}) $ is added to the graph. Moreover, any of these arcs can disappear from the graph only after a collapse from the vertex $ u_ {2k '+ 1} $. But $\lvl(u_ {2k '+ 1})= 1 $, and therefore it has not yet been visited by the Collapsing Algorithm. Therefore, both arcs belong to the graph at the current iteration.
 
@@ -107,19 +107,19 @@ From Claim~\ref{lem:pathcollapse} we know that each $v_{2k+1}$ was collapsed. Th
 
 If $ \lvl (v_{n}) = 1 $, then, since every vertex $ v_{2k + 1} $ was collapsed at least once, there exist arcs $(u_{n-2},u_{n-1} ) $ and $ (u_{n-1}, v_n) $ in the graph. Hence, there exists a weak path of the form $ v_1 - v_2 - \ldots - v_n - u_{2k + 1} - \ldots - u_3 - u_2 $, and the vertices $ v_1 $ and $ u_2 $ are weakly connected (see an example in Figure~\ref{fig:lvl2n6pathvu}).
 
-If $ \lvl (v_{n}) = 2 $, then $ n = 2k + 1 $ for some $ k $. Hence, by the Claim~\ref{lem:pathcollapse}, at least one collapse was made from the vertex $ v_{2k + 1} $. On the other hand, the vertex $ v_{2k + 1} \notin V (s) $ (since we chose $t=v_n=v_{2k+1}$ as a vertex not from $V(s)$). Since $v_{2k+1}$ has not been examined yet, it could not be collapsed yet (see an example in Figure~\ref{fig:lvl2n5pathvu}).
+If $ \lvl (v_{n}) = 2 $, then $ n = 2k + 1 $ for some $ k $. Hence, by Claim~\ref{lem:pathcollapse}, at least one collapse was made from the vertex $ v_{2k + 1} $. On the other hand, the vertex $ v_{2k + 1} \notin V (s) $ (since we chose $t=v_n=v_{2k+1}$ as a vertex not from $V(s)$). Since $v_{2k+1}$ has not been examined yet, it could not be collapsed yet (see an example in Figure~\ref{fig:lvl2n5pathvu}).
 
 \begin{figure}[ht]
 \begin{center}
 
 \begin{tikzpicture}[xscale=1.3] 
   \begin{scope}
-    \foreach \x/\y/\n in {2/3/v2, 4/3/v4}
-      \node[inputvertex] (\n) at (\x,\y) { \n};
-    \foreach \x/\y/\n in {1/2/v1, 3/2/v3, 5/2/v5, 6/1/v6}
-      \node[vertex] (\n) at (\x,\y) { \n};
-    \foreach \x/\y/\n in {0/1/u0, 1/0/u1, 2/1/u2, 3/0/u3, 4/1/u4, 5/0/u5}
-      \node[vertex] (\n) at (\x,\y)  { \n};
+    \foreach \x/\y/\n/\m in {2/3/v2/$v_2$, 4/3/v4/$v_4$}
+      \node[inputvertex] (\n) at (\x,\y) {\m};
+    \foreach \x/\y/\n/\m in {1/2/v1/$v_1$, 3/2/v3/$v_3$, 5/2/v5/$v_5$, 6/1/v6/$v_6$}
+      \node[vertex] (\n) at (\x,\y) { \m};
+    \foreach \x/\y/\n/\m in {0/1/u0/$u_0$, 1/0/u1/$u_1$, 2/1/u2/$u_2$, 3/0/u3/$u_3$, 4/1/u4/$u_4$, 5/0/u5/$u_5$}
+      \node[vertex] (\n) at (\x,\y)  { \m};
     
     \foreach \y in {0,...,3}
       \node[draw=none] at (-1,\y) {\y};
@@ -148,12 +148,12 @@ If $ \lvl (v_{n}) = 2 $, then $ n = 2k + 1 $ for some $ k $. Hence, by the Claim
 
 \begin{tikzpicture}[xscale=1.3] 
   \begin{scope}
-    \foreach \x/\y/\n in {2/3/v2, 4/3/v4}
-      \node[inputvertex] (\n) at (\x,\y) { \n};
-    \foreach \x/\y/\n in {1/2/v1, 3/2/v3, 5/2/v5}
-      \node[vertex] (\n) at (\x,\y) { \n};
-    \foreach \x/\y/\n in {0/1/u0, 1/0/u1, 2/1/u2, 3/0/u3, 4/1/u4}
-      \node[vertex] (\n) at (\x,\y) { \n};
+    \foreach \x/\y/\n/\m in {2/3/v2/$v_2$, 4/3/v4/$v_4$}
+      \node[inputvertex] (\n) at (\x,\y) { \m};
+    \foreach \x/\y/\n/\m in {1/2/v1/$v_1$, 3/2/v3/$v_3$, 5/2/v5/$v_5$}
+      \node[vertex] (\n) at (\x,\y) { \m};
+    \foreach \x/\y/\n/\m in {0/1/u0/$u_0$, 1/0/u1/$u_1$, 2/1/u2/$u_2$, 3/0/u3/$u_3$, 4/1/u4/$u_4$}
+      \node[vertex] (\n) at (\x,\y) { \m};
     
     \foreach \y in {0,...,3}
       \node[draw=none] at (-1,\y) {\y};
@@ -175,7 +175,7 @@ If $ \lvl (v_{n}) = 2 $, then $ n = 2k + 1 $ for some $ k $. Hence, by the Claim
 \caption{A weak path connecting $v_1$ and $u_2$ for $n=5$.}\label{fig:lvl2n5pathvu}
 \end{figure}
 
-\paragraph{Analysis of vertices of the level \texorpdfstring{$1$}{1}.}
+\paragraph{Analysis of vertices at the level \texorpdfstring{$1$}{1}.}
 
 In this case, all the vertices at the levels $ 2 $ and $ 3 $ are already considered.
 
@@ -209,7 +209,7 @@ At the current iteration, there is exactly one copy of the arc \sedge{b}{bc}.
 \begin{proof}
 From the discussion above, we know that there must be at least one copy of the arc \sedge{b}{bc}. Assume that there are at least two such arcs. Then at least two arcs must leave $ {\tt bc} $.
 
-Suppose that there exists at least one arc \sedge{bc}{c}. Then, if we make a collapse at the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ still remain weakly connected by the arcs \sedge{b}{bc}, $ ({\tt b}, \varepsilon) $ and $ (\varepsilon, {\tt c}) $. Hence, this collapse is valid (see Figure~\ref{fig:lvl1lemmabcc}), but the collapsing algorithm during the examination of the vertex $ {\tt bc} $ did not collapse it. This gives a contradiction, so there cannot be arcs \sedge{bc}{c}.
+Suppose that there exists at least one arc \sedge{bc}{c}. Then, if we make a collapse at the vertex $ {\tt bc} $, the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ still remain weakly connected by the arcs \sedge{b}{bc}, $ ({\tt b}, \varepsilon) $ and $ (\varepsilon, {\tt c}) $. Hence, this collapse is valid (see Figure~\ref{fig:lvl1lemmabcc}), but the collapsing algorithm during the examination of the vertex $ {\tt bc} $ did not collapse it. This leads to a contradiction, so there is no arc \sedge{bc}{c} in the graph.
 
 \begin{figure}[ht]
 \begin{center}
@@ -319,8 +319,7 @@ Assume there is no arc \sedge{bc}{c}. Then, since at least one arc must leave $ 
 So, by Lemma~\ref{lem:bbcone}, there is one arc \sedge{b}{bc} in the graph, and by Claim~\ref{lem:bccexist} there is at least one arc \sedge{bc}{c}.
 
 We will now show that this pair of arcs should have been collapsed, which will contradict Claim~\ref{lem:bccsave}.
-
-To this end, we show that even after this collapse, there will be weak paths $ {\tt b} - \varepsilon - {\tt c} $ and $ {\tt b} - {\tt ab} - {\tt abc} - {\tt bc} $, and hence the connectivity of the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will be preserved (see Figure \ref{fig:lvl1final}).
+Indeed, even after this collapse, there will be weak paths $ {\tt b} - \varepsilon - {\tt c} $ and $ {\tt b} - {\tt ab} - {\tt abc} - {\tt bc} $, and hence the connectivity of the vertices $ {\tt b} $, $ {\tt c} $ and $ {\tt bc} $ will be preserved (see Figure \ref{fig:lvl1final}).
 \begin{figure}[ht]
 \begin{center}
 
