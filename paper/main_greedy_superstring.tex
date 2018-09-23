@@ -264,7 +264,7 @@ Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph and shows th
 \end{scope}
 }
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \begin{mypic}
 \we{0}{0}{a}{}
 
@@ -302,7 +302,7 @@ the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 Hence, the SCS problem is equivalent to finding a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and arcs. The multiset of arcs of such a~walk must be Eulerian (each vertex must have the same in- and out-degree, and the set of arcs must be connected). It will prove convenient to define a~{\em solution} in a hierarchical graph as an~Eulerian multiset of arcs~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows a~solution corresponding to an optimal superstring.
 
 \section{Greedy Hierarchical Algorithm}
-%\subsection{Algorithm and Conjecture}
+\subsection{Algorithm and Conjecture}
 In this section, we present a~greedy algorithm for
 finding a~superstring in the hierarchical graph. 
 It constructs a~solution~$D$ in a~stingy way. 
@@ -316,7 +316,7 @@ $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG$.
 This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. On each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In case $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
-\begin{algorithm}[ht]
+\begin{algorithm}[!ht]
 \label{algo:gha}
 \caption{Greedy Hierarchical Algorithm (GHA)}
 \hspace*{\algorithmicindent} \textbf{Input:} set of strings~${\cal S}$.\\
@@ -326,7 +326,8 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \State\label{alg:gha_init} $D \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$
 \For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}\label{alg:for}
 \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
-\If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
+%\If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
+\If{$|\{(u,v) \in D \colon |u|=|v|+1\}| \neq |\{(v,w) \in D \colon |w|=|v|+1\}| $}
 \State\label{alg:step6} balance the degree of $v$ in~$D$ by adding an appropriate number of lower arcs
 \Else
 \State\label{alg:else} ${\cal C} \gets \text{weakly connected component of $v$ in $D$}$
@@ -341,7 +342,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \end{algorithmic}
 \end{algorithm}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \begin{mypic}
 \we{0}{0}{a}{
 \foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10}
@@ -369,179 +370,15 @@ We are now ready to state our conjecture about the Greedy Hierarchical Algorithm
 \begin{ghcc}
 GHA is 2-approximate.
 \end{ghcc}
-In Appendix~\ref{app:a} we show the behavior of GHA on various datasets. In particular, we prove that GHA solves \emph{exactly} two well-known polynomially solvable special cases of SCS. 
+%In Appendix~\ref{app:a} we show the behavior of GHA on various datasets. In particular, we prove that GHA solves \emph{exactly} two well-known polynomially solvable special cases of SCS. 
 %In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
-\section{Collapsing Algorithm}
-In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring $s$ into a different superstring $s'$ of the same set of strings such that $|s'|\le|s|$. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of arcs chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal to an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
-
-Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
-
-In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}.
-
-\subsection{Algorithm and Conjecture}
-\label{sec:alg_conj}
-The idea of the Collapsing Algorithm is the following. 
-We start with any solution~$D$ in the hierarchical graph. 
-We double every arc of~$D$ (note that $D$ remains a~solution). What we do next can be informally described as follows:
-\begin{enumerate}
-\item Imagine that the arcs of~$D$ is a~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string.
-\item We apply gravitation to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
-with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
-\end{enumerate}
-Formally, after doubling every arc of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of arcs $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of arcs $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs. 
-A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
-
-\begin{figure}[ht]
-\begin{mypic}
-\begin{scope}[minimum size=6mm]
-%\draw[help lines] (0,0) grid (14,3);
-\node[vertex] (a) at (0, 1.5) {$\pref(v)$};
-\node[vertex,inner sep=1mm] (b) at (1.5, 2.5) {$v$};
-\node[vertex] (c) at (3, 1.5) {$\suff(v)$};
-\node[vertex] (d) at (1.5, 0.5) {$ \pref(\suff(v))$};
-\draw[->,dashed] (a) -- (b);
-\draw[->,dashed] (b) -- (c);
-\draw[->] (a) -- (d);
-\draw[->] (d) -- (c);
-
-\begin{scope}[xshift=80mm]
-\node[vertex] (a) at (0, 1.5) {\tt aba};
-\node[vertex,inner sep=1mm] (b) at (1.5, 2.5) {\tt abac};
-\node[vertex] (c) at (3, 1.5) {\tt bac};
-\node[vertex] (d) at (1.5, 0.5) {\tt ba};
-\draw[->,dashed] (a) -- (b);
-\draw[->,dashed] (b) -- (c);
-\draw[->] (a) -- (d);
-\draw[->] (d) -- (c);
-\end{scope}
-\end{scope}
-\end{mypic}
-\caption{Collapsing a~pair of arcs is replacing a~pair of dashed arcs with a~pair of solid arcs: general case (left) and example (right). The~``physical meaning'' of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
-\label{fig:collapsing}
-\end{figure}
-
-\begin{algorithm}[ht]
-\caption{Collapse}\label{alg:collapse}
-\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$, node $v \in V$.
-%\hspace*{\algorithmicindent} \textbf{Output:} a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
-\begin{algorithmic}[1]
-\If{$(\pref(v), v), (v, \suff(v)) \in D$}
-\State $D \gets D \setminus \{(\pref(v), v), (v, \suff(v))\}$
-\If{$|v| > 1$}
-\State $D \gets D \cup \{(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))\}$
-\EndIf
-\EndIf
-\end{algorithmic}
-\end{algorithm}
-
-\begin{algorithm}[ht]
-\caption{Collapsing Algorithm (CA)}
-\label{alg:ca}
-\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$.\\
-\hspace*{\algorithmicindent} \textbf{Output:} solution $D'\colon |D'|\leq|D|$
-% a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
-\begin{algorithmic}[1]
-\For{level~$l$ in $HG$ in descending order}
-\For{all $v \in V$ s.t. $|v|=l$ in lexicographic order:}
-\While{$(\pref(v), v), (v, \suff(v)) \in D$ and collapsing it does not make~$D$ disconnected}
-\State $\text{\sc Collapse}(HG, D, v)$
-\EndWhile
-\EndFor
-\EndFor
-\State return $D$
-\end{algorithmic}
-\end{algorithm}
-
-When $l>1$, the collapsing procedure does not change the total length of~$D$. 
-What one normally sees at the beginning of the
-$l=1$ iteration is a~solution with many 
-redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} in Appendix~\ref{app:a} for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
-
-
-\newtheorem*{scs}{Collapsing Superstring Conjecture}
-\begin{scs}
-For any set of strings ${\cal S}$ and for any superstring $C$ of ${\cal S}$, 
-\begin{align*}
-CA(HG({\cal S}), C \sqcup C) = GHA({\cal S}) \; .
-\end{align*}
-%Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
-\end{scs}
-
-
-\subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
-In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we prove the Collapsing Superstring Conjecture for strings of length at most~$3$.
-
-The Collapsing Algorithm (CA) starts with $D$ equal to a doubled (arbitrary) solution, and the Greedy Hierarchical Algorithm (GHA) starts with an~empty solution. Then both algorithms consider all vertices of the hierarchical graph $HG=(V, E)$ in the same order (descending order of the levels, lexicographic order within a level). Let $s_0$ be the first vertex considered by CA and GHA ($s_0$ corresponds to an input string). For a~vertex $s$, by $V(s)$ we denote the set consisting of~$s$ and all the vertices that we processed before~$s$.
-%of vertices considered by the algorithms no later than the vertex $s$ (including the vertex $s$: $s\in V(s)$).
-
-Both algorithms continuously change their partial solutions. By $\cld{}$ and $\grd{}$ we denote the set of arcs included in the partial solutions $D$ of the algorithms CA and GHA right before they start examining the vertex $s$. Let $\clgraph = (V, \cld), \grgraph = (V, \grd)$, where $V$ is the set of vertices of the hierarchical graph $HG$. 
-
-Finally, for CA we define the set $\cldr{s}$, consisting of arcs of $\cld{}$ which are incident to at least one vertex from $ V (s) \setminus \{s \} $ (recall that $\cld{}$ is the set of arcs strictly before the examination of the vertex $s$). For convenience, for GHA we define $\grdr{s}$ in the same way, but note that since GHA always adds arcs adjacent to the vertex it is currently considering, $\grdr{s}=\grd$.\footnote{On the other hand, $\cld$ does not necessarily equal $\cldr{s}$, because $\cld{}$ initially consists of arcs connecting all vertices from $ {\cal S} $ to $\varepsilon$.}
-
-Let us sort all vertices of $V$ in the order in which the two algorithms process them, and let $s$ and $t$ be two consecutive vertices in this order. Now look at the two algorithms processing the vertex $s$. CA and GHA both only change arcs below $s$. Since $\cld(t)$ and $\grd(t)$ only include the arcs incident to vertices from $V(t)$, the following holds for both algorithms:
-\begin{equation}
-\label{eqn:stepcase}
-    D(t) = D(s) \sqcup \bigsqcup_{i=1}^{a} (\pref(s), s) \sqcup \bigsqcup_{j=1}^{b} (s, \suff(s))
-\end{equation}
-for some non-negative integers $ a $ and~$ b $.
-
-In Sections~\ref{sec:proof1}--\ref{sec:proof2} we will prove the following lemma.
-\begin{lemma}
-\label{lem:technical}
-Let ${\cal S}$ be a set of strings of length at most $3$. For each vertex $ s $ at a level at least $1$, if the collapsing algorithm after its examination leaves $ a $ arcs $ (\pref (s), s) $ and $ b$ arcs $ (s, \suff(s) ) $, and the greedy algorithm leaves $ a_{gr} $ and $ b_{gr} $ arcs, respectively, then $ a = a_{gr}, b = b_{gr} $.
-\end{lemma}
-
-Now we are ready to complete the proof of Collapsing Superstring Conjecture for strings of length at most $3$. Note that this also implies that the Greedy Hierarchical Superstring Conjecture holds for the case of strings of length at most $3$.
-
-\begin{theorem}
-\label{thm:main}
-For any set ${\cal S}$ of strings of length at most $3$ and for any superstring $C$ of ${\cal S}$, 
-\begin{align*}
-CA(HG({\cal S}), C \sqcup C) = GHA({\cal S}) \; .
-\end{align*}
-\end{theorem}
-
-\begin{proof}
-We will prove that
-\begin{align*}
-\forall s \in V\colon\, \cldr{s}=\grdr{s} \; .
-\end{align*}
-For $s=\varepsilon$, this statement implies the Collapsing Superstring Conjecture, as it asserts that the two algorithms end up with the same multiset of arcs. 
-
-We prove this statement by induction on $s$, where $s$ starts with $s_0$ and goes through all the vertices of $HG$ in the same order as CA and GHA. The base case $s=s_0$ of the induction argument follows trivially from the definition: $\cldr{s_0}=\grdr{s_0}=\emptyset$. And the induction step is proven in Lemma~\ref{lem:technical}.
-\end{proof}
-\input proof1
-\input proof2
-
-
-\section{Further Directions and Open Problems}
-One natural open problem is to prove the Collapsing Superstring Conjecture.
-It would also be interesting to find other applications of the 
-hierarchical graphs. We list two such potential applications below.
-\begin{description}
-\item[Genome assembly.] As we illustrated, the hierarchical graph in a~sense
-generalizes de Bruijn graph. The latter one is heavily used
-in genome assembly~\cite{pevzner2001eulerian}.
-Can one adopt the hierarchical graph for this task? For this, one
-would need to come up with a~compact representation of the graph
-(as datasets in genome assembly are massive) as well as with a~way of
-handling errors in the input data. Cazaux and Rivals~\cite{cazaux2018hierarchical} propose a linear-space counterpart of the hierarchical graph.
-
-\item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
-It was shown in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithms stay the best known for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} for an algorithm solving SCS on strings of length at most $r$ in time $(2-\varepsilon)^n$ (where $\varepsilon$ depends only on $r$). Can one use the hierarchical graph to solve exactly the general case of SCS in time $(2-\varepsilon)^n$ for a constant $\varepsilon$?
-\end{description}
-
-\bibliographystyle{alpha}
-\bibliography{main}
-
-\appendix
-\section{Greedy Hierarchical Algorithm. Special Cases}
-\label{app:a}
+%\subsection{Special Cases}
+%\label{app:a}
 \subsection{Strings of Length~2}
-Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well. We note that the standard Greedy Algorithm does not necessarily find an optimal solution in this case. For example, if ${\cal S}=\{ab, ba, bb\}$, the Greedy Algorithm may first merge $ab$ and $ba$, which would lead to a suboptimal solution $ababb$. 
+Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well. We note that the standard Greedy Algorithm does not necessarily find an optimal solution in this case. For example, if ${\cal S}=\{{\tt ab}, {\tt ba}, {\tt bb}\}$, the Greedy Algorithm may first merge {\tt ab} and {\tt ba}, which would lead to a~suboptimal solution {\tt ababb}. 
 
-First, we can assume that all input strings from ${\cal S}$ have length exactly $2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Greedy Hierarchical Algorithm has the same behavior: In Step~\ref{alg:gha_init}, GHA will include the arcs $(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
+First, we can assume that all input strings from~${\cal S}$ have length exactly~$2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Greedy Hierarchical Algorithm has the same behavior: In Step~\ref{alg:gha_init}, GHA will include the arcs $(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
 
 When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(V, E)$, where $V$ contains a vertex for every symbol which appears in strings from ${\cal S}$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
 \begin{proposition}[\cite{GMS1980}]
@@ -622,6 +459,7 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 %\label{fig:tough}
 %\end{figure}
 
+
 \newcommand{\ged}[2]{
 \tikzstyle{t}=[vertex,draw=black]
 \tikzstyle{p}=[->,decorate,decoration=snake,bend left=10]
@@ -654,7 +492,7 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 }
 
  
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \begin{mypic}
 \ged{0}{
 \foreach \f/\t in {aeann/aen, aen/eaenn}
@@ -670,11 +508,103 @@ The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:t
 \label{fig:tough}
 \end{figure}
 
+
+
+\section{Collapsing Algorithm}
+In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring $s$ into a different superstring $s'$ of the same set of strings such that $|s'|\le|s|$. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of arcs chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal to an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
+
+Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
+
+In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we support the conjecture by proving its special case for strings of length~3. We have verified the conjecture on various datasets, and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}.
+
+\subsection{Algorithm and Conjecture}
+\label{sec:alg_conj}
+The idea of the Collapsing Algorithm is the following. 
+We start with any solution~$D$ in the hierarchical graph. 
+We double every arc of~$D$ (note that $D$ remains a~solution). What we do next can be informally described as follows:
+\begin{enumerate}
+\item Imagine that the arcs of~$D$ is a~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string.
+\item We apply gravitation to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
+with a~pair $(v, \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
+\end{enumerate}
+Formally, after doubling every arc of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of arcs $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of arcs $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs. 
+A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+
+\begin{figure}[ht]
+\begin{mypic}
+\begin{scope}[minimum size=6mm]
+%\draw[help lines] (0,0) grid (14,3);
+\node[vertex] (a) at (0, 1.5) {$\pref(v)$};
+\node[vertex,inner sep=1mm] (b) at (1.5, 2.5) {$v$};
+\node[vertex] (c) at (3, 1.5) {$\suff(v)$};
+\node[vertex] (d) at (1.5, 0.5) {$ \pref(\suff(v))$};
+\draw[->,dashed] (a) -- (b);
+\draw[->,dashed] (b) -- (c);
+\draw[->] (a) -- (d);
+\draw[->] (d) -- (c);
+
+\begin{scope}[xshift=80mm]
+\node[vertex] (a) at (0, 1.5) {\tt aba};
+\node[vertex,inner sep=1mm] (b) at (1.5, 2.5) {\tt abac};
+\node[vertex] (c) at (3, 1.5) {\tt bac};
+\node[vertex] (d) at (1.5, 0.5) {\tt ba};
+\draw[->,dashed] (a) -- (b);
+\draw[->,dashed] (b) -- (c);
+\draw[->] (a) -- (d);
+\draw[->] (d) -- (c);
+\end{scope}
+\end{scope}
+\end{mypic}
+\caption{Collapsing a~pair of arcs is replacing a~pair of dashed arcs with a~pair of solid arcs: general case (left) and example (right). The~``physical meaning'' of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
+\label{fig:collapsing}
+\end{figure}
+
+\begin{algorithm}[!ht]
+\caption{Collapse}\label{alg:collapse}
+\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$, node $v \in V$.
+%\hspace*{\algorithmicindent} \textbf{Output:} a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
+\begin{algorithmic}[1]
+\If{$(\pref(v), v), (v, \suff(v)) \in D$}
+\State $D \gets D \setminus \{(\pref(v), v), (v, \suff(v))\}$
+\If{$|v| > 1$}
+\State $D \gets D \cup \{(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))\}$
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[!ht]
+\caption{Collapsing Algorithm (CA)}
+\label{alg:ca}
+\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$.\\
+\hspace*{\algorithmicindent} \textbf{Output:} solution $D'\colon |D'|\leq|D|$
+% a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
+\begin{algorithmic}[1]
+\For{level~$l$ in $HG$ in descending order}
+\For{all $v \in V$ s.t. $|v|=l$ in lexicographic order:}
+\While{$(\pref(v), v), (v, \suff(v)) \in D$ and collapsing it does not make~$D$ disconnected}
+\State $\text{\sc Collapse}(HG, D, v)$
+\EndWhile
+\EndFor
+\EndFor
+\State return $D$
+\end{algorithmic}
+\end{algorithm}
+
+When $l>1$, the collapsing procedure does not change the total length of~$D$. 
+What one normally sees at the beginning of the
+$l=1$ iteration is a~solution with many 
+redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} 
+%in Appendix~\ref{app:a} 
+for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
+
+
 %\clearpage
 %\section{Collapsing Algorithm. Examples}
 %\label{app:b}
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \begin{mypic}
+\begin{scope}[scale=0.99,transform shape]
 \we{0}{0}{a}{
 \foreach \f/\t/\a in {eps/a/10, eps/a/20, 
 a/aa/10, a/aa/20, 
@@ -841,7 +771,7 @@ e/eps/10, eps/e/10,
 a/eps/10, eps/a/10}
 \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
-
+\end{scope}
 \end{mypic}
 \caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every arc of the optimal solution from Figure~\ref{fig:hgex}(c). 
 (b)~After collapsing all nodes at level $l=3$. 
@@ -853,7 +783,7 @@ a/eps/10, eps/a/10}
 \label{fig:coll}
 \end{figure}
 
-\begin{figure}[ht]
+\begin{figure}[!ht]
 \begin{mypic}
 \we{0}{0}{a}{
 \foreach \f/\t/\a in {
@@ -990,4 +920,84 @@ e/eps/10
 \caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order as they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
 \label{fig:collnaive}
 \end{figure}
+
+
+
+\newtheorem*{scs}{Collapsing Superstring Conjecture}
+\begin{scs}
+For any set of strings ${\cal S}$ and for any solution~$D$ of ${\cal S}$, 
+\begin{align*}
+CA(HG({\cal S}), D \sqcup D) = GHA({\cal S}) \; .
+\end{align*}
+%Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
+\end{scs}
+
+\clearpage
+\subsection{Proof of the Special Case: Strings of Length~3}\label{subsec:scs3}
+In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we prove the Collapsing Superstring Conjecture for strings of length at most~$3$.
+
+The Collapsing Algorithm (CA) starts with $D$ equal to a doubled (arbitrary) solution, and the Greedy Hierarchical Algorithm (GHA) starts with an~empty solution. Then both algorithms consider all vertices of the hierarchical graph $HG=(V, E)$ in the same order (descending order of the levels, lexicographic order within a level). Let $s_0$ be the first vertex considered by CA and GHA ($s_0$ corresponds to an input string). For a~vertex $s$, by $V(s)$ we denote the set consisting of~$s$ and all the vertices that we processed before~$s$.
+%of vertices considered by the algorithms no later than the vertex $s$ (including the vertex $s$: $s\in V(s)$).
+
+Both algorithms continuously change their partial solutions. By $\cld{}$ and $\grd{}$ we denote the set of arcs included in the partial solutions $D$ of the algorithms CA and GHA right before they start examining the vertex $s$. Let $\clgraph = (V, \cld), \grgraph = (V, \grd)$, where $V$ is the set of vertices of the hierarchical graph $HG$. 
+
+Finally, for CA we define the set $\cldr{s}$, consisting of arcs of $\cld{}$ which are incident to at least one vertex from $ V (s) \setminus \{s \} $ (recall that $\cld{}$ is the set of arcs strictly before the examination of the vertex $s$). For convenience, for GHA we define $\grdr{s}$ in the same way, but note that since GHA always adds arcs adjacent to the vertex it is currently considering, $\grdr{s}=\grd$.\footnote{On the other hand, $\cld$ does not necessarily equal $\cldr{s}$, because $\cld{}$ initially consists of arcs connecting all vertices from $ {\cal S} $ to $\varepsilon$.}
+
+Let us sort all vertices of $V$ in the order in which the two algorithms process them, and let $s$ and $t$ be two consecutive vertices in this order. Now look at the two algorithms processing the vertex $s$. CA and GHA both only change arcs below $s$. Since $\cld(t)$ and $\grd(t)$ only include the arcs incident to vertices from $V(t)$, the following holds for both algorithms:
+\begin{equation}
+\label{eqn:stepcase}
+    D(t) = D(s) \sqcup \bigsqcup_{i=1}^{a} (\pref(s), s) \sqcup \bigsqcup_{j=1}^{b} (s, \suff(s))
+\end{equation}
+for some non-negative integers $ a $ and~$ b $.
+
+In Sections~\ref{sec:proof1}--\ref{sec:proof2} we will prove the following lemma.
+\begin{lemma}
+\label{lem:technical}
+Let ${\cal S}$ be a set of strings of length at most $3$. For each vertex $ s $ at a level at least $1$, if the collapsing algorithm after its examination leaves $ a $ arcs $ (\pref (s), s) $ and $ b$ arcs $ (s, \suff(s) ) $, and the greedy algorithm leaves $ a_{gr} $ and $ b_{gr} $ arcs, respectively, then $ a = a_{gr}, b = b_{gr} $.
+\end{lemma}
+
+Now we are ready to complete the proof of Collapsing Superstring Conjecture for strings of length at most $3$. Note that this also implies that the Greedy Hierarchical Superstring Conjecture holds for the case of strings of length at most $3$.
+
+\begin{theorem}
+\label{thm:main}
+For any set ${\cal S}$ of strings of length at most $3$ and for any superstring $C$ of ${\cal S}$, 
+\begin{align*}
+CA(HG({\cal S}), C \sqcup C) = GHA({\cal S}) \; .
+\end{align*}
+\end{theorem}
+
+\begin{proof}
+We will prove that
+\begin{align*}
+\forall s \in V\colon\, \cldr{s}=\grdr{s} \; .
+\end{align*}
+For $s=\varepsilon$, this statement implies the Collapsing Superstring Conjecture, as it asserts that the two algorithms end up with the same multiset of arcs. 
+
+We prove this statement by induction on $s$, where $s$ starts with $s_0$ and goes through all the vertices of $HG$ in the same order as CA and GHA. The base case $s=s_0$ of the induction argument follows trivially from the definition: $\cldr{s_0}=\grdr{s_0}=\emptyset$. And the induction step is proven in Lemma~\ref{lem:technical}.
+\end{proof}
+\input proof1
+\input proof2
+
+
+\section{Further Directions and Open Problems}
+One natural open problem is to prove the Collapsing Superstring Conjecture.
+It would also be interesting to find other applications of the 
+hierarchical graphs. We list two such potential applications below.
+\begin{description}
+\item[Genome assembly.] As we illustrated, the hierarchical graph in a~sense
+generalizes de Bruijn graph. The latter one is heavily used
+in genome assembly~\cite{pevzner2001eulerian}.
+Can one adopt the hierarchical graph for this task? For this, one
+would need to come up with a~compact representation of the graph
+(as datasets in genome assembly are massive) as well as with a~way of
+handling errors in the input data. Cazaux and Rivals~\cite{cazaux2018hierarchical} propose a linear-space counterpart of the hierarchical graph.
+
+\item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
+It was shown in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithms stay the best known for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} for an algorithm solving SCS on strings of length at most $r$ in time $(2-\varepsilon)^n$ (where $\varepsilon$ depends only on $r$). Can one use the hierarchical graph to solve exactly the general case of SCS in time $(2-\varepsilon)^n$ for a constant $\varepsilon$?
+\end{description}
+
+\bibliographystyle{alpha}
+\bibliography{main}
+
+%\appendix
 \end{document}
