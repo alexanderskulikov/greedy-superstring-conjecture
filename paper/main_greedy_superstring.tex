@@ -12,7 +12,7 @@
 \usepackage{tikz}
 \usetikzlibrary{calc,arrows,shapes,backgrounds,patterns,fit,decorations,decorations.pathmorphing}
 
-\usepackage[colorinlistoftodos]{todonotes}
+%\usepackage[colorinlistoftodos]{todonotes}
 \usepackage[hidelinks]{hyperref}
 
 \usepackage{algorithm}
@@ -61,6 +61,7 @@
 
 \begin{document}
 \sloppy
+\begin{titlepage}
 %\date{}
 \title{Collapsing Superstring Conjecture}
 \author{
@@ -73,6 +74,7 @@ Alexander Logunov\footnotemark[2]
 Ivan Mihajlin\thanks{University of California, San Diego}
 }
 \maketitle
+\thispagestyle{empty}
 
 \begin{abstract}
 In the Shortest Common Superstring (SCS) problem, one is given a collection of strings, and needs to find a shortest string containing each of them as a~substring. SCS admits $2\frac{11}{23}$-approximation in polynomial time. While this algorithm and its analysis are technically involved, the $30$ years old Greedy Conjecture claims that the trivial and efficient Greedy Algorithm gives a~$2$-approximation for SCS. The Greedy Algorithm repeatedly merges two strings with the largest intersection into one, until only one string remains.
@@ -81,8 +83,9 @@ We develop a graph-theoretic framework for studying approximation algorithms for
 
 Except for its conjectured good approximation ratio, the Greedy Hierarchical Algorithm finds \emph{exact} solutions for the special cases where we know polynomial time (not greedy) exact algorithms: (1) when the input strings form a spectrum of a~string (2) when all input strings have length at most $2$.
 \end{abstract}
+\end{titlepage}
 
-\tableofcontents
+%\tableofcontents
 
 \section{Introduction}
 \label{sec:intro}
@@ -594,9 +597,9 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 When $l>1$, the collapsing procedure does not change the total length of~$D$. 
 What one normally sees at the beginning of the
 $l=1$ iteration is a~solution with many 
-redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. See Figures~\ref{fig:coll} and~\ref{fig:collnaive} 
+redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of~$D$ is decreased by the collapsing procedure. Figures~\ref{fig:coll} and~\ref{fig:collnaive} illustrate the action of
 %in Appendix~\ref{app:a} 
-for examples of applying the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
+the Collapsing Algorithm in the cases where~$D$ is an optimal and naive solution, respectively.
 
 
 %\clearpage
