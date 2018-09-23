@@ -2,14 +2,14 @@
 \label{sec:proof1}
 We prove Lemma~\ref{lem:technical} in two steps. The first step (Section~\ref{sec:proof1}), which works for strings of arbitrary length, shows that the lemma may not hold only in one case. The second step, presented in Section~\ref{sec:proof2}, shows that for strings of length at most $3$ this case does not occur.
 
-First we show that CA can never leave at least $2$ up-arcs to $s$ and at least $1$ down-arc from $s$ (or vice versa), because in this case it should have applied the Collapse procedure.
+First we show that CA can never leave at least~$2$ up-arcs to~$s$ and at least $1$ down-arc from $s$ (or vice versa), because in this case it should have applied the Collapse procedure.
 \begin{lemma}
 \label{lem:edgecases}
 The cases $a \ge 2, b \ge 1$ and $a \ge 1, b \ge 2$ do not occur.
 \end{lemma}
 
 \begin{proof}
-In both cases, the collapsing algorithm has the ability to make at least one collapse at the vertex $ s $. We will show that this collapse is correct, that is, $ a $ and $ b $ must be reduced by at least one. To this end, it suffices to prove that $ s $, $ \pref (s) $ and $ \suff (s) $ remain weakly connected after the collapse.
+In both cases, the collapsing algorithm has the ability to make at least one collapse at the vertex~$ s $. We will show that this collapse is correct, that is, $ a $ and $ b $ must be reduced by at least one. To this end, it suffices to prove that $ s $, $ \pref (s) $ and $ \suff (s) $ remain weakly connected after the collapse.
 
 Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, vertices $ \pref(s) $ and $ \suff (s) $ will still be weakly connected through the vertex $ \pref (\suff (s)) = \suff (\pref (s)) $. Since either $ a \ge 2 $ or $ b \ge 2 $, the vertex $ s $ will remain weakly connected with $ \pref (s) $ or $ \suff (s) $, and, hence, with both of these vertices (see an example in Figure \ref{fig:collapsea2b1}).
 
@@ -31,19 +31,19 @@ Assume that the level of $ s $ is at least $ 2 $. Then after the collapse, verti
     \path (ps0) edge[bend left=45, ->] (s0);
     \path (s0) edge[->] (ss0);
     
-    \path (ps1) edge[bend left=15, ->, dashed] (s1);
+    %\path (ps1) edge[bend left=15, ->, dashed] (s1);
     \path (ps1) edge[bend left=45, ->] (s1);
-    \path (s1) edge[->, dashed] (ss1);
+    %\path (s1) edge[->, dashed] (ss1);
     \path (ps1) edge[->] (t1);
     \path (t1) edge[->] (ss1);
   \end{scope}
 \end{tikzpicture}
 \end{center}
     
-\caption{Collapsing the arcs $(\pref(s), s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$. The removed arcs are dashed. }\label{fig:collapsea2b1}
+\caption{Collapsing the arcs $(\pref(s), s), (s, \suff(s))$ in the case $a \ge 2, b \ge 1$. After collapsing, $s$~is still weakly connected to~$\suff(s)$.}\label{fig:collapsea2b1}
 \end{figure}
 
-Now assume that the level of $s$ is $1$.Then $ \pref (s) = \suff (s) = \varepsilon $, and after the collapse, $s$ and $ \varepsilon $ will still be connected.
+Now assume that the level of $s$ is $1$. Then $ \pref (s) = \suff (s) = \varepsilon $, and after the collapse, $s$ and $ \varepsilon $ will still be connected.
 \end{proof}
 
 From Lemma~\ref{lem:edgecases}, we only need to consider four cases:
