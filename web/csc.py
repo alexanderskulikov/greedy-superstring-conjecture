@@ -45,6 +45,8 @@ def validate(strings):
             return 'There must be no empty strings'
         if len(x) > 15:
             return 'String {} exceeds the maximum length of 15'.format(x)
+        if "eps" in x:
+            return 'String {} contains eps, please avoid eps as it denotes the empty string'.format(x)
     for i in range(n):
         for j in range(n):
             if (i != j) and (strings[i].find(strings[j]) >=0):
