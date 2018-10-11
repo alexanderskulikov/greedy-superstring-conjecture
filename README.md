@@ -17,3 +17,11 @@ Now you are ready to run the main scripts. For example, you can run the followin
 In the folder code/output you should see all steps of the Greedy Hierarchical Algorithm for the input string *abba*, *abca*, *aac*, *cab*, *bab*, *dbb*.
 
 
+To run a web-interface, install flask and then, in the folder web:
+    
+    FLASK_APP=csc.py
+    flask run
+    
+Then proceed to http://localhost:5000/scs
+
+
