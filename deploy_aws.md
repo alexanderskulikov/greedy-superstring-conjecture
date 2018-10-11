@@ -62,7 +62,7 @@ Now run the command
 sudo apachectl restart
 ```
 
-## Writing Permissions
+## Write Permissions
 ```
 sudo chmod -R a+w greedy-superstring-conjecture/web/static/logs/
 sudo chmod -R a+w greedy-superstring-conjecture/web/static/output/
