@@ -37,7 +37,7 @@ def validate(strings):
     if n < 2:
         return 'There must be at least 2 strings'
     if n > 10:
-        return 'There must be at most 2 strings'
+        return 'There must be at most 10 strings'
     for x in strings:
         if not x.isalpha():
             return 'String {} contains a non-alphabetic character'.format(x)
