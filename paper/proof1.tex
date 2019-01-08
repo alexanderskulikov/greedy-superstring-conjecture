@@ -63,7 +63,7 @@ By the induction hypothesis, we can assume that $ D_{cl} (s) = D_{gr} (s) $. Thi
 
 Therefore, it suffices to prove only one of the equalities $ a = a_{gr} $ or $ b = b_{gr} $.
 
-\textbf {Cases 1 and 2.} In these cases we have $a-b\ne 0$. From $ a_{gr} - b_{gr} = a-b$, we get $ a_{gr} - b_{gr}\ne 0$. This means that before considering the vertex $s$, GHA has $\operatorname{upper-indegree}(s) \neq \operatorname{upper-outdegree}(s)$, and it adds arcs in Step~\ref{alg:step6}. GHA either adds $|a-b| $ arcs coming to $ s $ if $ a> b $ (Case 1), or adds $ b-a$ arcs leaving $ s $ if $ a <b $ (Case 2). Either way, in the first case we have $ b_{gr} = 0 $, and in the second case $ a_{gr} = 0 $, as required.
+\textbf {Cases 1 and 2.} In these cases we have $a-b\ne 0$. From $ a_{gr} - b_{gr} = a-b$, we get $ a_{gr} - b_{gr}\ne 0$. This means that before considering the vertex $s$, GHA has $\operatorname{upper-indegree}(s) \neq \operatorname{upper-outdegree}(s)$, and it adds arcs in Step~\ref{alg:step6} (see Algorithm~\ref{algo:gha}). GHA either adds $|a-b| $ arcs coming to $ s $ if $ a> b $ (Case 1), or adds $ b-a$ arcs leaving $ s $ if $ a <b $ (Case 2). Either way, in the first case we have $ b_{gr} = 0 $, and in the second case $ a_{gr} = 0 $, as required.
 
 In the two remaining cases we have $a=b$. This means that GHA during the examination of $ s $ either adds two arcs $ (\pref (s), s), (s, \suff (s)) $ in Step~\ref{alg:last}, or does not change the current partial solution.
 
