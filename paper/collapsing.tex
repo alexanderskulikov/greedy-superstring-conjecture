@@ -1,0 +1,369 @@
+\section{Collapsing Conjecture}
+We are now ready to state a~simple and astonishing structural property of the hierarchical graph.
+\newtheorem*{scs}{Collapsing Superstring Conjecture}
+\begin{scs}
+For any set of strings ${\cal S}$ and for any two Eulerian solutions~$D_1$ and $D_2$ of ${\cal S}$, 
+\begin{align*}
+CA(HG({\cal S}), D_1 \sqcup D_1) =  CA(HG({\cal S}), D_2 \sqcup D_2) \; .
+\end{align*}
+%Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
+\end{scs}
+Stated less formally, the conjecture is the following: take any Eulerian solution, double every edge of it, and normalize the resulting solution; then the resulting solution is the same for all possible initial solutions.
+
+Figures~\ref{fig:coll} and~\ref{fig:collnaive}{\todo{AK: Sasha G., these pictures are informative, but take too much space. Should we move them to Appendix?}} illustrate the action of
+the Collapsing Algorithm for optimal and naive solutions, respectively. Note when processing level $l>1$ nodes, 
+the collapsing procedure does not change the total length of the solution. What one normally sees at the beginning of the
+$l=1$ iteration is an~Eulerian solution with many 
+redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of a~solution is decreased by the Collapsing Algorithm. 
+
+\begin{figure}[!ht]
+\begin{mypic}
+\begin{scope}[scale=0.99,transform shape]
+\we{0}{0}{a}{
+\foreach \f/\t/\a in {eps/a/10, eps/a/20, 
+a/aa/10, a/aa/20, 
+aa/aaa/10, aa/aaa/20,
+aaa/aa/10, aaa/aa/20,
+aa/a/10, aa/a/20, 
+a/ae/0, a/ae/10,
+ae/aec/0, ae/aec/10,
+aec/ec/0, aec/ec/10,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/cae/10,
+cae/ae/0, cae/ae/10,
+ae/e/0, ae/e/10,
+e/ee/10, e/ee/20,
+ee/eee/10, ee/eee/20,
+eee/ee/10, eee/ee/20,
+ee/e/10, ee/e/20,
+e/eps/10, e/eps/20}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {eps/a/10, eps/a/20, 
+a/aa/10, a/aa/20, a/aa/30, aa/a/30,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, aa/a/20, 
+a/ae/0, a/ae/10,
+ae/aec/0, ae/e/20,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0, a/ae/20,
+cae/ae/0,
+ae/e/0, ae/e/10,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, a/eps/10, a/eps/20,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+a/ae/0, a/ae/10,
+ae/aec/0, ae/e/20,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0, a/ae/20,
+cae/ae/0,
+ae/e/0, ae/e/10,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, 
+ee/e/20,
+ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{0}{-55}{d}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, 
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+ae/aec/0,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0,
+cae/ae/0,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20, e/eps/30,
+eps/e/10, eps/e/20, eps/e/30}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{-55}{e}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, eps/a/50,
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+ae/aec/0,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20, e/eps/30,
+eps/e/10, eps/e/20, eps/e/30,
+c/eps/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{-55}{f}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, eps/a/50,
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, 
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+e/ee/10, e/ee/20, e/ee/30,
+ee/eee/10,
+eee/ee/10,
+ee/e/10, ee/e/20, ee/e/30,
+e/ee/30,
+e/eps/10, e/eps/20, e/eps/30, e/eps/40,
+eps/e/10, eps/e/20, eps/e/30,
+c/eps/10, eps/c/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{0}{-110}{g}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
+e/eps/10, eps/e/10, 
+e/eps/20, eps/e/20,
+e/eps/30, eps/e/30,
+e/eps/40, eps/e/40,
+e/eps/50, eps/e/50,
+a/eps/10, eps/a/10,
+a/eps/20, eps/a/20,
+a/eps/30, eps/a/30,
+a/eps/40, eps/a/40,
+a/eps/50, eps/a/50}
+\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{-110}{h}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, 
+e/eps/10, eps/e/10, 
+a/eps/10, eps/a/10}
+\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+\end{scope}
+\end{mypic}
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{optimal} solution. (a)~We start by doubling every arc of the optimal solution from Figure~\ref{fig:hgex}(c). 
+(b)~After collapsing all nodes at level $l=3$. 
+(c)~After processing the node {\tt aa} at level $l=2$. Note that the algorithm leaves a~pair of arcs $({\tt a}, {\tt aa}), ({\tt aa}, {\tt a})$ as they are needed to connect the component $\{{\tt aa}, {\tt aaa}\}$ to the rest of the solution. (d)~After processing the {\tt ae} node. The algorithm collapses all pairs of arcs for this node as it lies in the same component as a~node~{\tt c}. 
+(e)~After processing the {\tt ca} node.
+(f)~After processing the {\tt ec} node.
+(g)~After processing the {\tt ee} node. Note that at this point the solution has exactly the same length as at the very beginning (at stage~(a)).
+(h)~Finally, after collapsing all the unnecessary pairs of arcs from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
+\label{fig:coll}
+\end{figure}
+
+\begin{figure}[!ht]
+\begin{mypic}
+\we{0}{0}{a}{
+\foreach \f/\t/\a in {
+eps/a/10,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10,
+a/eps/10,
+eps/c/10,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/eps/10,
+eps/e/10,
+e/ee/10,
+ee/eee/10,
+eee/ee/10,
+ee/e/10,
+e/eps/10
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20,
+a/aa/10, a/aa/20,
+aa/aaa/10, aa/aaa/20,
+aaa/aa/10, aaa/aa/20,
+aa/a/10, aa/a/20,
+a/eps/10, a/eps/20,
+eps/c/10, eps/c/20,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/cae/10,
+cae/ae/0, cae/ae/10,
+ae/aec/0, ae/aec/10,
+aec/ec/0, aec/ec/10,
+ec/c/0, ec/c/10,
+c/eps/10, c/eps/20,
+eps/e/10, eps/e/20,
+e/ee/10, e/ee/20,
+ee/eee/10, ee/eee/20,
+eee/ee/10, eee/ee/20,
+ee/e/10, ee/e/20,
+e/eps/10, e/eps/20
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20,
+a/aa/10, a/aa/20, a/aa/30,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10, aa/a/20, aa/a/30,
+a/eps/10, a/eps/20,
+eps/c/10, eps/c/20,
+c/ca/0, c/ca/10,
+ca/cae/0, ca/a/0,
+cae/ae/0, a/ae/0,
+ae/aec/0, ae/e/0,
+aec/ec/0, e/ec/0,
+ec/c/0, ec/c/10,
+c/eps/10, c/eps/20,
+eps/e/10, eps/e/20,
+e/ee/10, e/ee/20,
+ee/eee/10, ee/e/30,
+eee/ee/10, e/ee/30,
+ee/e/10, ee/e/20,
+e/eps/10, e/eps/20
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{0}{-55}{d}{
+\foreach \f/\t/\a in {
+eps/a/10, eps/a/20, eps/a/30, eps/a/40, eps/a/50,
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10,
+a/eps/10, a/eps/20, a/eps/30, a/eps/40, a/eps/50,
+eps/c/10, eps/c/20, eps/c/30,
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/eps/10, c/eps/20, c/eps/30,
+eps/e/10, eps/e/20, eps/e/30, eps/e/40, eps/e/50,
+e/ee/10, 
+ee/eee/10, 
+eee/ee/10, 
+ee/e/10, 
+e/eps/10, e/eps/20, e/eps/30, e/eps/40, e/eps/50
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{-55}{e}{
+\foreach \f/\t/\a in {
+eps/a/10, 
+a/aa/10,
+aa/aaa/10,
+aaa/aa/10,
+aa/a/10,
+a/eps/10, 
+eps/c/10, 
+c/ca/0,
+ca/cae/0,
+cae/ae/0,
+ae/aec/0,
+aec/ec/0,
+ec/c/0,
+c/eps/10, 
+eps/e/10, 
+e/ee/10, 
+ee/eee/10, 
+eee/ee/10, 
+ee/e/10, 
+e/eps/10
+}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+
+\end{mypic}
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order as they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
+\label{fig:collnaive}
+\end{figure}
+
+We have verified the conjecture on hundreds of thousands datasets (both handcrafted and randomly generated), and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}.
+\todo[inline]{AK: rewrite}
+In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we support the conjecture by proving its special case for strings of length~3. 
+
+
+
+
+%In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring $s$ into a different superstring $s'$ of the same set of strings such that $|s'|\le|s|$. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of arcs chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal to an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
+
+Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
+
+
+
+%%\subsection{Algorithm and Conjecture}
+%%\label{sec:alg_conj}
+%The idea of the Collapsing Algorithm is the following. 
+%We start with any solution~$D$ in the hierarchical graph. 
+%We double every arc of~$D$ (note that $D$ remains a~solution). What we do next can be informally described as follows:
+%\begin{enumerate}
+%\item Imagine that the arcs of~$D$ is a~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string.
+%\item We apply gravitation to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
+%with a~pair $(\pref(v), \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, where $a$ and $b$ are symbols and $s$ is a~string. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
+%\end{enumerate}
+
+
+
+
+
+
+
+
+

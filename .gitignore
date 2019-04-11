@@ -124,3 +124,4 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+paper/main_greedy_superstring.synctex.gz(busy)

@@ -1,0 +1,16 @@
+\section{Further Directions and Open Problems}
+One natural open problem is to prove the Collapsing Superstring Conjecture.
+It would also be interesting to find other applications of the 
+hierarchical graphs. We list two such potential applications below.
+\begin{description}
+\item[Genome assembly.] As we illustrated, the hierarchical graph in a~sense
+generalizes de Bruijn graph. The latter one is heavily used
+in genome assembly~\cite{pevzner2001eulerian}.
+Can one adopt the hierarchical graph for this task? For this, one
+would need to come up with a~compact representation of the graph
+(as datasets in genome assembly are massive) as well as with a~way of
+handling errors in the input data. Cazaux and Rivals~\cite{cazaux2018hierarchical} propose a linear-space counterpart of the hierarchical graph.
+
+\item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
+It was shown in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithms stay the best known for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} for an algorithm solving SCS on strings of length at most $r$ in time $(2-\varepsilon)^n$ (where $\varepsilon$ depends only on $r$). Can one use the hierarchical graph to solve exactly the general case of SCS in time $(2-\varepsilon)^n$ for a constant $\varepsilon$?
+\end{description}
