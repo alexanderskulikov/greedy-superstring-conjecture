@@ -1,4 +1,4 @@
-\section{Greedy Hierarchical Algorithm}
+\section{Greedy Hierarchical Conjecture}
 \subsection{Algorithm and Conjecture}
 In this section, we present a~greedy algorithm for
 finding a~superstring in the hierarchical graph. 
@@ -16,7 +16,7 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \begin{algorithm}[!ht]
 \caption{Greedy Hierarchical Algorithm (GHA)}\label{algo:gha}
 \hspace*{\algorithmicindent} \textbf{Input:} set of strings~${\cal S}$.\\
-\hspace*{\algorithmicindent} \textbf{Output:} solution~$D$.
+\hspace*{\algorithmicindent} \textbf{Output:} Eulerian solution~$D$.
 \begin{algorithmic}[1]
 \State $HG(V,E) \gets \text{hierarchical graph of ${\cal S}$}$ 
 \State\label{alg:gha_init} $D \gets \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$
@@ -69,9 +69,12 @@ GHA is 2-approximate.
 %In Appendix~\ref{app:a} we show the behavior of GHA on various datasets. In particular, we prove that GHA solves \emph{exactly} two well-known polynomially solvable special cases of SCS. 
 %In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
+\todo[inline]{Max, somewhere here we should prove that collapsing two greedy solutions results in a greedy solution}
+
 %\subsection{Special Cases}
 %\label{app:a}
 \subsection{Strings of Length~2}
+\todo[inline]{AK: Sasha G., let's move 4.2--4.4 to the appendix!}
 Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well. We note that the standard Greedy Algorithm does not necessarily find an optimal solution in this case. For example, if ${\cal S}=\{{\tt ab}, {\tt ba}, {\tt bb}\}$, the Greedy Algorithm may first merge {\tt ab} and {\tt ba}, which would lead to a~suboptimal solution {\tt ababb}. 
 
 First, we can assume that all input strings from~${\cal S}$ have length exactly~$2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Greedy Hierarchical Algorithm has the same behavior: In Step~\ref{alg:gha_init}, GHA will include the arcs $(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
