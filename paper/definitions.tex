@@ -11,7 +11,8 @@ $|t|-|\overlap(s,t)|$ symbols of~$t$.
 By $\pref(s)$ and $\suff(s)$ we denote, respectively,
 the first and the last $|s|-1$ symbols of~$s$. See Figure~\ref{fig:overlap} for a~visual explanation. We denote the empty string by $\varepsilon$.
 
-If $U$ and $V$ are two multisets, then by $U\sqcup V$ we denote the multiset $W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$. For a directed graph $G=(V,E)$, we say that $P$ is a weak path between vertices $u, v\in V$ if replacing all arcs of $G$ with undirected edges produces a graph where $P$ is an undirected path between $u$ and $v$.
+If $U$ and $V$ are two multisets, then by $U\sqcup V$ we denote the multiset $W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$. For a directed graph $G=(V,E)$, we say that $P$ is a weak path between vertices $u, v\in V$ if replacing all arcs of $G$ with undirected edges produces a graph where $P$ is an undirected path between $u$ and $v$.\todo{AK: Sasha G., I don't like this paragraph here. Could you move it somewhere? =)}
+
 \begin{figure}[ht]
 \begin{mypic}
 \begin{scope}
@@ -135,20 +136,9 @@ Hence, the SCS problem is equivalent to finding a~shortest closed walk from $\va
 
 %\subsection{The Most Important Property of the Hierarchical Graph}
 \subsection{Normalizing a~Solution}
-%\todo[inline]{AK: this is a new section}
-\todo[inline]{AK: I'm still working on this section, don't read it =)}
-
-
-One simple property of the hierarchical graph is the following. 
-%Let $v$ be a~node of length at least~2
-
-%A~useful property of the hierarchical graph is the following: for any path from~$u$ to~$v$ that first goes up and then goes down, there is a~path from~$u$ to~$v$ that first goes down and then goes up and has exactly the same length. For example, on Figure~\ref{fig:hgex}(a), there is an up-down path ${\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec}$ and 
-%a~down-up path ${\tt a} \to \varepsilon \to {\tt e} \to {\tt ec}$.
-%This may be viewed as a~commutative diagram: to get~$v$ from~$u$, one needs to cut $\pref(u, v)$ and to append $\suff(u,v)$ and these two operations may be performed in any order. 
-%Clearly, the top node of the up-down path is the superstring of~$u$ and~$v$, whereas the bottom node of the down-up path is the overlap of~$u$ and~$v$.
-
-Formally, after doubling every arc of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of arcs $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of arcs $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs. 
-A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+In this section, we describe a~natural way of normalizing an~Eulerian solution~$D$. Informally, it can be viewed as follows.
+Imagine that the arcs of~$D$ is a~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em gravitation} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
+with a~pair $(\pref(v), \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, if there is no nail in~$v$ and if this does not disconnect~$D$. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -179,9 +169,25 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \label{fig:collapsing}
 \end{figure}
 
+A~formal pseudocode of the collapsing procedure is given in Algorithm~\ref{alg:collapse}. The pseudocode, in particular, reveals an important exception (not covered in Figure~\ref{fig:collapsing}):
+if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs $(\pref(v), v)$ and $(v, \suff(v))$.
+
+
+%One simple property of the hierarchical graph is the following. 
+%Let $v$ be a~node of length at least~2
+
+%A~useful property of the hierarchical graph is the following: for any path from~$u$ to~$v$ that first goes up and then goes down, there is a~path from~$u$ to~$v$ that first goes down and then goes up and has exactly the same length. For example, on Figure~\ref{fig:hgex}(a), there is an up-down path ${\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec}$ and 
+%a~down-up path ${\tt a} \to \varepsilon \to {\tt e} \to {\tt ec}$.
+%This may be viewed as a~commutative diagram: to get~$v$ from~$u$, one needs to cut $\pref(u, v)$ and to append $\suff(u,v)$ and these two operations may be performed in any order. 
+%Clearly, the top node of the up-down path is the superstring of~$u$ and~$v$, whereas the bottom node of the down-up path is the overlap of~$u$ and~$v$.
+
+%Formally, after doubling every arc of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of arcs $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of arcs $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs. 
+%A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+
+
 \begin{algorithm}[!ht]
 \caption{Collapse}\label{alg:collapse}
-\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, solution $D$, node $v \in V$.
+\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, Eulerian solution~$D$, node~$v \in V$.
 %\hspace*{\algorithmicindent} \textbf{Output:} a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
 \begin{algorithmic}[1]
 \If{$(\pref(v), v), (v, \suff(v)) \in D$}
@@ -193,10 +199,17 @@ A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:
 \end{algorithmic}
 \end{algorithm}
 
+Algorithm~\ref{alg:ca}, that we call Collapsing Algorithm (CA), uses the property described above to normalize any solution.
+It drops down all pairs of arcs that are not needed for connectivity.
+
+
+%The normalizing 
+%This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+
 \begin{algorithm}[!ht]
 \caption{Collapsing Algorithm (CA)}
 \label{alg:ca}
-\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, Eulerian solution $D$.\\
+\hspace*{\algorithmicindent} \textbf{Input:} set of strings~$\mathcal{S}$, Eulerian solution~$D$ in~$HG$.\\
 \hspace*{\algorithmicindent} \textbf{Output:} Eulerian solution $D'\colon |D'|\leq|D|$
 % a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
 \begin{algorithmic}[1]

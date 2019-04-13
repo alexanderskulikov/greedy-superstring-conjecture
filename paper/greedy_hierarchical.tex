@@ -1,8 +1,10 @@
+\clearpage
 \section{Greedy Hierarchical Conjecture}
-\todo[inline]{Max, try to prove that our greedy is better than the standard greedy. That is, for every input set os strings, there exists \emph{a} greedy algorithm which performs no better than the hierarchical greedy algorithm.}
-\subsection{Algorithm and Conjecture}
-In this section, we present a~greedy algorithm for
-finding a~superstring in the hierarchical graph. 
+\todo[inline]{Max, try to prove that our greedy is better than the standard greedy. That is, for every input set of strings, there exists \emph{a} greedy algorithm which performs no better than the hierarchical greedy algorithm.}
+In this section, we present one more curious property of the Collapsing Algorithm. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA).
+%\subsection{Algorithm and Conjecture}
+%In this section, we present a~greedy algorithm for
+%finding a~superstring in the hierarchical graph. 
 It constructs a~solution~$D$ in a~stingy way. 
 Namely, the algorithm only adds arcs to~$D$ 
 if it is absolutely necessary: either to balance the degree of a~node or to ensure connectivity 
@@ -60,150 +62,15 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \label{fig:hgexa}
 \end{figure}
 
-The advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$.
+One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on a~toy example. For a~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} on the first step. At the same time, it is not difficult to see that GHA finds an optimum solution for~$\mathcal{S}$. Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when input strings have length at most two and when input strings form a~$k$-spectrum of an unknown string. We prove this in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
 
-We are now ready to state our conjecture about the Greedy Hierarchical Algorithm.
+We are now ready to state our second conjecture: the results of the Collapsing Algorithm and Greedy Hierarchical Algorithm coincide!
 \newtheorem*{ghcc}{Greedy Hierarchical Superstring Conjecture}
 \begin{ghcc}
-GHA is 2-approximate.
+For any set of strings~$\mathcal{S}$ and any Eulerian solution~$D$,
+\[CA(\mathcal{S}, D \sqcup D) = GHA(\mathcal{S}) \, .\]
 \end{ghcc}
-%In Appendix~\ref{app:a} we show the behavior of GHA on various datasets. In particular, we prove that GHA solves \emph{exactly} two well-known polynomially solvable special cases of SCS. 
-%In the next section, we suggest a~way of proving the conjecture by connecting GHA to another algorithm.
 
 \todo[inline]{Max, somewhere here we should prove that collapsing two greedy solutions results in a greedy solution}
 
-%\subsection{Special Cases}
-%\label{app:a}
-\subsection{Strings of Length~2}
-\todo[inline]{AK: Sasha G., let's move 4.2--4.4 to the appendix!}
-Gallant et al.~\cite{GMS1980} show that SCS on strings of length $3$ is $\mathbf{NP}$-hard, but SCS on strings of length at most $2$ is solvable in polynomial time. In this section we show that GHA finds an optimal solution in this case as well. We note that the standard Greedy Algorithm does not necessarily find an optimal solution in this case. For example, if ${\cal S}=\{{\tt ab}, {\tt ba}, {\tt bb}\}$, the Greedy Algorithm may first merge {\tt ab} and {\tt ba}, which would lead to a~suboptimal solution {\tt ababb}. 
-
-First, we can assume that all input strings from~${\cal S}$ have length exactly~$2$. Indeed, since we assume that no input string is a substring of another input string, all strings of length $1$ are unique characters which do not appear in other strings. Take any such $s_i$ of length $1$. The optimal superstring length for ${\cal S}$ is $k$ if and only if the optimal superstring length for ${\cal S}\setminus\{s_i\}$ is $k-1$. The Greedy Hierarchical Algorithm has the same behavior: In Step~\ref{alg:gha_init}, GHA will include the arcs $(\varepsilon, s_i), (s_i, \varepsilon)$ in the solution, and it will never touch the vertex $s_i$ again (because it is balanced and connected to $\varepsilon$). Thus, $s_i$ adds $1$ to the length of the Greedy Hierarchical Superstring as well. By the same reasoning, we can assume that each string of length two is primitive, i.e., contains two distinct characters.
-
-When considering primitive strings ${\cal S}=\{s_1,\ldots,s_n\}$ of length exactly $2$, it is convenient to introduce the following directed graph $G=(V, E)$, where $V$ contains a vertex for every symbol which appears in strings from ${\cal S}$. The graph has $|E|=n$ arcs corresponding to $n$ input strings: for every string $s_i=ab$, there is an arc from $a$ to $b$. It is known~\cite{GMS1980} that the length of an optimal superstring in this case is $n+k$ where $k$ is the minimum number such that $E$ can be decomposed into $k$ directed paths, or, equivalently:
-\begin{proposition}[\cite{GMS1980}]
-Let $G$ be the graph defined above, and let $G_1=(V_1,E_1),\ldots,G_c=(V_c,E_c)$ be its weakly connected components. Then the length of an optimal superstring is
-\begin{align}
-\label{eq:gms}
-n + \sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
-\end{align}
-\end{proposition}
-
-We will now show that in this case, GHA finds an optimal solution.
-
-\begin{lemma}
-Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a set of strings of length at most $2$, and let $s$ be an optimal superstring for ${\cal S}$. Then $GHA({\cal S})$ returns a~superstring of length~$|s|$. 
-\end{lemma}
-
-\begin{proof}
-We showed above that it suffices to consider the case of $n$ primitive strings $\{s_1,\ldots,s_n\}$ of length exactly $2$. For $1\leq i\leq n$, let $s_i=a_i b_i$, where $a_i\neq b_i$. Consider the partial greedy hierarchical solution $D$ after the Step~\ref{alg:gha_init} of the GHA algorithm: $D=\{(a_i, a_ib_i), (a_ib_i, b_i): 1\leq i\leq n \}$. (We abuse notation by identifying the set of arcs $D$ with the graph induced by $D$.) This partial solution has $n$ up-arcs, so its current weight is $n$. 
-
-Note that by the definition of the graph $G$ above, $G$ contains an arc $(a, b)$ if and only if $D$ has the arcs $(a, ab)$ and $(ab, b)$ of the graph HG. Thus, the indegree (outdegree) of a vertex $a$ in $G$ equals the indegree (outdegree) of the vertex $a$ in the partial solution $D$. Also, two vertices $a$ and $b$ of $G$ belong to one weakly connected component in $G$ if and only if they belong to one weakly connected component in $D$. Therefore, the expression~\eqref{eq:gms} in $G$ has the same value in the partial solution graph $D$. (Indeed, the vertices of $D$ corresponding to strings of length $2$ are balanced and do not form weakly connected components.) 
-
-Now we proceed to Steps~\ref{alg:for}--\ref{alg:last} of GHA. GHA will go through all strings of length $1$, and add $|\indegree(v) - \outdegree(v)|$ arcs for each unbalanced vertex $v$. The Steps~\ref{alg:else}--\ref{alg:last} ensure that each weakly connected component adds at least a pair of arcs. Since exactly a half of added arcs are up-arcs, we have increased the weight of the partial solution $D$ by
-\begin{align*}
-\sum_{i=1}^{c} {\max\left( 1, \sum_{v \in V_i}{ \frac{ |\indegree(v) - \outdegree(v)|}{2} }\right)} \; .
-\end{align*}
-\end{proof}
-
-\subsection{Spectrum of a~String}
-By a~$k$-spectrum of a~string $s$ 
-(of length at least~$k$)
-we mean a~set of all substrings of~$s$ of length~$k$.
-Pevzner et al.~\cite{pevzner2001eulerian} give a polynomial time exact algorithm for the case when the input strings form a spectrum of an unknown string. We show that GHA also finds an optimal solution in this case.
-
-\begin{lemma}
-Let ${\cal S}=\{s_1,\ldots,s_n\}$ be a~$k$-spectrum of an unknown string~$s$. Then $GHA({\cal S})$ returns a~superstring of length at most~$|s|$.
-\end{lemma}
-
-\begin{proof}
-Since $s$ has $n$ distinct substrings of length $k, \, |s|\geq n+k-1$. We will show that GHA finds a superstring of length $n+k-1$. After Step~\ref{alg:gha_init} of GHA, the partial solution $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. In particular, $D$ is of weight $n$. For $1\leq i\leq k-1$, let $u_{i}$ be the first $i$ symbols of $s$, and let $v_{i}$ be the last $i$ symbols of $s$. Note that $u_{k-1}$ and $v_{k-1}$ are the only unbalanced vertices of the partial solution $D$ after Step~\ref{alg:gha_init}: all other strings of length $k-1$ appear equal number of times as prefixes and suffixes of strings from ${\cal S}$. Therefore, while processing the level $\ell=k-1$, GHA will add one arc to each of the vertices $u_{k-1}$ and $v_{k-1}$, and will not add arcs to other strings of length $k-1$. 
-
-In general, while processing the level $\ell=i$, GHA adds one up-arc to $u_i$ and one down-arc to $v_i$. In order to show this, we consider two cases. If $u_i \neq v_i$, then $u_i$ has an incoming arc from the previous step and does not have outgoing arcs, therefore GHA adds an up-arc to $u_i$ in Step~\ref{alg:step6}. Similarly, GHA adds a down-arc from $v_i$. Note that there are no other strings of length $i<k-1$ in the partial solution, so the algorithm moves to the next level. In the case when $u_i=v_i$, we have that all vertices are balanced, but the string $u_i$ is now the shortest string in this only connected component ${\cal C}$ of the graph. Therefore, for $i>0$ we have $\varepsilon\not\in{\cal C}$, and GHA adds an up- and down-arc to $u_i$ in Step~\ref{alg:last}. 
-
-We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-arcs (and the weight of the solution) is $n+k-1$.
-\end{proof}
-
-\subsection{Tough Dataset}
-There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
- while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to the permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
- 
-The algorithm GHA makes a~similar mistake on this dataset, see Figure~\ref{fig:tough}. When processing the node $({\tt ea})^n$, GHA does not add two lower arcs to it and misses a~chance to connect two components. It is then forced to connect these two components through~$\varepsilon$. This example shows that GHA also does not give a better than $2$-approximation for SCS.
-
-%\newcommand{\ged}[3]{
-%\begin{scope}[xshift=#1mm]
-%\foreach \n/\x/\y in {ccae/0.625/4, aecc/3.125/4, eaea/5.625/4}
-%  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
-%\foreach \n/\x/\y in {cca/0/3, cae/1.25/3, aec/2.5/3, ecc/3.75/3, eae/5/3, aea/6.25/3, cc/1.5/2, ca/2.5/2, ae/3.5/2, ec/4.5/2, ea/5.5/2, c/2.5/1, a/3.5/1, e/4.5/1}
-%  \node[vertex] (\n) at (\x,\y) {\tt \n};
-%\node[vertex] (eps) at (3.5,0) {$\varepsilon$};
-%\node at (3.5,-1) {(#2)};
-%
-%\foreach \f/\t/\a in {eps/c/10, c/eps/10, eps/a/10, a/eps/10, eps/e/10, e/eps/10, c/cc/10, cc/c/10, c/ca/0, ca/a/0, a/ae/0, ae/e/0, e/ec/0, ec/c/0, e/ea/0, ea/a/0, cc/cca/0, cca/ca/0, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ec/ecc/0, ecc/cc/0, ea/eae/0, eae/ae/0, ae/aea/0, aea/ea/0, cca/ccae/0, ccae/cae/0, aec/aecc/0, aecc/ecc/0, eae/eaea/0, eaea/aea/0}
-%  \path (\f) edge[hgedge,bend left=\a] (\t);
-%
-%#3
-%\end{scope}
-%}
-% 
-%\begin{figure}
-%\begin{mypic}
-%\ged{0}{a}{
-%\foreach \f/\t/\a in {eps/c/10, c/cc/10, cc/cca/0, cca/ccae/0, ccae/cae/0, cae/ae/0, ae/e/0, e/ea/0, ea/eae/0, eae/eaea/0, eaea/aea/0, aea/ea/0, ea/a/0, a/ae/0, ae/aec/0, aec/aecc/0, aecc/ecc/0, ecc/cc/0, cc/c/10, c/eps/10}
-%  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
-%}
-%
-%\ged{80}{b}{}
-%\end{mypic}
-%\caption{(a)~A~solution of length~10 corresponding to an optimal superstring {\tt ccaeaeaecc}. (b)~A~solution of length~11 constructed by GHA.}
-%\label{fig:tough}
-%\end{figure}
-
-
-\newcommand{\ged}[2]{
-\tikzstyle{t}=[vertex,draw=black]
-\tikzstyle{p}=[->,decorate,decoration=snake,bend left=10]
-\begin{scope}[yshift=#1mm]
-\node[inputvertex] (ccaen) at (0,5) {{\tt cc}({\tt ae})$^n$};
-\node[inputvertex] (eann) at (10,5) {({\tt ea})$^{n+1}$};
-\node[inputvertex] (aencc) at (4.5,5) {({\tt ae})$^n${\tt cc}};
-\node[t] (ccaena) at (-1,4) {\tt cc(ae)$^{n-1}$a};
-\node[t] (caen) at (1.5,4) {\tt c(ae)$^{n}$};
-\node[t] (eane) at (9,4) {\tt (ea)$^{n}$e};
-\node[t] (aean) at (11,4) {\tt a(ea)$^{n}$};
-\node[t] (aenc) at (3.5,4) {\tt (ae)$^{n}$c};
-\node[t] (eaencc) at (6,4) {\tt e(ae)$^{n-1}$cc};
-\node[t] (ccaenn) at (1,3) {\tt cc(ae)$^{n-1}$};
-\node[t] (aen) at (3.5,3) {\tt (ae)$^{n}$};
-\node[t] (ean) at (10,3) {\tt (ea)$^{n}$};
-\node[t] (aenncc) at (6,3) {\tt (ae)$^{n-1}$cc};
-\node[t] (eaenn) at (3.5,2) {\tt e(ae)$^{n-1}$};
-\node[t] (aeann) at (7,2) {\tt a(ea)$^{n-1}$};
-\node[t] (eps) at (5,0) {$\varepsilon$};
-
-\foreach \f/\t in {ccaena/ccaen, ccaen/caen, eane/eann, eann/aean, aenc/aencc, aencc/eaencc, ccaenn/ccaena, caen/aen, ean/eane, aean/ean, aen/aenc, eaencc/aenncc, ean/aeann, eaenn/ean}
-  \draw[->] (\f) -- (\t);
-  
-\path (eps) edge[p] (ccaenn);
-\path (aenncc) edge[p] (eps);
-
-#2
-\end{scope}
-}
-
- 
-\begin{figure}[!ht]
-\begin{mypic}
-\ged{0}{
-\foreach \f/\t in {aeann/aen, aen/eaenn}
-  \draw[->] (\f) -- (\t);
-}
-
-\ged{-60}{
-\path (eps) edge[p] (eaenn);
-\path (aeann) edge[p] (eps);
-}
-\end{mypic}
-\caption{Top: optimal solution for the dataset $\{ {\tt cc}({\tt ae})^n, ({\tt ea})^{n+1}, ({\tt ae})^n{\tt cc} \}$. Bottom: solution constructed by GHA.}
-\label{fig:tough}
-\end{figure}
+\todo[inline]{AK: no matter what we can prove, we should say here a few words about greedy conjecture and greedy hierarchical conjecture}

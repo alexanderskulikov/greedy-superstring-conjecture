@@ -4,14 +4,14 @@ We are now ready to state a~simple and astonishing structural property of the hi
 \begin{scs}
 For any set of strings ${\cal S}$ and for any two Eulerian solutions~$D_1$ and $D_2$ of ${\cal S}$, 
 \begin{align*}
-CA(HG({\cal S}), D_1 \sqcup D_1) =  CA(HG({\cal S}), D_2 \sqcup D_2) \; .
+CA({\cal S}, D_1 \sqcup D_1) =  CA({\cal S}, D_2 \sqcup D_2) \; .
 \end{align*}
 %Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
 \end{scs}
 %Stated less formally, the conjecture is the following: 
 
 Figures~\ref{fig:coll} and~\ref{fig:collnaive} illustrate the action of
-the Collapsing Algorithm for optimal and naive solutions, respectively. When processing level $l>1$ nodes, 
+the Collapsing Algorithm for optimal and naive solutions, respectively. Note that the resulting solutions are equal. When processing level $l>1$ nodes, 
 the collapsing procedure does not change the total length of the solution. What one normally sees at the beginning of the
 $l=1$ iteration is an~Eulerian solution with many 
 redundant pairs of arcs of the form $(a, \varepsilon)$, $(\varepsilon, a)$. It is exactly this stage of the algorithm where the total length of a~solution is decreased by the Collapsing Algorithm. 
@@ -193,7 +193,9 @@ a/eps/10, eps/a/10}
 (e)~After processing the {\tt ca} node.
 (f)~After processing the {\tt ec} node.
 (g)~After processing the {\tt ee} node. Note that at this point the solution has exactly the same length as at the very beginning (at stage~(a)).
-(h)~Finally, after collapsing all the unnecessary pairs of arcs from the level~$l=1$. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
+(h)~Finally, after collapsing all the unnecessary pairs of arcs from the level~$l=1$. 
+%The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).
+}
 \label{fig:coll}
 \end{figure}
 
@@ -331,11 +333,15 @@ e/eps/10
 
 
 \end{mypic}
-\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order as they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).}
+\caption{Stages of applying the Collapsing Algorithm to the dataset $\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$ and its \textbf{naive} solution resulting from overlapping the input strings in the same order as they are given. (a)~The solution of length 10 corresponding to the superstring {\tt aaacaeceee}. (b)~The doubled solution. (c)~After collapsing the $l=3$ level. (d)~After collapsing the $l=2$ level. (e)~After collapsing the $l=1$ level. 
+%The resulting solution is the same as constructed by the Greedy Hierarchical Algorithm (Figure~\ref{fig:hgexa}(c)).
+}
 \label{fig:collnaive}
 \end{figure}
 
-We have verified the conjecture on hundreds of thousands datasets (both handcrafted and randomly generated), and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}. Moreover, we prove the conjecture for the (NP-hard) special case when input strings have length at most~3 in Section~\ref{subsec:scs3}.
+We have verified the conjecture on hundreds of thousands datasets (both handcrafted and randomly generated), and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}. 
+Moreover, 
+we support the conjecture by proving that it holds in the (NP-hard) special case when input strings have length at most~3 in Section~\ref{subsec:scs3}.
 %\todo[inline]{AK: rewrite}
 %In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we support the conjecture by proving its special case for strings of length~3. 
 
