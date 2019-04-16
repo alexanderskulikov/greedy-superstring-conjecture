@@ -5,6 +5,8 @@
 
 In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we prove the Collapsing Superstring Conjecture for strings of length at most~$3$.
 
+We will use the following notation. If $U$ and $V$ are two multisets, then by $U\sqcup V$ we denote the multiset $W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$. For a directed graph $G=(V,E)$, we say that $P$ is a weak path between vertices $u, v\in V$ if replacing all arcs of $G$ with undirected edges produces a graph where $P$ is an undirected path between $u$ and $v$.
+
 The Collapsing Algorithm (CA) starts with $D$ equal to a doubled (arbitrary) solution, and the Greedy Hierarchical Algorithm (GHA) starts with an~empty solution. Then both algorithms consider all vertices of the hierarchical graph $HG=(V, E)$ in the same order (descending order of the levels, lexicographic order within a level). Let $s_0$ be the first vertex considered by CA and GHA ($s_0$ corresponds to an input string). For a~vertex $s$, by $V(s)$ we denote the set consisting of~$s$ and all the vertices that we processed before~$s$.
 %of vertices considered by the algorithms no later than the vertex $s$ (including the vertex $s$: $s\in V(s)$).
 

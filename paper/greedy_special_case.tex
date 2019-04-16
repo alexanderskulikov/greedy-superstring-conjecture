@@ -48,7 +48,7 @@ In general, while processing the level $\ell=i$, GHA adds one up-arc to $u_i$ an
 We just showed that GHA solution for a $k$-spectrum of a string has the initial set of arcs  $D = \{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$, and also the arcs $\{ (u_{i-1}, u_{i}), (v_i, v_{i-1})\colon 1\leq i\leq k-1 \}$. Thus, the total number of up-arcs (and the weight of the solution) is $n+k-1$.
 \end{proof}
 
-\subsection{Tough Dataset}\label{gha:tough}
+\subsection{Tough Dataset}\label{sec:ghatough}
 There is a~well-known dataset consisting of just three strings where the classical greedy algorithm produces a~superstring that is almost twice longer than an optimal one: $s_1={\tt cc}({\tt ae})^n$, $s_2=({\tt ea})^{n+1}$, $s_3=({\tt ae})^n{\tt cc}$. Since $\overlap(s_1, s_3)=2n$,
  while $\overlap(s_1,s_2)=\overlap(s_2,s_3)=2n-1$, the greedy algorithm produces a~permutation $(s_1, s_3, s_2)$ (or $(s_2,s_1,s_3)$). I.e., by greedily taking the massive overlap of length $2n$ it loses the possibility to insert $s_2$ between $s_1$ and $s_3$ and to get two overlaps of size $2n-1$. The resulting superstring has length $4n+6$. At the same time, the optimal superstring corresponds to the permutation $(s_1,s_2,s_3)$ and has length $2n+8$.
  
