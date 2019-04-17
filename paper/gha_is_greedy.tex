@@ -34,22 +34,28 @@
 	
 	\begin{figure}[h]
 		\centering
-		\begin{subfigure}[t]{0.3\textwidth}
+		\begin{subfigure}[t]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{gha_is_greedy_img/fig1.png}
-			\caption{Cycle $c$ for $\mathcal{S}$ containing 2 strings of the length 3 and one string of the length 2}
+			\caption{Cycle $c$ for $\mathcal{S} = \{ {\tt aaaa, baaa, caaa, aaab} \}$. Numeration indicates an order of arcs and corresponds to solution $\tt caaabaaaa$.}
 			\label{fig:1a}
 		\end{subfigure}
 		\hfil
-		\begin{subfigure}[t]{0.3\textwidth}
+		\begin{subfigure}[t]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{gha_is_greedy_img/fig2.png}
-			\caption{Colored arcs is $\mathcal{P}_2$, which contains two paths $p_1$ and $p_2$ touched at $v$ and painted in red and blue, respectively}
+			\caption{Colored arcs is $\mathcal{P}_3$, which contains four paths painted in different colours. Note, that there are many opportunities for merging. For example, one can merge red, green and blue paths, and leave the yellow as is. This doesn't mean, however, that they will be merged --- everything is decided by the numeration.}
 			\label{fig:1b}
 		\end{subfigure}
-		\hfil
-		\begin{subfigure}[t]{0.3\textwidth}
+
+		\begin{subfigure}[t]{0.45\textwidth}
 			\includegraphics[width=\textwidth]{gha_is_greedy_img/fig3.png}
-			\caption{Colored arcs is $\mathcal{P}_1$. We see, that $p_1$ and $p_2$ from previous figure now merged and are contained in new $p_1$. This means that corresponding strings are also merged.}
+			\caption{Colored arcs is $\mathcal{P}_2$. We see, that red and blue paths from \ref{fig:1b} were merged and now are subpaths of red. It means, that $A$ merged strings {\tt caaa} and {\tt aaab}. The same goes for green path: merging of yellow and green paths from \ref{fig:1b} indicates, that $A$ merged {\tt baaa} and {\tt aaaa}}
 			\label{fig:1c}
+		\end{subfigure}
+		\hfil
+		\begin{subfigure}[t]{0.45\textwidth}
+			\includegraphics[width=\textwidth]{gha_is_greedy_img/fig4.png}
+			\caption{Colored arcs is $\mathcal{P}_1$, which still contains two paths. This means, that there were not merges. It is easy to see, that in the next step $A$ will merge {\tt caaab} and {\tt baaaa} and there will be only one path coincides with $c$.}
+			\label{fig:1d}
 		\end{subfigure}
 	\caption{}
 	\end{figure}
