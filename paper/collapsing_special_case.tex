@@ -1,11 +1,8 @@
-\section{Proof of Collapsing Superstring Conjecture for Strings of Length~3}
+\section{Proof of Collapsing Conjecture for Strings of Length~3}
 \label{subsec:scs3}
+In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we prove the Collapsing Conjecture for strings of length at most~$3$.
 
-\todo[inline]{Max, try to simplify this if you can!}
-
-In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we prove the Collapsing Superstring Conjecture for strings of length at most~$3$.
-
-We will use the following notation. If $U$ and $V$ are two multisets, then by $U\sqcup V$ we denote the multiset $W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$. For a directed graph $G=(V,E)$, we say that $P$ is a weak path between vertices $u, v\in V$ if replacing all arcs of $G$ with undirected edges produces a graph where $P$ is an undirected path between $u$ and $v$.
+We will use the following notation. For a directed graph $G=(V,E)$, we say that $P$ is a weak path between vertices $u, v\in V$ if replacing all arcs of $G$ with undirected edges produces a graph where $P$ is an undirected path between $u$ and $v$.
 
 The Collapsing Algorithm (CA) starts with $D$ equal to a doubled (arbitrary) solution, and the Greedy Hierarchical Algorithm (GHA) starts with an~empty solution. Then both algorithms consider all vertices of the hierarchical graph $HG=(V, E)$ in the same order (descending order of the levels, lexicographic order within a level). Let $s_0$ be the first vertex considered by CA and GHA ($s_0$ corresponds to an input string). For a~vertex $s$, by $V(s)$ we denote the set consisting of~$s$ and all the vertices that we processed before~$s$.
 %of vertices considered by the algorithms no later than the vertex $s$ (including the vertex $s$: $s\in V(s)$).
@@ -27,7 +24,7 @@ In Sections~\ref{sec:proof1}--\ref{sec:proof2} we will prove the following lemma
 Let ${\cal S}$ be a set of strings of length at most $3$. For each vertex $ s $ at a level at least $1$, if the collapsing algorithm after its examination leaves $ a $ arcs $ (\pref (s), s) $ and $ b$ arcs $ (s, \suff(s) ) $, and the greedy algorithm leaves $ a_{gr} $ and $ b_{gr} $ arcs, respectively, then $ a = a_{gr}, b = b_{gr} $.
 \end{lemma}
 
-Now we are ready to complete the proof of Collapsing Superstring Conjecture for strings of length at most $3$. Note that this also implies that the Greedy Hierarchical Superstring Conjecture holds for the case of strings of length at most $3$.
+Now we are ready to complete the proof of Collapsing Conjecture for strings of length at most $3$. Note that this also implies that the Greedy Hierarchical Conjecture holds for the case of strings of length at most $3$.
 
 \begin{theorem}
 \label{thm:main}
@@ -42,7 +39,7 @@ We will prove that
 \begin{align*}
 \forall s \in V\colon\, \cldr{s}=\grdr{s} \; .
 \end{align*}
-For $s=\varepsilon$, this statement implies the Collapsing Superstring Conjecture, as it asserts that the two algorithms end up with the same multiset of arcs. 
+For $s=\varepsilon$, this statement implies the Collapsing Conjecture, as it asserts that the two algorithms end up with the same multiset of arcs. 
 
 We prove this statement by induction on $s$, where $s$ starts with $s_0$ and goes through all the vertices of $HG$ in the same order as CA and GHA. The base case $s=s_0$ of the induction argument follows trivially from the definition: $\cldr{s_0}=\grdr{s_0}=\emptyset$. And the induction step is proven in Lemma~\ref{lem:technical}.
 \end{proof}

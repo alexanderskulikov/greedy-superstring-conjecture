@@ -1,6 +1,5 @@
 \clearpage
 \section{Greedy Hierarchical Conjecture}
-\todo[inline]{Max, try to prove that our greedy is better than the standard greedy. That is, for every input set of strings, there exists \emph{a} greedy algorithm which performs no better than the hierarchical greedy algorithm.}
 In this section, we present one more curious property of the Collapsing Algorithm. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA).
 %\subsection{Algorithm and Conjecture}
 %In this section, we present a~greedy algorithm for
@@ -65,12 +64,18 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on a~toy example. For a~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} at the first step. At the same time, it is not difficult to see that GHA finds an optimal solution for~$\mathcal{S}$. Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when the input strings have length at most two and when the input strings form a~$k$-spectrum of an unknown string. We prove this in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
 
 We are now ready to state our second conjecture: the results of the Collapsing Algorithm and Greedy Hierarchical Algorithm coincide!
-\newtheorem*{ghcc}{Greedy Hierarchical Superstring Conjecture}
+\newtheorem*{ghcc}{Greedy Hierarchical Conjecture}
 \begin{ghcc}
 For any set of strings~$\mathcal{S}$ and any Eulerian solution~$D$,
 \[CA(\mathcal{S}, D \sqcup D) = GHA(\mathcal{S}) \, .\]
 \end{ghcc}
 
-\todo[inline]{Max, somewhere here we should prove that collapsing two greedy solutions results in a greedy solution}
+\newtheorem*{wghcc}{Weak Greedy Hierarchical Conjecture}
+\begin{wghcc}
+GHA is a factor $2$ approximation algorithm for the Shortest Common Superstring problem.
+\end{wghcc}
 
-\todo[inline]{AK: no matter what we can prove, we should say here a few words about greedy conjecture and greedy hierarchical conjecture}
+\section{Relations between the Conjectures}
+\subsection{Equivalence of Collapsing and Greedy Hierarchical Conjectures}
+\subsection{Greedy Implies Greedy Hierarchical}
+\subsection{Cycle Covers}

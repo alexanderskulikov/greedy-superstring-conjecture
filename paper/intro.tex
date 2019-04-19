@@ -1,5 +1,4 @@
 \section{Introduction}
-\todo[inline]{AK: update the intro accordingly; mention all curious connections}
 \label{sec:intro}
 The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
@@ -54,13 +53,13 @@ in two well-known polynomially solvable special cases: strings of length~$2$ and
 a~spectrum of a~string.
 
 We then conjecture that this greedy algorithm is $2$-approximate. We suggest a combinatorial way of proving this conjecture. For this, we introduce an {\em even stronger} conjecture that we call 
-{\em Collapsing Superstring Conjecture}. 
+{\em Collapsing Conjecture}. 
 Roughly, it says that it is possible to transform a~doubled optimal 
 solution into a~greedy solution. 
 The corresponding transformation, that we call {\em collapsing}, 
 is just a repeated replacing of two arcs $a\alpha \to a\alpha b \to \alpha b$ 
 by two arcs $a\alpha \to \alpha \to \alpha b$ (where $\alpha$ is an arbitrary string). 
-We support the Collapsing Superstring Conjecture by 
+We support the Collapsing Conjecture by 
 proving that it holds for the~special case when the input strings have length~3.
 
 %We report on computational experiments that verified the 
@@ -68,13 +67,13 @@ proving that it holds for the~special case when the input strings have length~3.
 %according to various distributions). 
 
 
-The Collapsing Superstring Conjecture immediately implies that the Greedy
+The Collapsing Conjecture immediately implies that the Greedy
 Hierarchical Algorithm is 2-approximate. Remarkably, it seems to be much
 stronger in the following sense. Let $GS$ be the set of arcs of a~greedy
 solution and let $DOS$ be the set of arcs of a~collapsed doubled optimal
 solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. 
 One way of showing this is to prove that $GS \subseteq DOS$. 
-The conjecture, at the same time, states that this inclusion holds with equality.\todo{AK: Sasha G., rewrite this}
+The conjecture, at the same time, states that this inclusion holds with equality. Actually, it's not stronger.
 
 We implemented the Greedy Hierarchical Algorithm~\cite{github}, and tested our conjectures on millions of datasets (both hand-crafted and generated randomly according to various distributions). 
 We invite the reader to a~web interface~\cite{webpage} to see step by step executions of the described algorithms and to verify the conjectures on

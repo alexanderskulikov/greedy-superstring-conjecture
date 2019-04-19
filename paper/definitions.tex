@@ -214,7 +214,7 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \begin{algorithmic}[1]
 \For{level~$l$ in $HG$ in descending order}
 \For{all $v \in V$ s.t. $|v|=l$ in lexicographic order:}
-\While{$(\pref(v), v), (v, \suff(v)) \in D$ and collapsing it does not make~$D$ disconnected}
+\While{$(\pref(v), v), (v, \suff(v)) \in D$ and collapsing it keeps~$D$ an Eulerian solution}
 \State $\text{\sc Collapse}(HG, D, v)$
 \EndWhile
 \EndFor
