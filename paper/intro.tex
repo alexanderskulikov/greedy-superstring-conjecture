@@ -8,7 +8,8 @@ The best known approximation ratio is $2\frac{11}{23}$ due to Mucha~\cite{M2013}
 %and $2\frac{11}{30}$ due to Paluch~\cite{P14} 
 (see \cite[Section~2.1]{GKM13} for an overview of the 
 previous approximation algorithms
-and inapproximability results). While this approximation algorithm uses an algorithm for Maximum Weight Perfect Matching as a~subroutine, the $30$ years old \emph{Greedy Conjecture}~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial \emph{Greedy Algorithm}, whose pseudocode is given in Algorithm~\ref{algo:ga}, is 2-approximate. Ukkonen~\cite{ukkonen1990linear} shows that for a fixed alphabet, the Greedy Algorithm can be implemented in linear time.
+and inapproximability results). While this approximation algorithm uses an algorithm for Maximum Weight Perfect Matching as a~subroutine, the $30$ years old \emph{Greedy Conjecture}~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial \emph{Greedy Algorithm}, whose pseudocode is given in Algorithm~\ref{algo:ga}, is 2-approximate. Ukkonen~\cite{ukkonen1990linear} shows that for a fixed alphabet, the Greedy Algorithm can be implemented in linear time. It should be noted that GA is not deterministic as we don't specify how to brake ties in case there are many pairs of strings with maximum overlap. For this reason, GA may produce different superstrings for the same input.
+
 
 \begin{algorithm}[ht]
 \label{algo:ga}
@@ -23,6 +24,11 @@ and inapproximability results). While this approximation algorithm uses an algor
 \State return the only string from $\mathcal{S}$
 \end{algorithmic}
 \end{algorithm}
+
+\newtheorem*{gc}{Greedy Conjecture}
+\begin{gc}
+For any set of strings~$\mathcal{S}$, $\operatorname{GA}(\mathcal{S})$ constructs a~superstring that is at most twice longer than an optimal one.
+\end{gc}
 
 
 Blum et al.~\cite{BJLTY1991} prove that the Greedy Algorithm returns a $4$-approximation of SCS, and Kaplan and Shafrir~\cite{KS2005} improve this bound to $3.5$. A slight modification of the Greedy Algorithm gives a $3$-approximation of SCS~\cite{BJLTY1991}, and other greedy algorithms are studied from theoretical~\cite{BJLTY1991,rivals2018superstrings} and practical perspectives~\cite{romero2004experimental, cazaux2018practical}.
