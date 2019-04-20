@@ -53,8 +53,8 @@
 
 \tikzstyle{hgedge}=[->,gray!40!white]
 \tikzstyle{anypath}=[->,dashed]
-\tikzstyle{vertex}=[draw,ellipse,inner sep=0.5mm]
-\tikzstyle{inputvertex}=[draw,rectangle,inner sep=1mm]
+\tikzstyle{vertex}=[draw,ellipse,inner sep=0.5mm,minimum size=4mm]
+\tikzstyle{inputvertex}=[draw,rectangle,inner sep=1mm,minimum size=5mm]
 
 \newenvironment{mypic}{\begin{center}\begin{tikzpicture}[>=latex,line width=.3mm]}{\end{tikzpicture}\end{center}}
 
@@ -87,6 +87,8 @@ We develop a graph-theoretic framework for studying approximation algorithms for
 Except for its conjectured good approximation ratio, the Greedy Hierarchical Algorithm finds \emph{exact} solutions for the special cases where we know polynomial time (not greedy) exact algorithms: (1)~when the input strings form a spectrum of a~string (2)~when all input strings have length at most $2$.
 \end{abstract}
 \end{titlepage}
+
+\tableofcontents
 
 \input intro
 \input definitions
