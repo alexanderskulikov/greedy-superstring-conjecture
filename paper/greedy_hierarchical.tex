@@ -1,18 +1,47 @@
 \clearpage
 \section{Greedy Hierarchical Conjecture}
-In this section, we present one more curious property of the Collapsing Algorithm. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA).
-%\subsection{Algorithm and Conjecture}
-%In this section, we present a~greedy algorithm for
-%finding a~superstring in the hierarchical graph. 
-It constructs a~solution~$D$ in a~stingy way. 
-Namely, the algorithm only adds arcs to~$D$ 
-if it is absolutely necessary: either to balance the degree of a~node or to ensure connectivity 
-(as $D$ must be Eulerian). 
-More precisely, first it considers the input
+In this section, we present one more curious property of the Collapsing Algorithm. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA) that constructs an Eulerian solution in a~stingy fashion, i.e., tries to add as few arcs as possible:
+\begin{quote}
+Proceed nodes from top to bottom. For each node, ensure that it is balanced and connected to the rest of the solution.
+\end{quote}
+This is best illustrated with an example, see Figure~\ref{fig:hgexa}. We start constructing an~Eulerian solution~$D$ by processing the nodes at level~$3$. The solution~$D$ must visit all these four nodes, so we add all incoming and outgoing edges to~$D$, see Figure~\ref{fig:hgexa}(a). We then process the level~2. The node~{\tt a} is balanced, but if we skip it, it will not be connected to the rest of the solution, so we add to~$D$ the arcs $({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$. The node {\tt ae} is balanced, we do nothing for it. The node {\tt ca} is imbalanced, so we add an arc $({\tt c}, {\tt ca})$ to~$D$. We balance the node {\tt ec} similarly. The node {\tt ee} is processed similarly to the node {\tt aa}. The result of processing the second level is shown in Figure~\ref{fig:hgexa}(b). On the last stage we connect the nodes {\tt a}, {\tt b}, and {\tt c} to $\varepsilon$ to ensure connectivity, see Figure~\ref{fig:hgexa}(c). Hence, when processing level~$l$, we only add edges between levels~$l$ and~$l-1$.
+
+\begin{figure}[!ht]
+\begin{mypic}
+\we{0}{0}{a}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, e/eps/10, eps/e/10, a/eps/10, eps/a/10}
+\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+\end{mypic}
+\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower arcs ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contains imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower arcs to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is, therefore, suboptimal (compare it with the optimal solution shown in Figure~\ref{fig:hgex}(c)).}
+\label{fig:hgexa}
+\end{figure}
+
+
+%Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
+
+
+
+%It constructs a~solution~$D$ in a~stingy way. 
+%Namely, the algorithm only adds arcs to~$D$ 
+%if it is absolutely necessary: either to balance the degree of a~node or to ensure connectivity 
+%(as $D$ must be Eulerian). 
+More formally, GHA first considers the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to~$D$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case where $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to the constructed Eulerian solution~$D$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case where $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. 
+%Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
 \begin{algorithm}[!ht]
@@ -40,28 +69,9 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \end{algorithmic}
 \end{algorithm}
 
-\begin{figure}[!ht]
-\begin{mypic}
-\we{0}{0}{a}{
-\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10}
-  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
-}
-
-\we{57}{0}{b}{
-\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10}
-  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
-}
-
-\we{114}{0}{c}{
-\foreach \f/\t/\a in {aa/aaa/10, aaa/aa/10, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, aa/a/10, a/aa/10, c/ca/0, ec/c/0, ee/e/10, e/ee/10, a/aa/10, aa/a/10, eps/c/10, c/eps/10, e/eps/10, eps/e/10, a/eps/10, eps/a/10}
-\path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
-}
-\end{mypic}
-\caption{(a)~After processing the $l=3$ level. (b)~After processing the $l=2$ level. Note that for the node {\tt aa} we add two lower arcs ($({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$) since otherwise the corresponding weakly connected component ($\{{\tt aa}, {\tt aaa}\}$) will not be connected to the rest of the solution. At the same time, when processing the node {\tt ae} we observe that it lies in a~weakly connected component that contains imbalanced nodes ({\tt ca} and {\tt ec}), hence there is no need to add two lower arcs to {\tt ae}. (c)~After processing the $l=1$ level. The resulting solution has length~10 and is, therefore, suboptimal (compare it with the optimal solution shown in Figure~\ref{fig:hgex}(c)).}
-\label{fig:hgexa}
-\end{figure}
 
 One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on a~toy example. For a~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} at the first step. At the same time, it is not difficult to see that GHA finds an optimal solution for~$\mathcal{S}$. Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when the input strings have length at most two and when the input strings form a~$k$-spectrum of an unknown string. We prove this in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
+\todo[inline]{AK: Sasha G., should we make this is a list of advantages? 1) it is more flexible; 2) it solves special case; 3) it is easier to prove 2-approximability}
 
 We are now ready to state our second conjecture: the results of the Collapsing Algorithm and Greedy Hierarchical Algorithm coincide!
 \newtheorem*{ghcc}{Greedy Hierarchical Conjecture}
