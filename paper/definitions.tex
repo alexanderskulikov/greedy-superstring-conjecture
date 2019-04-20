@@ -44,8 +44,10 @@ the first and the last $|s|-1$ symbols of~$s$. See Figure~\ref{fig:overlap} for 
 
 
 Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
-the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a given order one just
-overlaps the strings in this order, see Figure~\ref{fig:permutation}. This simple observation relates SCS to other permutation problems, including various versions of the Traveling Salesman Problem.
+the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a~{\em given order} one just
+overlaps the strings in this order, see Figure~\ref{fig:permutation}. (This simple observation relates SCS to other permutation problems, including various versions of the Traveling Salesman Problem.) It will prove convenient to view the SCS problem as a~problem of finding an optimum permutation.
+It should be noted at the same time that the correspondence between permutations and superstrings is not one-to-one: there are superstrings that do not correspond to any permutation. For example, the concatenation of input strings is clearly a~superstring, but it ignores the fact that neighbor strings may have non-trivial overlaps and for this reason may fail to correspond to a~permutation. Still, clearly, any {\em shortest} superstring corresponds to a~permutation.
+
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -65,7 +67,7 @@ overlaps the strings in this order, see Figure~\ref{fig:permutation}. This simpl
 \node at (11,0) {$\dotsb$};
 \node at (10.5,1.75) {$\dotsb$};
 \end{mypic}
-\caption{SCS is a~permutation problem. The length of a~superstring corresponding to a~permutation $(s_{i_1}, \dotsc, s_{i_n})$ is $|s_{i_1}|$ plus the sum of the lengths of suffixes of consecutive pairs of strings.}
+\caption{SCS is a~permutation problem. The length of a~superstring corresponding to a~permutation $(s_{i_1}, \dotsc, s_{i_n})$ is $|s_{i_1}|$ plus the sum of the lengths of suffixes of consecutive pairs of strings. It is also equal to $\sum_{i=1}^n |s_i|-\sum_{j=1}^{n-1}|\overlap(s_{i_j}, s_{i_{j+1}})|$.}
 \label{fig:permutation}
 \end{figure}
 
@@ -133,7 +135,57 @@ the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 
 Hence, the SCS problem is equivalent to finding a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and arcs. The multiset of arcs of such a~walk must be Eulerian (each vertex must have the same in- and out-degree, and the set of arcs must be connected). It will prove convenient to define an~{\em Eulerian solution} in a~hierarchical graph as an~Eulerian multiset of arcs~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows an~optimal Eulerian solution.
 
-%\subsection{The Most Important Property of the Hierarchical Graph}
+A~permutation $(s_{i_1}, \dotsc, s_{i_n})$ gives a~``zig-zag'' Eulerian solution:
+\[\varepsilon \to s_{i_1} \to \overlap(s_{i_1}, s_{i_2}) \to s_{i_2} \to
+\overlap(s_{i_2}, s_{i_3}) \to \dotsb \to \overlap(s_{i_{n-1}}, s_{i_n}) \to s_{i_n} \, .\]
+This Eulerian solution is shown schematically in Figure~\ref{fig:hgperm}(a). This schematic illustration is over simplified as the shown path usually intersect many times. Still, this point of view is helpful in understanding the algorithms presented later in the text. 
+Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from Figure~\ref{fig:hgex}(c): by contracting nodes with equal labels into the same node, one gets exactly the solution from Figure~\ref{fig:hgex}(c).
+
+\begin{figure}[ht]
+\begin{mypic}
+%\draw[help lines] (-7.5,0) grid (7.5,3);
+\foreach \n/\x/\y in {aaa/0/3, cae/4/3, aec/2/3, eee/6/3}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+
+\foreach \n/\t/\x/\y in {aa1/aa/-0.5/2, aa2/aa/0.5/2, ae1/ae/1.5/2, ec/ec/2.5/2, ca/ca/3.5/2, ae2/ae/4.5/2, ee1/ee/5.5/2, ee2/ee/6.5/2, a1/a/0/1, a2/a/1/1, c/c/3/1, e1/e/5/1, e2/e/6/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \t};
+
+\node[vertex] (eps) at (3,0) {$\varepsilon$};
+
+\foreach \f/\t in {aa1/aaa, aaa/aa2, ae1/aec, aec/ec, ca/cae, cae/ae2, ee1/eee, eee/ee2, a1/aa1, aa2/a2, a2/ae1, ec/c, c/ca, ae2/e1, e1/ee1, ee2/e2}
+  \draw[->] (\f) -- (\t);
+  
+\path (eps) edge[->,out=180,in=-45] (a1);
+\path (e2) edge[->,out=-135,in=0] (eps);
+
+
+\foreach \n/\x in {1/-8, 2/-7, 3/-6, n/-3}
+  \node[inputvertex] (\n) at (\x,3) {$s_{i_{\n}}$}; 
+  
+\node at (-4.5,3) {$\dotsb$};
+
+\foreach \n/\x/\y in {12/-7.5/2, 23/-6.5/1, 34/-5.5/1.5, 67/-3.5/2}
+  \node[vertex] (\n) at (\x,\y) {}; 
+  
+\foreach \f/\t in {1/12, 12/2, 2/23, 23/3, 3/34, 67/n}
+  \draw[->,anypath] (\f) -- (\t);
+  
+\node[vertex] (eps) at (-5.5,0) {$\varepsilon$};
+\path (eps) edge[anypath,->,out=180,in=-90] (1);
+\path (n) edge[anypath,->,out=-90,in=0] (eps);
+
+\node at (-5.5,-1) {(a)};
+\node at (3,-1) {(b)};
+\end{mypic}
+\label{fig:hgperm}
+\caption{(a)~A~schematic illustration of a~normalized Eulerian solution.
+(b)~Untangled optimal Eulerian solution from Figure~\ref{fig:hgex}(c).}
+\end{figure}
+
+Not every Eulerian solution in the hierarchical graph has a~nice zig-zag
+structure described above: there are many other solutions. In the next section, we introduce a~normalization procedure (that we call collapsing)
+that allows us to focus on nice Eulerian solutions only. 
+
 \subsection{Normalizing a~Solution}
 In this section, we describe a~natural way of normalizing an~Eulerian solution~$D$. Informally, it can be viewed as follows.
 Imagine that all arcs of~$D$ are one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em gravitation} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
