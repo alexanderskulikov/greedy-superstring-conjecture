@@ -47,12 +47,17 @@ Most of the approaches for approximating SCS are based on the
 is joined by an~arc of weight equal to their suffix (see Section~\ref{sec:def_scs} for formal definitions of overlap and suffix).
 SCS is equivalent to the Traveling Salesman Problem (TSP) in the suffix graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor.\footnote{We remark that SCS is also a special case of Metric TSP which can be approximated within a constant factor~\cite{svensson2018constant}, but this factor is much worse than that for SCS.} We do not know the full characterization of the graphs in this special case, but we know some of their properties: Monge inequality~\cite{monge} and Triple inequality~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
 
-While the overlap and suffix graphs give a~convenient graph structure, our current knowledge of their properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this paper is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
+While the overlap and suffix graphs give a~convenient graph structure, our current knowledge of their properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this work is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
 
+\subsection{Our contributions}
 We continue the study of the so-called {\em hierarchical graph}
 introduced by Golovnev et al.~\cite{scs_exact}. This graph in a~sense generalizes de~Bruijn graph, it is designed specifically 
 for the SCS problem, and contains more useful information about the input strings
-than just all pairwise overlaps. We present a simple and natural greedy algorithm
+than just all pairwise overlaps. Given an instance of SCS, the vertex set of the corresponding hierarchical graph is just the set of substrings of all the given strings. For a string $s$ and two symbols $\alpha, \beta$, the graph contains the arcs: $(s,s\alpha)$ and $(\beta s, s)$. Now, every superstring of the given set of string corresponds to an Eulerian walk in the hierarchical graph. We define the following simple normalization procedure of a walk in the hierarchical graph: replace the pair of arcs $(\alpha s, \alpha s \beta), (\alpha s \beta, s\beta)$ with the pair $(\alpha s, s ), (s , s\beta)$ as long as it does not violate connectivity of the walk. It is easy to see that normalization never increases the length of the corresponding solution of SCS. 
+
+We observe a surprising property of this normalization procedure: if one takes \emph{any} solution, doubles every its arc in the hierarchical graph, and then apply the normalization procedure, then the resulting set of arcs is always the same (i.e., it does not depend on the initial solution).
+
+We present a simple and natural greedy algorithm
 in the hierarchical graph. 
 We demonstrate its usefulness by showing that it finds an optimal solution 
 in two well-known polynomially solvable special cases: strings of length~$2$ and
