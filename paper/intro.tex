@@ -50,54 +50,55 @@ SCS is equivalent to the Traveling Salesman Problem (TSP) in the suffix graph. W
 While the overlap and suffix graphs give a~convenient graph structure, our current knowledge of their properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account string properties. The goal of this work is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
 
 \subsection{Our contributions}
+
 We continue the study of the so-called {\em hierarchical graph}
 introduced by Golovnev et al.~\cite{scs_exact}. This graph is designed specifically 
-for the SCS problema, in some sense it generalizes de~Bruijn graph, and it contains more information about the input strings
+for the SCS problem, in some sense it generalizes de~Bruijn graph, and it contains more information about the input strings
 than just all pairwise overlaps. Given an instance of SCS, the vertex set of the corresponding hierarchical graph is just the set of substrings of all the input strings. For a string $s$ and two symbols $\alpha, \beta$, the graph contains the arcs: $(s,s\alpha)$ and $(\beta s, s)$. Now, every superstring of the given set of string corresponds to an Eulerian walk in the hierarchical graph (which passes through the vertices corresponding to the input strings), and vice versa. 
 
 \paragraph{Collapsing Conjecture}
 We define a simple normalization procedure of a walk in the hierarchical graph: replace the pair of arcs $(\alpha s, \alpha s \beta), (\alpha s \beta, s\beta)$ with the pair $(\alpha s, s ), (s , s\beta)$ as long as it does not violate connectivity of the walk. It is easy to see that such a normalization never increases the length of the corresponding solution of SCS. 
-First, we observe a surprising property of this normalization procedure: if one takes \emph{any} solution, doubles all of its arcs in the hierarchical graph, and then applies the normalization procedure, then the resulting set of arcs is always the same (i.e., it does not depend on the initial solution). Collapsing conjecture (see Section~\ref{sec:collapsing}) makes this observation formal. Note that this conjecture implies an extremely simple 2-approximate algorithm for Shortest Common Superstring: take any solution (for example, write down all input strings one after another), then double each arc in the hierarchical graph, and apply the simple normalization procedure. This will lead to some superstring $S$. On the other hand, if one started with an optimal solution, doubled each of its arcs, and applied normalization, then the resulting solution would have length at most twice the length of the optimal solution. By Collapsing Conjecture, this resulting superstring is also $S$.
+First, we observe a surprising property of this normalization procedure: if one takes \emph{any} solution, doubles all of its arcs in the hierarchical graph, and then applies the normalization procedure, then the resulting set of arcs is always the same (i.e., it does not depend on the initial solution). Collapsing Conjecture makes this observation formal (see Section~\ref{sec:collapsing}). Note that this conjecture implies an extremely simple 2-approximate algorithm for Shortest Common Superstring: take any solution (for example, write down all input strings one after another), then double each arc in the hierarchical graph, and apply the simple normalization procedure. This procedure will result in some superstring $S$. On the other hand, if one started with an optimal solution, doubled each of its arcs, and normalized the result, then the resulting solution would have length at most twice the length of the optimal solution. By Collapsing Conjecture, this resulting superstring would also be $S$, which implies that $S$ is a $2$-approximation.
 
 \paragraph{Greedy Hierarchical Conjecture}
 We also propose a simple and natural greedy algorithm for SCS in the hierarchical graph: start from the nodes corresponding to the input strings, and greedily build an Eulerian walk passing through all of them. 
 While this Greedy Hierarchical Algorithm (GHA) is as simple as the Greedy Algorithm (GA), it provably performs better in some cases. For example, there are two well-known polynomially solvable special cases of SCS: strings of length~$2$ and
-a~spectrum of a~string. While GA does not always finds optimal solutions in these cases, GHA solves them exactly (see Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}).
+a~spectrum of a~string. While GA does not always find optimal solutions in these cases, GHA solves them exactly (see Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}).
 
-Greedy Hierarchical conjecture claims that the set of edges produced by GHA exactly matches the set of edges from the Collapsing Conjecture: whichever initial solution one takes, after doubling its arcs and normalization, the resulting set of arcs is exactly the solution found by GHA. Clearly, this conjecture implies Collapsing Conjecture. Perhaps surprisingly, we prove that the two conjectures are equivalent (see Section~\ref{sec:equiv}): if any doubled solution after normalization gives the same set of arcs, then this set of arcs is the GHA solution.
+Greedy Hierarchical Conjecture (see Section~\ref{sec:greedy_hier}) claims that the set of edges produced by GHA exactly matches the set of edges from the Collapsing Conjecture: whichever initial solution one takes, after doubling its arcs and normalization, the resulting set of arcs is exactly the solution found by GHA. Clearly, this conjecture implies Collapsing Conjecture. Perhaps surprisingly, we prove that the two conjectures are equivalent (see Section~\ref{sec:equiv}): if all doubled solutions after normalization result in the same set of arcs, then this set of arcs is the GHA solution.
 
 The weak form of Greedy Hierarchical Conjecture claims that GHA is a 2-approximate algorithm for SCS. 
-We prove (see Section~\ref{sec:gr_im_wghc}) that GHA is an instantiation of GA with some tie-breaking rule. That is, there is an algorithm which always merges some pair of strings with the longest overlap and outputs the same solution as GHA. This has two consequences. First, by the known results for GA, this immediately implies that GHA gives 3.5-approximation for SCS. Second, this gives us that Greedy Conjecture implies Weak Greedy Hierarchical Conjecture. 
+We prove (see Section~\ref{sec:gr_im_wghc}) that GHA is an instantiation of GA with some tie-breaking rule. That is, there is an algorithm which always merges some pair of strings with the longest overlap and outputs the same solution as GHA. This result has two consequences. First, by the known results for GA, we immediately have that GHA finds a $3.5$-approximation for SCS. Second, this gives us that Greedy Conjecture implies Weak Greedy Hierarchical Conjecture. 
 
 \paragraph{Evidence for the Conjectures}
-The Collapsing Conjecture (and the equivalent Greedy Hierarchical Conjecture) looks plausible. We prove the conjecture for the special case of the input strings of length at most $3$ which until recently had been the only case where the Greedy Conjecture was proven (see Section~\ref{subsec:scs3}). Despite tesing the conjecture on millions of datasets (both hand-crafted and generated randomly according to various distributions), we have not found a counter-example. Note that even the Weak Greedy Hierarchical Conjecture suffices for getting a $2$-approximation for SCS, and this conjecture is not harder to prove than the standard Greedy Conjecture.
-We implemented the Greedy Hierarchical Algorithm~\cite{github}, and we invite the reader to a~web interface~\cite{webpage} to see step by step executions of the described algorithms and to verify the conjectures on
+We support the Collapsing Conjecture (and the equivalent Greedy Hierarchical Conjecture) by proving its special case and verifying it empirically. We prove the conjecture for the special case where all input strings have length at most $3$, which until recently had been the only case where the Greedy Conjecture was proven (see Section~\ref{subsec:scs3}). Despite tesing the conjecture on millions of datasets (both hand-crafted and generated randomly according to various distributions), we have not found a counter-example. Note that even the Weak Greedy Hierarchical Conjecture suffices for getting a $2$-approximation for SCS, and this conjecture is not harder to prove than the standard Greedy Conjecture.
+We implemented the Greedy Hierarchical Algorithm~\cite{github}, and we invite the reader to its~web interface~\cite{webpage} to see step by step executions of the described algorithms and to verify the conjectures on
 custom datasets.
 
 
-\paragraph{Old junk}
-We then conjecture that this greedy algorithm is $2$-approximate. We suggest a combinatorial way of proving this conjecture. For this, we introduce an {\em even stronger} conjecture that we call 
-{\em Collapsing Conjecture}. 
-Roughly, it says that it is possible to transform a~doubled optimal 
-solution into a~greedy solution. 
-The corresponding transformation, that we call {\em collapsing}, 
-is just a repeated replacing of two arcs $a\alpha \to a\alpha b \to \alpha b$ 
-by two arcs $a\alpha \to \alpha \to \alpha b$ (where $\alpha$ is an arbitrary string). 
-We support the Collapsing Conjecture by 
-proving that it holds for the~special case when the input strings have length~3.
-
-%We report on computational experiments that verified the 
-%conjecture on many datasets (both hand-crafted and generated randomly
-%according to various distributions). 
-
-
-The Collapsing Conjecture immediately implies that the Greedy
-Hierarchical Algorithm is 2-approximate. Remarkably, it seems to be much
-stronger in the following sense. Let $GS$ be the set of arcs of a~greedy
-solution and let $DOS$ be the set of arcs of a~collapsed doubled optimal
-solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. 
-One way of showing this is to prove that $GS \subseteq DOS$. 
-The conjecture, at the same time, states that this inclusion holds with equality. Actually, it's not stronger.
-
-
-%We provide a web interface~\cite{webpage} so that anyone could test the conjectures on arbitrary datasets. The webpage also gives detailed visualizations of how the Greedy Hierarchical and Collapsing algorithms work.
+%\paragraph{Old junk}
+%We then conjecture that this greedy algorithm is $2$-approximate. We suggest a combinatorial way of proving this conjecture. For this, we introduce an {\em even stronger} conjecture that we call 
+%{\em Collapsing Conjecture}. 
+%Roughly, it says that it is possible to transform a~doubled optimal 
+%solution into a~greedy solution. 
+%The corresponding transformation, that we call {\em collapsing}, 
+%is just a repeated replacing of two arcs $a\alpha \to a\alpha b \to \alpha b$ 
+%by two arcs $a\alpha \to \alpha \to \alpha b$ (where $\alpha$ is an arbitrary string). 
+%We support the Collapsing Conjecture by 
+%proving that it holds for the~special case when the input strings have length~3.
+%
+%%We report on computational experiments that verified the 
+%%conjecture on many datasets (both hand-crafted and generated randomly
+%%according to various distributions). 
+%
+%
+%The Collapsing Conjecture immediately implies that the Greedy
+%Hierarchical Algorithm is 2-approximate. Remarkably, it seems to be much
+%stronger in the following sense. Let $GS$ be the set of arcs of a~greedy
+%solution and let $DOS$ be the set of arcs of a~collapsed doubled optimal
+%solution. For proving 2-approximability, it suffices to show that $|GS| \le |DOS|$. 
+%One way of showing this is to prove that $GS \subseteq DOS$. 
+%The conjecture, at the same time, states that this inclusion holds with equality. Actually, it's not stronger.
+%
+%
+%%We provide a web interface~\cite{webpage} so that anyone could test the conjectures on arbitrary datasets. The webpage also gives detailed visualizations of how the Greedy Hierarchical and Collapsing algorithms work.
