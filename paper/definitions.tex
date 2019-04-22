@@ -73,6 +73,7 @@ It should be noted at the same time that the correspondence between permutations
 
 
 \subsection{Hierarchical Graph}
+\label{sec:def_hier}
 %\begin{definition}[hierarchical graph]
 For a~set of strings~${\cal S}$, the~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V,\, v \neq \varepsilon$, the set of arcs~$E$ contains an {\em up-arc} $(\pref(v), v)$ of weight~1 and a {\em down-arc} $(v, \suff(v))$ of weight~0. The meaning of an up-arc is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the meaning of a down-arc is cutting down one symbol from the beginning of the current string.
 %\end{definition}
@@ -135,10 +136,13 @@ the current string. See Figure~\ref{fig:hgex}(b) for an~example.
 
 Hence, the SCS problem is equivalent to finding a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and arcs. The multiset of arcs of such a~walk must be Eulerian (each vertex must have the same in- and out-degree, and the set of arcs must be connected). It will prove convenient to define an~{\em Eulerian solution} in a~hierarchical graph as an~Eulerian multiset of arcs~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows an~optimal Eulerian solution.
 
-A~permutation $(s_{i_1}, \dotsc, s_{i_n})$ gives a~``zig-zag'' Eulerian solution:
-\[\varepsilon \to s_{i_1} \to \overlap(s_{i_1}, s_{i_2}) \to s_{i_2} \to
-\overlap(s_{i_2}, s_{i_3}) \to \dotsb \to \overlap(s_{i_{n-1}}, s_{i_n}) \to s_{i_n} \, .\]
-This Eulerian solution is shown schematically in Figure~\ref{fig:hgperm}(a). This schematic illustration is over simplified as the shown path usually intersect many times. Still, this point of view is helpful in understanding the algorithms presented later in the text. 
+A solution to SCS defines a permutation $(s_{i_1}, \dotsc, s_{i_n})$ of the input strings, and this permutation naturally gives a~``zig-zag'' Eulerian solution in the hierarchical graph:
+\begin{align}
+\label{eq:zigzag}
+\varepsilon \to s_{i_1} \to \overlap(s_{i_1}, s_{i_2}) \to s_{i_2} \to
+\overlap(s_{i_2}, s_{i_3}) \to \dotsb \to \overlap(s_{i_{n-1}}, s_{i_n}) \to s_{i_n} \, .
+\end{align}
+This Eulerian solution is shown schematically in Figure~\ref{fig:hgperm}(a). This schematic illustration is over simplified as the shown path usually has many self-intersections. Still, this point of view is helpful in understanding the algorithms presented later in the text. 
 Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from Figure~\ref{fig:hgex}(c): by contracting nodes with equal labels into the same node, one gets exactly the solution from Figure~\ref{fig:hgex}(c).
 
 \begin{figure}[ht]
@@ -183,10 +187,11 @@ Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from
 \end{figure}
 
 Not every Eulerian solution in the hierarchical graph has a~nice zig-zag
-structure described above: there are many other solutions. In the next section, we introduce a~normalization procedure (that we call collapsing)
+structure described above. In the next section, we introduce a~normalization procedure (that we call collapsing)
 that allows us to focus on nice Eulerian solutions only. 
 
 \subsection{Normalizing a~Solution}
+\label{sec:def_normal}
 In this section, we describe a~natural way of normalizing an~Eulerian solution~$D$. Informally, it can be viewed as follows.
 Imagine that all arcs of~$D$ are one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em gravitation} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
 with a~pair $(\pref(v), \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, if there is no nail in~$v$ and if this does not disconnect~$D$. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
