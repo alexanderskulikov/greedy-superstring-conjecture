@@ -1,20 +1,53 @@
 \section{Relations between the Conjectures}
+In this section we prove some relations between the Collapsing and Greedy conjectures. Namely, in Section~\ref{sec:equiv} we prove the equivalence of Collapsing and Greedy Hierarchical conjectures. In Section~\ref{sec:gr_im_wghc} we prove that the standard Greedy Conjecture implies Weak Hierarchical Greedy Conjecutre (which is sufficient for a simple 2-approximate greedy algorithm for SCS). Finally, it is easy to see that Greedy Hierarchical Conjecture implies its weak version: indeed, if every doubled solution results in the solution obtained by GHA, then GHA does not exceed twice the optimal superstring length. In Figure~\ref{fig:relations} we show the proven relations between the conjectures, together with 2-approximate algorithm which follow from each of the conjecture.
+%\begin{figure}
+%\begin{mypic}
+%\tikzstyle{r}=[rectangle,inner sep=2mm,draw,text centered]
+%
+%\node[r] (w) at (5,3) {Weak Greedy Hierarchical Conjecture};
+%\node[r] (cc) at (0,5) {Collapsing Conjecture}; 
+%\node[r] (gc) at (10,5) {Greedy Conjecture}; 
+%
+%\node[r] (ca) at (0,1) {CA is 2-approximate};
+%\node[r] (gha) at (5,1) {GHA is 2-approximate};
+%\node[r] (ga) at (10,1) {GA is 2-approximate};
+%
+%%\draw[help lines] (0,0) grid (14,6);
+%
+%\foreach \f/\t in {cc/ca, cc/w, gc/ga, gc/w, w/gha, ga/gha}
+%  \draw[->] (\f) -- (\t);
+%\end{mypic}
+%\caption{Collapsing and Greedy Hierarchical Conjectures are equivalent. They imply the weak version of the Greedy Hierarchical Conjecture, which also follows from the standard Greedy Conjecture. Each conjecture implies that the corresponding algorithm finds a $2$-approximate solution for SCS.}
+%\label{fig:relations}
+%\end{figure}
+\begin{figure}
 \begin{mypic}
-\tikzstyle{r}=[rectangle,inner sep=2mm,draw,text centered]
+\tikzstyle{r}=[rectangle,inner sep=2mm,draw,text centered, text width=40mm]
 
-\node[r] (w) at (5,3) {Weak Greedy Hierarchical Conjecture};
+\node[r] (w) at (5.5,3) {Weak Greedy Hierarchical Conjecture};
 \node[r] (cc) at (0,5) {Collapsing Conjecture}; 
-\node[r] (gc) at (10,5) {Greedy Conjecture}; 
+\node[r] (gc) at (0,1) {Greedy Conjecture};
+\node[r] (ghc) at (0,3) {Greedy Hierarchical Conjecture}; 
 
-\node[r] (ca) at (0,1) {CA is 2-approximate};
-\node[r] (gha) at (5,1) {GHA is 2-approximate};
-\node[r] (ga) at (10,1) {GA is 2-approximate};
+\node[r] (ca) at (12,5) {CA is 2-approximate};
+\node[r] (gha) at (12,3) {GHA is 2-approximate};
+\node[r] (ga) at (12,1) {GA is 2-approximate};
 
 %\draw[help lines] (0,0) grid (14,6);
 
-\foreach \f/\t in {cc/ca, cc/w, gc/ga, gc/w, w/gha, ga/gha}
+\foreach \f/\t in {cc/ghc, cc.east/w, ghc/w, gc.east/w, ghc/cc}
   \draw[->] (\f) -- (\t);
+  
+\foreach \f/\t in {cc/ca, w/gha, gc/ga}
+  \draw[dashed,->] (\f) -- (\t);
+ 
+
+%\foreach \f/\t in {cc/ca, cc/w, gc/ga, gc/w, w/gha, ga/gha}
+ % \draw[->] (\f) -- (\t);
 \end{mypic}
+\caption{Collapsing and Greedy Hierarchical Conjectures are equivalent. They imply the weak version of the Greedy Hierarchical Conjecture, which also follows from the standard Greedy Conjecture. Each conjecture implies that the corresponding algorithm finds a $2$-approximate solution for SCS.}
+\label{fig:relations}
+\end{figure}
 
 We will use the following simple property of solutions constructed by the GHA algorithm.
 \begin{claim}
@@ -29,6 +62,30 @@ We finish the proof by showing that every normalized solution is of the form~\eq
 
 \subsection{Equivalence of Collapsing and Greedy Hierarchical Conjectures}
 \label{sec:equiv}
+In this section we prove the equivalence of Collapsing Conjecture and Greedy Hierarchical Conjecture. Recall that Collapsing Conjecture claims that for any pair of Eulerian solutions $D_1$ and $D_2$ for the input strings ${\cal S}$, we have 
+\[CA({\cal S}, D_1 \sqcup D_1) =  CA({\cal S}, D_2 \sqcup D_2)\, .\]
+ The Greedy Hierarchical Solution extends this statement to 
+ \[CA({\cal S}, D_1 \sqcup D_1) =  GHA(\mathcal{S}) \, .\] Greedy Hierarchical Conjecture trivially implies Collapsing conjecture, and in order to prove their equivalence, it suffices to show that the collapsing procedure applied to the doubled GHA solution results in the GHA solution: 
+ \[CA({\cal S}, GHA(\mathcal{S}) \sqcup GHA(\mathcal{S})) =  GHA(\mathcal{S}) \, .\]
+ 
+ \begin{theorem}
+For any set of strings $\mathcal{S}$,
+\[
+			D := CA(\mathcal{S}, GHA(\mathcal{S}) \sqcup GHA(\mathcal{S})) = GHA(\mathcal{S}) \, .
+\]
+\end{theorem}
+\begin{proof}
+ Let us denote by $D'$ and $D''$ the first and the second copy of $GHA(\mathcal{S})$ in doubled solution and for convenience assume that arcs in $D'$ and $D''$ are painted in red and blue, respectively. Since $CA$ collapses the pairs of arcs at each vertex in arbitrary order, we can assume without loss of generality, that if for any vertex $v$ $CA$ can collapse a blue pair of arcs $(\pref(v), v), (v, \suff(v))$, it does it. Let us denote by $\overline{D}_i$ a partial solution of $CA$ constructed till level $i$ and by $D_i$ its part above level $i$. 	
+	
+	We are going to prove by induction that for every $i$ $D_i$ coincides with the part $D'_i$ of $D'$ above level $i$. For $i = l := \max\{|s| \, : \, s\in\mathcal{S}\}$ the claim is trivial since $D_l$ and $D'_l$ have no arcs. Assume that the claim is true for $i = k > 0$ and prove it is also true for $i = k - 1$. Note, that if $D_k = D'_k$, then all collapsed pairs of arcs till now were blue and all blue arcs above level $k$ were collapsed. Since sequential descending collapse of blue pairs doesn't break connectivity of blue graph, we can conclude, that blue subgraph in $\overline{D}_k$ is still cycle and then all {\em blue degrees} are balanced. This means, that if for any vertex $v$ on level $k$ there is an arc $(\pref(v), v)$ then there is also an arc $(v, \suff(v))$ and vice versa. Hence, all pairs collapsed at level $k$ will be one-colored.
+	
+	Now let us show, that no red pair can be collapsed. Indeed, if for some vertex $v$ on level $k$ there is a red pair $(\pref(v), v)$, $(v, \suff(v))$, then by construction of $GHA$ $v$ is either in $\mathcal{S}$ or is the last chance of the corresponding component $\mathcal{C} \ni v$ to be connected to the rest arcs in $D'$ (note, that the first case is subcase of the second one, as then $\mathcal{C}$ contains only one vertex). It follows, that if $CA$ decide to collapse such pair, then $v$ has no blue pairs (and hence blue incident arcs) and all other vertex in $\mathcal{C}$ at the level $k$ are fully collapsed (since $v$ is the last vertex in $\mathcal{C}$ in lexicographic order). Therefore, this pair is also the last chance of $\mathcal{C}$ to be connected to the rest arcs in $\overline{D}_i$ and then $CA$ cannot collapse it.
+	
+	It remains to show that all blue pairs on level $k$ will be collapsed. This is true, since no red pair is collapsed and hence connectivity of $\overline{D}_i$ is provided by $D'$. Thus, proof is completed.
+	
+	To prove the lemma, note that $D = \overline{D}_0 = D_0 = D'_0 = D'$.
+\end{proof}
+
 
 \subsection{Greedy Implies Greedy Hierarchical}
 \label{sec:gr_im_wghc}
