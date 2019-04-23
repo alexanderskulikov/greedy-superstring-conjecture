@@ -72,7 +72,6 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 
 
 One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on a~toy example. For a~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} at the first step. At the same time, it is not difficult to see that GHA finds an optimal solution for~$\mathcal{S}$. Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when the input strings have length at most two and when the input strings form a~$k$-spectrum of an unknown string. We prove this in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
-\todo[inline]{AK: Sasha G., should we make this is a list of advantages? 1) it is more flexible; 2) it solves special case; 3) it is easier to prove 2-approximability}
 
 We are now ready to state our second conjecture: the results of the Collapsing Algorithm and Greedy Hierarchical Algorithm coincide!
 \newtheorem*{ghcc}{Greedy Hierarchical Conjecture}

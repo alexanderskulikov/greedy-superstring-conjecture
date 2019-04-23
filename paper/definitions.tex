@@ -269,7 +269,7 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \hspace*{\algorithmicindent} \textbf{Output:} Eulerian solution $D'\colon |D'|\leq|D|$
 % a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
 \begin{algorithmic}[1]
-\For{level~$l$ in $HG$ in descending order}
+\For{level~$l$ in $HG$ in descending order}\label{alg:ca_for}
 \For{all $v \in V$ s.t. $|v|=l$ in lexicographic order:}
 \While{$(\pref(v), v), (v, \suff(v)) \in D$ and collapsing it keeps~$D$ an Eulerian solution}
 \State $\text{\sc Collapse}(HG, D, v)$
