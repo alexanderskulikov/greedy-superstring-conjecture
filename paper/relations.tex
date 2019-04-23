@@ -1,6 +1,4 @@
 \section{Relations between the Conjectures}
-\todo[inline]{AK: Sasha G., should we close transitively this graph (i.e., add CC$\to$GHA and GC$\to$GHA edges)?}
-
 \begin{mypic}
 \tikzstyle{r}=[rectangle,inner sep=2mm,draw,text centered]
 
@@ -18,39 +16,40 @@
   \draw[->] (\f) -- (\t);
 \end{mypic}
 
-
-
-\subsection{Equivalence of Collapsing and Greedy Hierarchical Conjectures}
-\label{sec:equiv}
-\subsection{Greedy Implies Greedy Hierarchical}
-\label{sec:gr_im_wghc}
-\begin{theorem}
-\label{thm:gr_im_wghc}
-The Greedy Conjecture implies the Weak Greedy Hierarchical Conjecture: if the Greedy Algorithm is 2-approximate, then so is the Greedy Hierarchical Algorithm.
-\end{theorem}
-\begin{proof}
-Consider a~permutation of the input strings. We say that it is a~{\em valid greedy permutation} if it can be constructed by the Greedy Algorithm: there exist $n-1$ merges of the $n$~input strings that lead to this permutation such that at every step the two merged strings have the largest overlap. To prove the theorem, we show that the permutation constructed by the Greedy Hierarchical Algorithm is a~valid greedy permutation.
-
-Assume that $\pi=(s_1, \dots, s_n)$ is a~permutation constructed by GHA. Consider the following algorithm~$A$: it starts with the sequence $(s_1, \dots, s_n)$ and at every step it merges two neighboring strings in the sequence that have the largest overlap. It is a~greedy algorithm, but instead of considering all pairwise overlaps, it only considers overlaps of neighboring strings in the sequence. Of course, in the end, this algorithm constructs exactly the permutation~$\pi$. To show that $\pi$ is a~valid greedy permutation, we show that at every iteration of~$A$ no two strings have longer overlap than the two strings merged by~$A$.
-
-Consider, for the sake of contradiction, the first iteration when the algorithm $A$~merges some pair of neighboring strings with overlap of length~$k$ whereas there are non-neighboring strings~$p$ and~$q$ with $v=\overlap(p,q)$, $|v|>k$. 
-%Further assume that this is the earliest such iteration. 
-At this point $p$~is a~merge of input strings $s_a, s_{a+1}, \dotsc, s_b$
-and $q$~is a~merge of input strings $s_c, s_{c+1}, \dotsc, s_d$. 
-Then, $v=\overlap(p,q)=\overlap(s_b,s_c)$ (this follows from the assumption that no input string is a substring of another input string). Since the algorithm~$A$
-merges neighboring strings in the decreasing order of overlap lengths, we have that $|\overlap(s_b,s_{b+1})| \le k <|v|$ and $|\overlap(s_{c-1},c_c)| \le k < |v|$.\footnote{In the case when $s_b$ is the last string in the solution (or $s_c$ is the first string is the solution) we think of it being followed by $\varepsilon$, and $|\overlap(s_b,\varepsilon)|=0<|v|$ still holds.} 
-
-Now we consider the Eulerian solution $D$ constructed by GHA in the hierarchical graph, and use the following simple property.
+We will use the following simple property of solutions constructed by the GHA algorithm.
 \begin{claim}
+\label{claim:zigzag}
 Let $D$ be an Eulerian solution constrtucted by GHA. Then $D$ has a ``zig-zag'' form as in~\eqref{eq:zigzag}. 
 \end{claim}
 \begin{proof}
-First we prove that $D$ is normalized, that is, any application of the collapsing procedure of Algorithm~\ref{alg:collapse} to $D$ will violate the property of Eulerian solution. Indeed, Algorithm~\ref{alg:collapse} can only collapse pairs of arcs of the form $(\pref(s), s), (s, \suff(s))$. The Greedy Hierarchical Algorithm adds such pairs to a solution in wo cases: (i) $s$ is an input string (line~\ref{alg:gha_init} of Algorithm~\ref{algo:gha}); (ii) $s$ is the the lexicographically largest among the shortest string in its Eulerian component (line~\ref{alg:last} of Algorithm~\ref{algo:gha}). Now note that in the former case, the collapsing procedure applied tto $s$ would violate the property that $D$ must contain all input strings, and in the latter case, the collapsing procedure would violate the connectivity property of $D$.
+First we prove that $D$ is normalized, that is, any application of the collapsing procedure of Algorithm~\ref{alg:collapse} to $D$ will violate the property of Eulerian solution. Indeed, Algorithm~\ref{alg:collapse} can only collapse pairs of arcs of the form $(\pref(s), s), (s, \suff(s))$. The Greedy Hierarchical Algorithm adds such pairs to its solution in two cases: (i) $s$ is an input string (line~\ref{alg:gha_init} of Algorithm~\ref{algo:gha}); (ii) $s$ is the the lexicographically largest among the shortest strings in its Eulerian component (line~\ref{alg:last} of Algorithm~\ref{algo:gha}). Now note that in the former case, the collapsing procedure applied to $s$ would violate the property that $D$ must contain all input strings, and in the latter case, the collapsing procedure would violate the connectivity property of $D$.
 
-We finish the proof by showing that every normalized solution is of the form~\eqref{eq:zigzag}. Assume that a normalized solution $D$ only contains the path $s_i \to \overlap(s_i,s_{i+1})$. Let us consider the longest sequence of down-arcs from $s_i$: $s_i \to s$ where $|s|>|\overlap(s_i,s_{i+1})|$. The next arc on this path must be an up-arc $(s, t)$ (as we considered the longest sequence of down-arcs). Note that now the 
+We finish the proof by showing that every normalized solution is of the form~\eqref{eq:zigzag}. Let $\pi=(s_1, \dots, s_n)$ be  the permutation of the input strings corresponding to a normalized Eulerian solution $D$. Let us follow the arcs of $D$ in the order of the permutation $\pi$, and assume that at some point $D$ does not contain the path $s_i \to \overlap(s_i,s_{i+1})$ (the case when it does not contain the path $\overlap(s_i,s_{i+1})\to s_{i+1}$ is identical to this one). Let us consider the longest sequence of down-arcs from $s_i$: $s_i \to s$ where $|s|>|\overlap(s_i,s_{i+1})|$. The next arc on this path must be an up-arc $(s, t)$ (as we considered the longest sequence of down-arcs). Note that now the 
 \end{proof}
 
-Since $D$ has a ``zig-zag'' form, then it contains all arcs from the path $s_b\to\overlap(s_{b}, s_{b+1}) \to s_{b+1}$, and all arcs from the path $s_b\to\overlap(s_{c-1}, s_{c}) \to s_{c}$. Recall that $v=\overlap(s_b,s_c)$, and that $|\overlap(s_b,s_{b+1})| <|v|$ and $|\overlap(s_{c-1},c_c)|< |v|$. In particular, the vertex $v$ in the solution $D$ has at least one incoming arc from the previous level and at least one outgoing arc to the previous level (see~Figure~\ref{fig:gagha}(a)). Such a~pair of arcs in the Eulerian solution $D$ constructed by GHA may only occur when~$v$ is the last chance of
+\subsection{Equivalence of Collapsing and Greedy Hierarchical Conjectures}
+\label{sec:equiv}
+
+\subsection{Greedy Implies Greedy Hierarchical}
+\label{sec:gr_im_wghc}
+Consider a~permutation of the input strings. We say that it is a~{\em valid greedy permutation} if it can be constructed by the Greedy Algorithm: there exist $n-1$ merges of the $n$~input strings that lead to this permutation such that at every step the two merged strings have the largest overlap. We will prove that GHA always returns a solution which corresponds to a greedy permutation of the input string. That is, while the standard Greedy Algorithm does not determine how to break ties, the Greedy Hierarchical Algorithm is a specific instantiation of the Greedy Algorithm with some tie-breaking rule.
+
+\begin{theorem}
+\label{thm:gr_im_wghc}
+Every permutation $\pi=(s_1, \dots, s_n)$ of the input string constructed by GHA is a greedy permutation.
+\end{theorem}
+\begin{proof}
+Consider the following algorithm~$A$: it starts with the sequence $(s_1, \dots, s_n)$ and at every step it merges two neighboring strings in this sequence that have the largest overlap. It is a~greedy algorithm, but instead of considering all pairwise overlaps, it only considers overlaps of neighboring strings in the sequence. Of course, in the end, this algorithm constructs exactly the permutation~$\pi$. To show that $\pi$ is a~valid greedy permutation, we show that at every iteration of~$A$ no two strings have longer overlap than the two strings merged by~$A$.
+
+Consider, for the sake of contradiction, the first iteration when the algorithm $A$~merges some pair of neighboring strings with overlap of length~$k$ whereas there are non-neighboring strings~$p$ and~$q$ with $v=\overlap(p,q)$, $|v|>k$. 
+%Further assume that this is the earliest such iteration. 
+At this point, $p$~is a~merger of input strings $s_a, s_{a+1}, \dotsc, s_b$
+and $q$~is a~merger of input strings $s_c, s_{c+1}, \dotsc, s_d$. 
+Then, from the assumption that no input string contains another input string, we have that $v=\overlap(p,q)=\overlap(s_b,s_c)$. Since the algorithm~$A$
+merges neighboring strings in the decreasing order of overlap lengths, we have that $|\overlap(s_b,s_{b+1})| \le k <|v|$ and $|\overlap(s_{c-1},c_c)| \le k < |v|$.\footnote{In the case when $s_b$ is the last string in the solution (or $s_c$ is the first string in the solution) we think of it being followed by $\varepsilon$, and $|\overlap(s_b,\varepsilon)|=0<|v|$ still holds.} 
+
+Now we consider the Eulerian solution $D$ constructed by GHA in the hierarchical graph.
+By Claim~\ref{claim:zigzag} $D$ has a ``zig-zag'' form, thus, it contains all arcs from the path $s_b\to\overlap(s_{b}, s_{b+1}) \to s_{b+1}$, and all arcs from the path $s_{c-1}\to\overlap(s_{c-1}, s_{c}) \to s_{c}$. Recall that $v=\overlap(s_b,s_c)$, and that $|\overlap(s_b,s_{b+1})| <|v|$ and $|\overlap(s_{c-1},c_c)|< |v|$. In particular,  the paths $s_b\to\overlap(s_{b}, s_{b+1})$ and $\overlap(s_{c-1}, s_{c}) \to s_{c}$ path throught the vertex $v$, which implies that the vertex $v$ in the solution $D$ has at least one incoming arc from the previous level and at least one outgoing arc to the previous level (see~Figure~\ref{fig:gagha}(a)). Such a~pair of arcs in the Eulerian solution $D$ constructed by GHA may only occur when~$v$ is the last chance of
 its connected component to connect to the rest of the solution (see line~\ref{alg:last} of Algorithm~\ref{algo:gha}). This, in turn, implies that right before the pair of arcs $(\pref(v), v)$ and $(v, \suff(v))$ were added to the Eulerian solution, there was an~Eulerian component where $v$~was the lexicographically largest among all shortest nodes. This component is shown schematically in~Figure~\ref{fig:gagha}(b). All overlap-nodes (the nodes which are equal to $\overlap(s_i,s_{i+1})$) of this component lie on levels~$\geq k$. Therefore, all pairs of the corresponding neighboring input strings are already merged at this stage. But then, $s_b$ and
 $s_c$ already belong to the same merged string. This contradicts the assumption that the strings~$p$ and~$q$ can be merged.
 
@@ -94,7 +93,11 @@ $s_c$ already belong to the same merged string. This contradicts the assumption 
 \end{figure}
 \end{proof}
 
-Theorem~\ref{thm:gr_im_wghc} actually proves a stronger statement: while the standard Greedy Algorithm does not determine how to break ties, the Greedy Hierarchical Algorithm is a specific instantiation of the Greedy Algorithm with a tie-breaking rule. Indeed, Theorem~\ref{thm:gr_im_wghc} proves that the superstring provided by GHA can be obtained by GA with some choice of $n-1$ greedy merges. Since it is known that any choice of $n-1$ greedy merges gives a 3.5-approximation to the Shortest Common Superstring problem~\cite{KS2005}, we have the following corollary.
+Theorem~\ref{thm:gr_im_wghc} has two immediate corollaries.
+\begin{corollary}
+The Greedy Conjecture implies the Weak Greedy Hierarchical Conjecture: if the Greedy Algorithm is 2-approximate, then so is the Greedy Hierarchical Algorithm.
+\end{corollary}
+Since every valid greedy permutation is a $3.5$-approximation to the Shortest Common Superstring problem~\cite{KS2005}, we have the following corollary.
 \begin{corollary}
 GHA is a factor $3.5$ approximation algorithm for the Shortest Common Superstring problem.
 \end{corollary}
