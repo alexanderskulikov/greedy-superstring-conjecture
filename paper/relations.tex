@@ -50,17 +50,6 @@ Collapsing and Greedy Hierarchical Conjectures are equivalent. They imply the we
 \label{fig:relations}
 \end{figure}
 
-We will use the following simple property of solutions constructed by the GHA algorithm.
-\begin{claim}
-\label{claim:zigzag}
-Let $D$ be an Eulerian solution constrtucted by GHA. Then $D$ has a ``zig-zag'' form as in~\eqref{eq:zigzag}. 
-\end{claim}
-\begin{proof}
-First we prove that $D$ is normalized, that is, any application of the collapsing procedure of Algorithm~\ref{alg:collapse} to $D$ will violate the property of Eulerian solution. Indeed, Algorithm~\ref{alg:collapse} can only collapse pairs of arcs of the form $(\pref(s), s), (s, \suff(s))$. The Greedy Hierarchical Algorithm adds such pairs to its solution in two cases: (i) $s$ is an input string (line~\ref{alg:gha_init} of Algorithm~\ref{algo:gha}); (ii) $s$ is the the lexicographically largest among the shortest strings in its Eulerian component (line~\ref{alg:last} of Algorithm~\ref{algo:gha}). Now note that in the former case, the collapsing procedure applied to $s$ would violate the property that $D$ must contain all input strings, and in the latter case, the collapsing procedure would violate the connectivity property of $D$.
-
-We finish the proof by showing that every normalized solution is of the form~\eqref{eq:zigzag}. Let $\pi=(s_1, \dots, s_n)$ be  the permutation of the input strings corresponding to a normalized Eulerian solution $D$. Let us follow the arcs of $D$ in the order of the permutation $\pi$, and assume that at some point $D$ does not contain the path $s_i \to \overlap(s_i,s_{i+1})$ (the case when it does not contain the path $\overlap(s_i,s_{i+1})\to s_{i+1}$ is identical to this one). Let us consider the longest sequence of down-arcs from $s_i$: $s_i \to s$ where $|s|>|\overlap(s_i,s_{i+1})|$. The next arc on this path must be an up-arc $(s, t)$ (as we considered the longest sequence of down-arcs). Note that now the 
-\end{proof}
-
 \subsection{Equivalence of Collapsing and Greedy Hierarchical Conjectures}
 \label{sec:equiv}
 In this section we prove the equivalence of Collapsing Conjecture and Greedy Hierarchical Conjecture. Recall that Collapsing Conjecture claims that for any pair of Eulerian solutions $D_1$ and $D_2$ for the input strings ${\cal S}$, we have 
@@ -72,11 +61,13 @@ In this section we prove the equivalence of Collapsing Conjecture and Greedy Hie
  \begin{theorem}
 For any set of strings $\mathcal{S}$,
 \[
-			D := CA(\mathcal{S}, GHA(\mathcal{S}) \sqcup GHA(\mathcal{S})) = GHA(\mathcal{S}) \, .
+			CA(\mathcal{S}, GHA(\mathcal{S}) \sqcup GHA(\mathcal{S})) = GHA(\mathcal{S}) \, .
 \]
 \end{theorem}
 \begin{proof}
- Let us denote by $D'$ and $D''$ the first and the second copy of $GHA(\mathcal{S})$ in doubled solution and for convenience assume that arcs in $D'$ and $D''$ are painted in red and blue, respectively. Since $CA$ collapses the pairs of arcs at each vertex in arbitrary order, we can assume without loss of generality, that if for any vertex $v$ $CA$ can collapse a blue pair of arcs $(\pref(v), v), (v, \suff(v))$, it does it. Let us denote by $\overline{D}_i$ a partial solution of $CA$ constructed till level $i$ and by $D_i$ its part above level $i$. 	
+Let us denote two copies of the $GHA(\mathcal{S})$ solution by $B$ and $R$, which sttand for a blue-copy and a red-copy. We will prove the theorem statement by showing that $CA(R \sqcup B)$ collapses all arcs of $B$ and keeps untouched the arcs of $R$, as this implies that $CA(R \sqcup B)=GHA(\mathcal{S})$. For this, without loss of generality assume that the Collapsing Algorithm collapses blue arcs first, that is, if for a vertex $v$ $CA$ can collapse a blue pair of arcs $(\pref(v), v), (v, \suff(v))$, it does so. Let 
+
+  Let us denote by $\overline{D}_i$ a partial solution of $CA$ constructed till level $i$ and by $D_i$ its part above level $i$. 	
 	
 	We are going to prove by induction that for every $i$ $D_i$ coincides with the part $D'_i$ of $D'$ above level $i$. For $i = l := \max\{|s| \, : \, s\in\mathcal{S}\}$ the claim is trivial since $D_l$ and $D'_l$ have no arcs. Assume that the claim is true for $i = k > 0$ and prove it is also true for $i = k - 1$. Note, that if $D_k = D'_k$, then all collapsed pairs of arcs till now were blue and all blue arcs above level $k$ were collapsed. Since sequential descending collapse of blue pairs doesn't break connectivity of blue graph, we can conclude, that blue subgraph in $\overline{D}_k$ is still cycle and then all {\em blue degrees} are balanced. This means, that if for any vertex $v$ on level $k$ there is an arc $(\pref(v), v)$ then there is also an arc $(v, \suff(v))$ and vice versa. Hence, all pairs collapsed at level $k$ will be one-colored.
 	
@@ -92,9 +83,20 @@ For any set of strings $\mathcal{S}$,
 \label{sec:gr_im_wghc}
 Consider a~permutation of the input strings. We say that it is a~{\em valid greedy permutation} if it can be constructed by the Greedy Algorithm: there exist $n-1$ merges of the $n$~input strings that lead to this permutation such that at every step the two merged strings have the largest overlap. We will prove that GHA always returns a solution which corresponds to a greedy permutation of the input string. That is, while the standard Greedy Algorithm does not determine how to break ties, the Greedy Hierarchical Algorithm is a specific instantiation of the Greedy Algorithm with some tie-breaking rule.
 
+We will use the following simple property of solutions constructed by the GHA algorithm.
+\begin{claim}
+\label{claim:zigzag}
+Let $D$ be an Eulerian solution constrtucted by GHA. Then $D$ has a ``zig-zag'' form as in~\eqref{eq:zigzag}. 
+\end{claim}
+\begin{proof}
+First we prove that $D$ is normalized, that is, any application of the collapsing procedure of Algorithm~\ref{alg:collapse} to $D$ will violate the property of Eulerian solution. Indeed, Algorithm~\ref{alg:collapse} can only collapse pairs of arcs of the form $(\pref(s), s), (s, \suff(s))$. The Greedy Hierarchical Algorithm adds such pairs to its solution in two cases: (i) $s$ is an input string (line~\ref{alg:gha_init} of Algorithm~\ref{algo:gha}); (ii) $s$ is the the lexicographically largest among the shortest strings in its Eulerian component (line~\ref{alg:last} of Algorithm~\ref{algo:gha}). Now note that in the former case, the collapsing procedure applied to $s$ would violate the property that $D$ must contain all input strings, and in the latter case, the collapsing procedure would violate the connectivity property of $D$.
+
+We finish the proof by showing that every normalized solution is of the form~\eqref{eq:zigzag}. Let $\pi=(s_1, \dots, s_n)$ be  the permutation of the input strings corresponding to a normalized Eulerian solution $D$. Let us follow the arcs of $D$ in the order of the permutation $\pi$, and let $P$ be the set of arcs between the input strings $s_i$ and $s_{i+1}$. We will prove that $P$ is the union of the sets of arcs of the paths $s_i \to \overlap(s_i,s_{i+1})$ and $\overlap(s_i,s_{i+1})\to s_{i+1}$. If $P$ conatins a pair of consecutive up- and down-arcs, that is, there exists a pair of arcs $(\pref(s), s), (s, \suff(s))$ in $P$, then this pair would have been collapsed by Algorithm~\ref{alg:collapse}, line~\ref{alg:col}. Therefore, the path $P$ consists of a number of down-arcs followed by a number of up-arcs. Itt remains to show that the number of down-arcs in $P$ is $d=|s_i|-|\overlap(s_i,s_{i+1})|$. Note that be the definition of $\overlap(\cdot,\cdot)$, the number of down arcs is at least $d$. On the other hand, if the number of down-arcs in $P$ is strictly greater than $d$, then both the down-path and up-path in $P$ contain the vertexd $\overlap(s_i, s_{i+1})$. This implies that the pair of arcs  $(\pref(s), s), (s, \suff(s))$ for $s=\overlap(s_i, s_{i+1})$ would have been collapsed by Algorithm~\ref{alg:collapse}, line~\ref{alg:col}, as it does not violate the connectivity of the solution. Therefore, the number of down-arcs in $P$ is exactly $d$, which implies that $P$ is the path $s_i \to \overlap(s_i,s_{i+1})$ followed by the path $\overlap(s_i,s_{i+1})\to s_{i+1}$.
+\end{proof}
+
 \begin{theorem}
 \label{thm:gr_im_wghc}
-Every permutation $\pi=(s_1, \dots, s_n)$ of the input string constructed by GHA is a greedy permutation.
+Every permutation $\pi=(s_1, \dots, s_n)$ of the input strings constructed by GHA is a greedy permutation.
 \end{theorem}
 \begin{proof}
 Consider the following algorithm~$A$: it starts with the sequence $(s_1, \dots, s_n)$ and at every step it merges two neighboring strings in this sequence that have the largest overlap. It is a~greedy algorithm, but instead of considering all pairwise overlaps, it only considers overlaps of neighboring strings in the sequence. Of course, in the end, this algorithm constructs exactly the permutation~$\pi$. To show that $\pi$ is a~valid greedy permutation, we show that at every iteration of~$A$ no two strings have longer overlap than the two strings merged by~$A$.

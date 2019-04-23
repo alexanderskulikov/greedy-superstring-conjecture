@@ -247,7 +247,7 @@ if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of a
 %\hspace*{\algorithmicindent} \textbf{Output:} a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
 \begin{algorithmic}[1]
 \If{$(\pref(v), v), (v, \suff(v)) \in D$}
-\State $D \gets D \setminus \{(\pref(v), v), (v, \suff(v))\}$
+\State\label{alg:col} $D \gets D \setminus \{(\pref(v), v), (v, \suff(v))\}$
 \If{$|v| > 1$}
 \State $D \gets D \cup \{(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))\}$
 \EndIf
