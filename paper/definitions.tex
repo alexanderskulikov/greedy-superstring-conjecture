@@ -140,7 +140,7 @@ A solution to SCS defines a permutation $(s_{i_1}, \dotsc, s_{i_n})$ of the inpu
 \begin{align}
 \label{eq:zigzag}
 \varepsilon \to s_{i_1} \to \overlap(s_{i_1}, s_{i_2}) \to s_{i_2} \to
-\overlap(s_{i_2}, s_{i_3}) \to \dotsb \to \overlap(s_{i_{n-1}}, s_{i_n}) \to s_{i_n} \, .
+\overlap(s_{i_2}, s_{i_3}) \to \dotsb \to \overlap(s_{i_{n-1}}, s_{i_n}) \to s_{i_n} \to \varepsilon \, .
 \end{align}
 This Eulerian solution is shown schematically in Figure~\ref{fig:hgperm}(a). This schematic illustration is over simplified as the shown path usually has many self-intersections. Still, this point of view is helpful in understanding the algorithms presented later in the text. 
 Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from Figure~\ref{fig:hgex}(c): by contracting nodes with equal labels into the same node, one gets exactly the solution from Figure~\ref{fig:hgex}(c).
@@ -279,3 +279,44 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \State return $D$
 \end{algorithmic}
 \end{algorithm}
+
+It is interesting to note that any normalized solution is of the form~\ref{eq:zigzag}, but not vice versa: see Fig.~\ref{fig:abnormalzigzag}.
+Hence, the normalization procedure not just turns a~solution into some standard form, but may also improve it.
+
+\begin{figure}[ht]
+\begin{mypic}
+\foreach \n/\x/\y in {ae/1.5/2, ca/2.5/2}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+
+\foreach \n/\x/\y in {a/2/1, e/1/1, c/3/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \n};
+
+\node[vertex] (eps) at (2,0) {$\varepsilon$};
+\node at (2,-1) {(a)};
+
+\path (eps) edge[->,bend left] (a);
+\path (a)    edge[->,bend left] (eps);
+
+\foreach \f/\t in {a/ae, ae/e, e/eps, eps/c, c/ca, ca/a}
+  \draw[->] (\f) -- (\t);
+  
+\begin{scope}[xshift=50mm]
+\foreach \n/\x/\y in {ae/1.5/2, ca/2.5/2}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+
+\foreach \n/\x/\y in {a/2/1, e/1/1, c/3/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \n};
+
+\node[vertex] (eps) at (2,0) {$\varepsilon$};
+\node at (2,-1) {(b)};
+
+\foreach \f/\t in {a/ae, ae/e, e/eps, eps/c, c/ca, ca/a}
+  \draw[->] (\f) -- (\t);
+\end{scope}
+\end{mypic}
+\label{fig:abnormalzigzag}
+\caption{(a)~An~Eulerian solution corresponding for a~permutation $({\tt ae}, {\tt ca})$. (b)~Normalizing it, results in a~shorter solution corresponding to a~permutation~$({\tt ca}, {\tt ae})$.}
+\end{figure}
+
+
+ 
