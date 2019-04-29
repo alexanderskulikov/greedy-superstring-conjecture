@@ -193,7 +193,7 @@ that allows us to focus on nice Eulerian solutions only.
 \subsection{Normalizing a~Solution}
 \label{sec:def_normal}
 In this section, we describe a~natural way of normalizing an~Eulerian solution~$D$. Informally, it can be viewed as follows.
-Imagine that all arcs of~$D$ are one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em gravitation} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
+Imagine that all arcs of~$D$ form one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em gravitation} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
 with a~pair $(\pref(v), \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, if there is no nail in~$v$ and if this does not disconnect~$D$. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
 
 \begin{figure}[ht]
@@ -280,7 +280,7 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \end{algorithmic}
 \end{algorithm}
 
-It is interesting to note that any normalized solution is of the form~\ref{eq:zigzag}, but not vice versa: see Fig.~\ref{fig:abnormalzigzag}.
+It is interesting to note that any normalized solution is of the form~\eqref{eq:zigzag}, but not vice versa: see Fig.~\ref{fig:abnormalzigzag}.
 Hence, the normalization procedure not just turns a~solution into some standard form, but may also improve it.
 
 \begin{figure}[ht]

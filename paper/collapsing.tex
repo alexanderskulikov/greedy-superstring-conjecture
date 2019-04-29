@@ -1,9 +1,9 @@
 \section{Collapsing Conjecture}
 \label{sec:collapsing}
 
-We are now ready to state a~simple and astonishing structural property of the hierarchical graph: 
+We are now ready to conjecture an astonishing structural property of the hierarchical graph: 
 \begin{quote}
-Take any Eulerian solution, double every edge of it, and normalize the resulting solution; the result is the same for all possible initial solutions!
+Take any Eulerian solution, double every edge of it, and normalize the resulting solution; the result is the same for all initial solutions!
 \end{quote}
 For the formal statement of the conjecture we use the following notation:  If $U$ and $V$ are two multisets, then $U\sqcup V$ is the multiset~$W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$.
 Formally, the conjecture is stated as follows.
@@ -11,7 +11,7 @@ Formally, the conjecture is stated as follows.
 \begin{scs}
 For any set of strings ${\cal S}$ and any two Eulerian solutions~$D_1, D_2$ of~${\cal S}$, 
 \begin{align*}
-CA({\cal S}, D_1 \sqcup D_1) =  CA({\cal S}, D_2 \sqcup D_2) \; .
+CA({\cal S}, D_1 \sqcup D_1) =  CA({\cal S}, D_2 \sqcup D_2) \, .
 \end{align*}
 %Let ${\cal S}$ be a set of strings, let $HG=HG(V, E)$ be its hierarchical graph, let $C\subseteq E$ be a multiset of edges corresponding to a superstring of ${\cal S}$, and let $D=C\sqcup C$. Then $CA(HG, D)$ returns the same multiset of edges as $GHA({\cal S})$.
 \end{scs}
@@ -348,7 +348,7 @@ e/eps/10
 
 We have verified the conjecture on millions of datasets (both handcrafted and randomly generated), and we invite the reader to see its visualizations and to check the conjecture on arbitrary datasets at the webpage~\cite{webpage}. 
 Moreover, 
-we support the conjecture by proving that it holds in the (NP-hard) special case when input strings have length at most~3 in Section~\ref{subsec:scs3}.
+we support the conjecture by proving that it holds in the (NP-hard) special case where the input strings have length at most~3 in Section~\ref{subsec:scs3}.
 %\todo[inline]{AK: rewrite}
 %In Section~\ref{sec:alg_conj} we give all formal definitions and algorithms. In Sections~\ref{subsec:scs3}--\ref{sec:proof2} we support the conjecture by proving its special case for strings of length~3. 
 
@@ -357,7 +357,7 @@ we support the conjecture by proving that it holds in the (NP-hard) special case
 
 %In this section, we suggest a way to prove the Greedy Hierarchical Superstring Conjecture. We define a transformation of a superstring $s$ into a different superstring $s'$ of the same set of strings such that $|s'|\le|s|$. This transformation is done by the Collapsing Algorithm in the hierarchical graph. Informally, the Collapsing Algorithm removes some of the ``redundancies'' in a superstring. We believe that if one takes \emph{any} superstring $s$ of a set of strings ${\cal S}$, then concatenates two copies of $s$, and applies the Collapsing Algorithm, then one always gets exactly the set of arcs chosen by the Greedy Hierarchical Algorithm. We call this the Collapsing Superstring Conjecture. If it is true, then for $s$ equal to an optimal superstring, we get a proof of the Greedy Hierarchical Conjecture. Thus, the Collapsing Superstring Conjecture implies the Greedy Hierarchical Superstring Conjecture. 
 
-If the Collapsing Conjecture is true, then there is a~simple and natural 2-approximate algorithm for SCS: take {\em any} Eulerian solution (e.g., merge input strings in any order), double it, and apply the Collapsing Algorithm. Under the conjecture, this results in the same Eulerian solution as for doubled optimal solution and hence the length of the result is at most twice the optimal length.
+If the Collapsing Conjecture is true, then there is a~simple and natural 2-approximate algorithm for SCS: take {\em any} Eulerian solution (e.g., merge the input strings in arbitrary order), double it, and apply the Collapsing Algorithm. Under the conjecture, this results in the same Eulerian solution as for doubled optimal solution and hence the length of the result is at most twice the optimal length.
 
 
 %Moreover, if the Collapsing Superstring Conjecture is true, then it gives an alternative simple $2$-approximate algorithm for SCS. Indeed, one can take any trivial solution (for example, concatenate all the input strings), then double this solution, and apply the simple Collapsing Algorithm. This will result in a solution which is no longer than two optimal solutions.
