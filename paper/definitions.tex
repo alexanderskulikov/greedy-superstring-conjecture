@@ -280,8 +280,7 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \end{algorithmic}
 \end{algorithm}
 
-It is interesting to note that any normalized solution is of the form~\eqref{eq:zigzag}, but not vice versa: see Fig.~\ref{fig:abnormalzigzag}.
-Hence, the normalization procedure not just turns a~solution into some standard form, but may also improve it.
+It is easy to show (see Claim~\ref{claim:zigzag}) that any normalized solution is of the form~\eqref{eq:zigzag}. But it is not true that every zig-zag solution of the form~\eqref{eq:zigzag} is a normalized solution: see Fig.~\ref{fig:abnormalzigzag} for an example. The normalization procedure does not just turn a~solution into some standard form, but it may also improve it.
 
 \begin{figure}[ht]
 \begin{mypic}
@@ -315,7 +314,7 @@ Hence, the normalization procedure not just turns a~solution into some standard 
 \end{scope}
 \end{mypic}
 \label{fig:abnormalzigzag}
-\caption{(a)~An~Eulerian solution corresponding for a~permutation $({\tt ae}, {\tt ca})$. (b)~Normalizing it, results in a~shorter solution corresponding to a~permutation~$({\tt ca}, {\tt ae})$.}
+\caption{(a)~An~Eulerian solution corresponding to the~permutation $({\tt ae}, {\tt ca})$. (b)~The solution from~(a) after normalization results in a shorter solution corresponding to the~permutation~$({\tt ca}, {\tt ae})$.}
 \end{figure}
 
 
