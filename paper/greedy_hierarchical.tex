@@ -5,7 +5,7 @@ In this section, we present one more curious property of the Collapsing Algorith
 \begin{quote}
 Proceed nodes from top to bottom. For each node, ensure that it is balanced and connected to the rest of the solution.
 \end{quote}
-This is best illustrated with an example, see Figure~\ref{fig:hgexa}. We start constructing an~Eulerian solution~$D$ by processing the nodes at level~$3$. The solution~$D$ must visit all these four nodes, so we add all incoming and outgoing edges to~$D$, see Figure~\ref{fig:hgexa}(a). We then process the level~2. The node~{\tt a} is balanced, but if we skip it, it will not be connected to the rest of the solution, so we add to~$D$ the arcs $({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$. The node {\tt ae} is balanced, we do nothing for it. The node {\tt ca} is imbalanced, so we add an arc $({\tt c}, {\tt ca})$ to~$D$. We balance the node {\tt ec} similarly. The node {\tt ee} is processed similarly to the node {\tt aa}. The result of processing the second level is shown in Figure~\ref{fig:hgexa}(b). On the last stage we connect the nodes {\tt a}, {\tt b}, and {\tt c} to $\varepsilon$ to ensure connectivity, see Figure~\ref{fig:hgexa}(c). Hence, when processing level~$l$, we only add edges between levels~$l$ and~$l-1$.
+This is best illustrated with an example, see Figure~\ref{fig:hgexa}. We start constructing an~Eulerian solution~$D$ by processing the nodes at level~$3$. The solution~$D$ must visit all these four nodes, so we add all incoming and outgoing arcs to~$D$, see Figure~\ref{fig:hgexa}(a). We then process the level~2. The node~{\tt aa} is balanced, but if we skip it, it will not be connected to the rest of the solution, so we add to~$D$ the arcs $({\tt a}, {\tt aa})$ and $({\tt aa}, {\tt a})$. The node {\tt ae} is balanced, we do nothing for it. The node {\tt ca} is imbalanced, so we add an arc $({\tt c}, {\tt ca})$ to~$D$. We balance the node {\tt ec} similarly. The node {\tt ee} is processed similarly to the node {\tt aa}. The result of processing the second level is shown in Figure~\ref{fig:hgexa}(b). On the last stage we connect the nodes {\tt a}, {\tt b}, and {\tt c} to $\varepsilon$ to ensure connectivity, see Figure~\ref{fig:hgexa}(c). Hence, when processing level~$l$, we only add arcs between levels~$l$ and~$l-1$.
 
 \begin{figure}[!ht]
 \begin{mypic}
@@ -41,7 +41,7 @@ More formally, GHA first considers the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to the constructed Eulerian solution~$D$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case where $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. We give an~example of such a~situation below. The pseudocode is given in~Algorithm~\ref{algo:gha}. 
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to the constructed Eulerian solution~$D$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case where $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. (See, for example, the vertex $ {\tt aa}$ in Figure~\ref{fig:hgexa}(a)). The pseudocode is given in~Algorithm~\ref{algo:gha}. 
 %Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
@@ -71,7 +71,13 @@ This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the a
 \end{algorithm}
 
 
-One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly an order on them. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on a~toy example. For a~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} at the first step. At the same time, it is not difficult to see that GHA finds an optimal solution for~$\mathcal{S}$. Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when the input strings have length at most two and when the input strings form a~$k$-spectrum of an unknown string. We prove this in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
+While GHA is almost as simple as the standard Greedy Algorithm (GA), GHA has several provable advantages over GA:
+\begin{description}
+\item One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly their order. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on the following~toy example. For the~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} at the first step. At the same time, it is not difficult to see that GHA finds an optimal solution for~$\mathcal{S}$.
+\item Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when the input strings have length at most two and when the input strings form a~$k$-spectrum of an unknown string. We prove this in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
+\item In Section~\ref{sec:gr_im_wghc} we show that the provable approximation guarantees of GA and GHA are the same (both algorithms find at least $3.5$-approximations of the optimal solution). Moreover, we prove that the standard Greedy Conjecture implies $2$-approximation of GHA, which makes it natural to study the approximation ratio of GHA.
+\end{description}
+  
 
 We are now ready to state our second conjecture: the results of the Collapsing Algorithm and Greedy Hierarchical Algorithm coincide!
 \newtheorem*{ghcc}{Greedy Hierarchical Conjecture}
@@ -79,6 +85,7 @@ We are now ready to state our second conjecture: the results of the Collapsing A
 For any set of strings~$\mathcal{S}$ and any Eulerian solution~$D$,
 \[CA(\mathcal{S}, D \sqcup D) = GHA(\mathcal{S}) \, .\]
 \end{ghcc}
+While the Greedy Hierarchical Conjecture implies that GHA finds a $2$-approximate solution, we separately state this weak version of the conjecture.
 
 \newtheorem*{wghcc}{Weak Greedy Hierarchical Conjecture}
 \begin{wghcc}
