@@ -1,7 +1,7 @@
 \clearpage
 \section{Greedy Hierarchical Conjecture}
 \label{sec:greedy_hier}
-In this section, we present one more curious property of the Collapsing Algorithm. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA) that constructs an Eulerian solution in a~stingy fashion, i.e., tries to add as few arcs as possible:
+In this section, we present one more curious property of the Collapsing Algorithm that reveals its intricate connection to greedy algorithms. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA) that constructs an Eulerian solution in a~stingy fashion, i.e., tries to add as few arcs as possible:
 \begin{quote}
 Proceed nodes from top to bottom. For each node, ensure that it is balanced and connected to the rest of the solution.
 \end{quote}
@@ -41,7 +41,7 @@ More formally, GHA first considers the input
 strings~${\cal S}$. Since we assume that 
 no $s \in {\cal S}$ is a~substring of another 
 $t \in {\cal S}$, there is no down-path from~$t$ to~$s$ in $HG$. 
-This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to the constructed Eulerian solution~$D$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case where $v$ is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. (See, for example, the vertex $ {\tt aa}$ in Figure~\ref{fig:hgexa}(a)). The pseudocode is given in~Algorithm~\ref{algo:gha}. 
+This means that any walk through $\varepsilon$ and ${\cal S}$ goes through the arcs $\{(\operatorname{pref}(s), s), (s, \operatorname{suff}(s)) \colon s \in {\cal S}\}$. The algorithm adds all of them to the constructed Eulerian solution~$D$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case when $v$~is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$D$}. (See, for example, the vertex $ {\tt aa}$ in Figure~\ref{fig:hgexa}(a)). The pseudocode is given in~Algorithm~\ref{algo:gha}. 
 %Figure~\ref{fig:hgexa} shows a~few intermediate stages of the algorithm on our working sample dataset.
 
 
