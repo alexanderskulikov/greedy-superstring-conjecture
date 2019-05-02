@@ -1,0 +1,92 @@
+\section{Proof of Collapsing Conjecture for Strings of Length~3}
+\label{subsec:scs3}
+In this section, we show that the Collapsing Conjecture holds for 
+the special case
+when input strings have length at most three. 
+Remarkably, this follows from a~more general theorem stated below.
+
+\begin{theorem}\label{thm:cc3}
+Let $\mathcal{S}$ contain strings of length at most~3 and let $L$~be an Eulerian solution that for each $s \in \mathcal{S}$ contains at least two copies of arcs $(\pref(s), s)$ and $(s, \suff(s))$. Then $CA(\mathcal{S}, L)=GHA(\mathcal{S})$.
+\end{theorem}
+
+It is not difficult to see that the theorem indeed implies the Collapsing Conjecture: clearly, $L=D \sqcup D$, where $D$ is an Eulaerian solution, satisfies the condition. Moreover, this also works for $L=D_1 \sqcup D_2$, where $D_1, D_2$ are arbitrary Eulerian solutions, and for $L=D \sqcup CC$, where $CC$ is a~cycle cover, i.e., a~set of cycles that go through all input strings. The main difference between an Eulerian solution and a~cycle cover is that the later is not required to be connected. For this reason, any Eulerian solution is also a~cycle cover (but not vice versa) and hence an~{\em optimal} cycle cover is definitely not longer than an optimal Eulerian solution: $OPT \le OPTCC$. Hence, Theorem~\ref{thm:cc3} says that the result of GHA is not just no longer than $2\cdot OPT$, but even no longer than $OPT+OPTCC$.
+
+Before proving Theorem~\ref{thm:cc3}, we introduce some notation and 
+prove two auxiliary results. Recall that the Collapsing Algorithm processes the nodes level by level. Denote by $L_i$ an intermediate Eulerian solution right before is starts collapsing the nodes at level~$i$ (that is, in $L_i$ all the nodes at levels $>i$ are already collapsed). Let $D=GHA(\mathcal{S})$ and let $D_i$ be 
+the part of~$D$ that lies above the level~$i$: $D_i=\{(u, v) \in D \colon |u|, |v| \ge i\}$. We show that $D_i=L_i$ for every~$i$. This is enough since then \[CSA(\mathcal{S}, L)=L_0=D_0=GHA(\mathcal{S}) \, .\]
+
+\begin{claim}\label{clm:path}
+Let~$p$ be a~path in an Eulerian solution with all its nodes at levels~$\le k$. Then, $p$~is still a~path after collapsing any nodes at level~$k$ and any nodes at level~$<k$ that do not belong to~$p$.
+\end{claim}
+
+\begin{lemma}\label{lemma:toepsilon}
+Let $v$~be a~node in~$L_2$ at level~$1 \le l \le 2$ (i.e., $l=|v|$). Then there is a~path from~$\varepsilon$ to~$v$ and a~path from~$\varepsilon$ to~$v$ in~$L_l$ that does not contain nodes at level~3.
+\end{lemma}
+\begin{proof}
+We start by proving that there is a~path from~$v$ to~$\varepsilon$ 
+for $|v|=2$ (the existence of a~path from~$\varepsilon$ to~$v$ is proved in a~similar fashion).
+Consider a~walk~$w$ from~$v$ to~$\varepsilon$ in~$L$ (there is such a~walk as $L$~is an~Eulerian solution). All repeated nodes in~$w$ may be removed from~$w$, so one may assume that~$w$ is a~path. Let $S_3$ be the set of nodes of~$w$ at level~3. Consider a~node $s \in S_3$ and pair of arcs  $(\pref(s), s), (s, \suff(s))$ going through it. If $s$~is not at input string (i.e., $s \not \in \mathcal{S}$), then CA collapses this pair of arcs and this does not disconnect~$w$. On the other hand, if $s$~is an input string ($s \in \mathcal{S}$), then there are two copies of $(\pref(s), s), (s, \suff(s))$ in~$L$. At least one copy of this pair is collapsed in~$L$ and therefore belongs to~$L_2$.
+
+The statement for~$v$ with $|v|=1$ follows from Claim~\ref{clm:path}.
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:cc3}]
+As discussed above, it suffices to prove that $D_i=L_i$ for every $i=2,1,0$.
+
+%We prove this for each level~$i$ separately, going from top to bottom.
+\begin{description}
+\item {\em Level $i=2$.} The base case $i=2$ is straightforward: clearly, the Collapsing Algorithm leaves exactly one copy of arcs $(\pref(s), s)$ and $(s, \suff(s))$ for every $s \in \mathcal{S}$ and fully collapses all other nodes at level~$3$. Then, $L_2=D_2$ as $(\pref(s), s), (s, \suff(s))$ for $s \in \mathcal{S}$ are the only edges between levels~2 and~3 in $D_3$.
+
+\item {\em Level $i=1$.} Consider a~set $L_{2,2}$ of edges of $L_2$ above level~$2$: $L_{2,2}=\{(u,w) \in L_2 \colon |u|,|w| \ge 2\}$. Note that $L_{2,2} \subseteq L_2$ and $L_2$ is an Eulerian cycle. Hence, $L_{2,2}$ is a~collection of walks. Consider such a~walk~$w$ and consider two cases.
+\begin{itemize}
+\item $w$ is a~closed walk. Let~$v$ be the lexicographically largest node of~$w$ at level~2. What we want to show is that in $L_1$ this closed walk~$w$ is connected to the rest of $L_1$ through a~pair of arcs $(\pref(v), v)$ $(v, \suff(v))$ only.
+
+By Lemma~\ref{lemma:toepsilon}, there is a~path from $v$ to $\varepsilon$ in $L_2$ and hence $(v, \suff(v)) \in L_2$; similarly, $(\pref(v), v) \in L_2$. Since $v$~is lexicographically largest at level~$2$ in~$w$, when CA starts processing the node~$v$, all other nodes at level~2 in~$w$ are fully collapsed, i.e., for any such node~$u$, $(\pref(u), u) \not \in L_1$ and $(u, \suff(u)) \not \in  L_1$. Moreover, CA does not collapse the pair of arcs 
+$(\pref(v), v), (v, \suff(v))$ as this would disconnect~$w$ from the rest of the solution.
+
+\item $w$ is not closed. Denote by~$v_1$ and~$v_k$ its first and last nodes. All other nodes of~$w$ in $L_{2,2}$ are balanced. What we want to show is that in $L_1$ the only edges between levels~1 and~2 that connect~$w$ to the rest of the solution are $(\pref(v_1), v_1)$ and $(v_k, \suff(v_k))$.
+
+We prove this for $v_k$ (for $v_1$ is it shown similarly). By Lemma~\ref{lemma:toepsilon}, there is a~path from $v_k$ to $\varepsilon$ in $L_2$ and hence $(v_k, \suff(v_k)) \in L_2$. The algorithm CA always works with an Eulerian solution and hence every node is balanced at every stage (i.e., its in-degree is equal to its out-degree). This means that $(v_k, \suff(v_k)) \in L_1$ and that all intermediate nodes of~$w$ are not connected to level~1 nodes in~$L_1$.
+\end{itemize}
+
+\item {\em Level $i=0$.} Again, consider a~set $L_{2,1}$ of edges of $L_2$ above level~$1$: $L_{2,1}=\{(u,w) \in L_2 \colon |u|,|w| \ge 1\}$. Note that $L_{2,1}$ is a~collection of walks. The case of a~non-closed walk in this case is easy as it must be connected to~$\varepsilon$ directly. For this reason, we focus on a~closed walk~$w$ in $L_{2,1}$.
+
+We show that for every node~$v$ of~$w$ with $|v|=1$, $L_1$ contains arcs $(\varepsilon, v)$ and $(v, \varepsilon)$ (recall that for $|v|=1$, $\pref(v)=\suff(v)=\varepsilon$). This suffices as then CA (when processing level one nodes) collapses all nodes of~$w$ at level~1 except for the lexicographically largest one, and this is exactly how~$w$ is connected to~$\varepsilon$ in~$D_0$. Below, we show that $(\varepsilon, v) \in L_1$. It then follows that $(v, \varepsilon) \in L_1$ (as $L_1$ must be Eulerian).
+
+Lemma~\ref{lemma:toepsilon} guarantees that $L_1$~contains a~path from~$v$ to~$\varepsilon$ that does not contain nodes at level~3. If the first arc of this path goes down to~$\varepsilon$, then there is nothing to prove. Hence, consider a~case when the first arc goes up to a~node~$u$ (and hence $v=\pref(u)$). The next arc then must go down to~$\suff(u)$.
+Hence, $L_1=D_1$, $(\pref(u), u), (u, \suff(u)) \in D_1$. This may happen in two cases only: either $u$~is an~input string (i.e., $u \in \mathcal{S}$) or $u$~is the last chance of its component to be connected to the rest of the solution (i.e., exactly for this reason GHA added these two edges to the solution). The former case is straightforward: then there were at least two copies of the arcs $(\pref(u), u), (u, \suff(u))$ and CA collapsed at least one copy. Let us then focus on the latter case.
+
+Let $x,y \in \mathcal{S}$ be such that $u=\suff(y)$ and $c := \suff(x)=\pref(y)$, see the picture below (solid arcs belong to~$L$, dashed arc belong to $L_2$).
+
+\begin{mypic}
+%\draw[help lines] (0,0) grid (10,6);
+\node[vertex] (u) at (3,3) {$u$};
+\node[vertex] (v) at (2,2) {$v$};
+\node[vertex] (eps) at (1,1) {$\varepsilon$};
+\node[vertex] (vv) at (0,2) {};
+\node[inputvertex] (y) at (2,4) {$y$};
+\node[inputvertex] (x) at (0,4) {$x$};
+\node[vertex] (xl) at (-1,3) {};
+\node[inputvertex] (z) at (4,4) {};
+\node[vertex] (xy) at (1,3) {$c$};
+
+\foreach \s/\t in {y/u, x/xy, xy/y, u/z, xl/x}
+  \draw[->] (\s) -- (\t);
+\foreach \s/\t in {xl/vv, vv/xy, xy/v, v/u}
+  \draw[->,dashed] (\s) -- (\t);
+\end{mypic}
+
+Note that 
+\[v = \pref(u)=\pref(\suff(y))=\suff(\pref(y))=\suff(c) \, .\]
+Hence, $(c,v), (v,u) \in L_2$ (resulting from collapsing at least one pair of arcs $(c,y), (y,u) \in L$). $L_2$ also contains a~pair of arcs $(\pref(x), \suff(\pref(x))), (\suff(\pref(x)), c)$. When processing the node~$c$, CA collapses the pair of arcs $(\pref(c), c), (c, v)$ as there is an arc~$(v,u)$.
+Hence, $(\varepsilon, v) \in L_1$, as required. (It may be the case that $x=y$. Then\todo{AK: Max, complete the sentence please.})
+
+
+\end{description}
+
+
+
+
+
+\end{proof}
+
