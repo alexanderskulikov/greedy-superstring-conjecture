@@ -280,11 +280,11 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \end{algorithmic}
 \end{algorithm}
 
-It is easy to show (see Claim~\ref{claim:zigzag}) that any normalized solution is of the form~\eqref{eq:zigzag}. But it is not true that every zig-zag solution of the form~\eqref{eq:zigzag} is a normalized solution: see Figure~\ref{fig:abnormalzigzag} for an example. The normalization procedure does not just turn a~solution into some standard form, but it may also improve it.
+It is easy to show (we prove this formally in Claim~\ref{claim:zigzag} on page~\pageref{claim:zigzag}) that any normalized solution is of the form~\eqref{eq:zigzag}. But it is not true that every zig-zag solution of the form~\eqref{eq:zigzag} is a normalized solution: see Figure~\ref{fig:abnormalzigzag}{\todo{AK: pererisoval eyo, prover'te}} for an example. The normalization procedure does not just turn a~solution into some standard form, but it may also improve it.
 
 \begin{figure}[ht]
 \begin{mypic}
-\foreach \n/\x/\y in {ae/1.5/2, ca/2.5/2}
+\foreach \n/\x/\y in {ae/1/2, aa/2/2, ca/3/2}
   \node[inputvertex] (\n) at (\x,\y) {\tt \n};
 
 \foreach \n/\x/\y in {a/2/1, e/1/1, c/3/1}
@@ -293,14 +293,18 @@ It is easy to show (see Claim~\ref{claim:zigzag}) that any normalized solution i
 \node[vertex] (eps) at (2,0) {$\varepsilon$};
 \node at (2,-1) {(a)};
 
+\path (aa) edge[->,bend left] (a);
+\path (a)    edge[->,bend left] (aa);
 \path (eps) edge[->,bend left] (a);
 \path (a)    edge[->,bend left] (eps);
+\path (eps) edge[->,bend left=10] (a);
+\path (a)    edge[->,bend left=10] (eps);
 
 \foreach \f/\t in {a/ae, ae/e, e/eps, eps/c, c/ca, ca/a}
   \draw[->] (\f) -- (\t);
   
 \begin{scope}[xshift=50mm]
-\foreach \n/\x/\y in {ae/1.5/2, ca/2.5/2}
+\foreach \n/\x/\y in {ae/1/2, aa/2/2, ca/3/2}
   \node[inputvertex] (\n) at (\x,\y) {\tt \n};
 
 \foreach \n/\x/\y in {a/2/1, e/1/1, c/3/1}
@@ -309,12 +313,15 @@ It is easy to show (see Claim~\ref{claim:zigzag}) that any normalized solution i
 \node[vertex] (eps) at (2,0) {$\varepsilon$};
 \node at (2,-1) {(b)};
 
+\path (aa) edge[->,bend left] (a);
+\path (a)    edge[->,bend left] (aa);
+
 \foreach \f/\t in {a/ae, ae/e, e/eps, eps/c, c/ca, ca/a}
   \draw[->] (\f) -- (\t);
 \end{scope}
 \end{mypic}
+\caption{(a)~An~Eulerian solution corresponding to the~permutation $({\tt ae}, {\tt aa}, {\tt ca})$. (b)~The solution from~(a) after normalization results in a shorter solution corresponding to the~permutation~$({\tt ca}, {\tt aa}, {\tt ae})$.}
 \label{fig:abnormalzigzag}
-\caption{(a)~An~Eulerian solution corresponding to the~permutation $({\tt ae}, {\tt ca})$. (b)~The solution from~(a) after normalization results in a shorter solution corresponding to the~permutation~$({\tt ca}, {\tt ae})$.}
 \end{figure}
 
 
