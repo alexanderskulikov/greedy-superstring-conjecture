@@ -15,19 +15,30 @@ Before proving Theorem~\ref{thm:cc3}, we introduce some notation and
 prove two auxiliary results. Recall that the Collapsing Algorithm processes the nodes level by level. Denote by $L_i$ an intermediate Eulerian solution right before is starts collapsing the nodes at level~$i$ (that is, in $L_i$ all the nodes at levels $>i$ are already collapsed). Let $D=GHA(\mathcal{S})$ and let $D_i$ be 
 the part of~$D$ that lies above the level~$i$: $D_i=\{(u, v) \in D \colon |u|, |v| \ge i\}$. We show that $D_i=L_i$ for every~$i$. This is enough since then \[CSA(\mathcal{S}, L)=L_0=D_0=GHA(\mathcal{S}) \, .\]
 
-\begin{claim}\label{clm:path}
-Let~$p$ be a~path in an Eulerian solution with all its nodes at levels~$\le k$. Then, $p$~is still a~path after collapsing any nodes at level~$k$ and any nodes at level~$<k$ that do not belong to~$p$.
-\end{claim}
+%Recall that the Collapsing Algorithm replaces a~pair of arcs $(\pref(s), s), (s, \suff(s))$ by a~pair of arcs $(\pref(s), \suff(\pref(s))), (\suff(\pref(s)), \suff(s))$. In this case, we say that the arc $(\pref(s), \suff(\pref(s)))$ is a~{\em collapsing result} of $(\pref(s), s)$ and, correspondingly, that 
+%$(\suff(\pref(s)), \suff(s))$ is a~collapsing result of $(s, \suff(s))$.
 
-\begin{lemma}\label{lemma:toepsilon}
-Let $v$~be a~node in~$L_2$ at level~$1 \le l \le 2$ (i.e., $l=|v|$). Then there is a~path from~$\varepsilon$ to~$v$ and a~path from~$\varepsilon$ to~$v$ in~$L_l$ that does not contain nodes at level~3.
+\begin{lemma}\label{lem:path}
+Let $w$~be a~walk from~$u$ to~$v$ in an Eulerian solution with all its nodes at levels~$\le k$. Consider a~single collapsing step for a~node~$t$ that is either an~{\em intermediate} node of~$p$ at level~$k$ or is a~node at level $<k$ that do not belong to~$p$. Then $w$~is still a~walk from~$u$ to~$v$ in the resulting solution. 
 \end{lemma}
 \begin{proof}
-We start by proving that there is a~path from~$v$ to~$\varepsilon$ 
-for $|v|=2$ (the existence of a~path from~$\varepsilon$ to~$v$ is proved in a~similar fashion).
-Consider a~walk~$w$ from~$v$ to~$\varepsilon$ in~$L$ (there is such a~walk as $L$~is an~Eulerian solution). All repeated nodes in~$w$ may be removed from~$w$, so one may assume that~$w$ is a~path. Let $S_3$ be the set of nodes of~$w$ at level~3. Consider a~node $s \in S_3$ and pair of arcs  $(\pref(s), s), (s, \suff(s))$ going through it. If $s$~is not at input string (i.e., $s \not \in \mathcal{S}$), then CA collapses this pair of arcs and this does not disconnect~$w$. On the other hand, if $s$~is an input string ($s \in \mathcal{S}$), then there are two copies of $(\pref(s), s), (s, \suff(s))$ in~$L$. At least one copy of this pair is collapsed in~$L$ and therefore belongs to~$L_2$.
+Indeed, if $t$~does not belong to~$w$, then collapsing it does not change~$w$ at all. Otherwise $t$~is an intermediate node of~$w$ at level~$k$. Since $w$~does not have any node above level~$k$, $w$~goes through
+$(\pref(t), t), (t, \suff(t))$. Clearly, collapsing~$t$ keeps $w$~a~walk.
+\end{proof}
 
-The statement for~$v$ with $|v|=1$ follows from Claim~\ref{clm:path}.
+\begin{lemma}\label{lemma:toepsilon}
+Let $v$~be a~node in~$L_2$ at level~$1 \le l \le 2$ (i.e., $l=|v|$). Then there is a~walk from~$\varepsilon$ to~$v$ and a~walk from~$\varepsilon$ to~$v$ in~$L_l$ that does not contain nodes at level~3.
+\end{lemma}
+\begin{proof}
+We start by proving that there is a~walk from~$v$ to~$\varepsilon$ 
+for $|v|=2$ (the existence of a~walk from~$\varepsilon$ to~$v$ is proved in a~similar fashion).
+
+Consider a~walk~$w$ from~$v$ to~$\varepsilon$ in~$L$ (there is such a~walk as $L$~is an~Eulerian solution). All repeated nodes in~$w$ may be removed, 
+so one may assume that $w$~passes through its nodes at level~3 exactly once. Then, it is sufficient to show that each such node is collapsed.
+
+Consider a~node~$s$ of~$w$ at level~3 and a~pair of arcs  $(\pref(s), s), (s, \suff(s)) \in w$ going through it. If $s$~is not at input string (i.e., $s \not \in \mathcal{S}$), then CA collapses this pair of arcs and this does not disconnect~$w$. On the other hand, if $s$~is an input string ($s \in \mathcal{S}$), then there are two copies of $(\pref(s), s), (s, \suff(s))$ in~$L$. At least one copy of this pair is collapsed in~$L$ and therefore belongs to~$L_2$.
+
+The statement for~$v$ with $|v|=1$ follows from Lemma~\ref{lem:path}.
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:cc3}]
@@ -79,12 +90,10 @@ Let $x,y \in \mathcal{S}$ be such that $u=\suff(y)$ and $c := \suff(x)=\pref(y)$
 Note that 
 \[v = \pref(u)=\pref(\suff(y))=\suff(\pref(y))=\suff(c) \, .\]
 Hence, $(c,v), (v,u) \in L_2$ (resulting from collapsing at least one pair of arcs $(c,y), (y,u) \in L$). $L_2$ also contains a~pair of arcs $(\pref(x), \suff(\pref(x))), (\suff(\pref(x)), c)$. When processing the node~$c$, CA collapses the pair of arcs $(\pref(c), c), (c, v)$ as there is an arc~$(v,u)$.
-Hence, $(\varepsilon, v) \in L_1$, as required. (It may be the case that $x=y$. Then\todo{AK: Max, complete the sentence please.})
-
-
+Hence, $(\varepsilon, v) \in L_1$, as required. (It may be the case that $x=y$. Then $x={\tt aaa}$, $v=\{a\}$. Then the first pair of arcs of the considered path is ${\tt a} \to {\tt aa} \to {\tt a}$ and one may just drop them.)
 \end{description}
 
-
+As a~final remark, note that if a~walk~$w \in L_{i,i}$ is connected to the rest of a~solution through some a~of arcs $(\pref(v), v), (u, \suff(u))$ ($v$~and~$u$ may coincide), then any other balanced node in~$w$ at level~$i$ can be fully collapsed, as every such collapse, thanks to Lemma~\ref{lem:path}, does not disconnect~$w$ or any other walk from~$L_{i,i}$ from the rest of the solution.
 
 
 

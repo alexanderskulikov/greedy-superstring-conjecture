@@ -1,7 +1,9 @@
 \section{Further Directions and Open Problems}
 The most immediate open problems are to prove the Collapsing Conjecture or the Weak Greedy Hierarchical Conjecture.
+
+\subsection{Applications of Hierarchical Graphs}
 It would also be interesting to find other applications of the 
-hierarchical graphs.
+hierarchical graphs. We list two such potential applications below.
 \begin{description}
 \item[Exact algorithms.] Can one use hierarchical graphs to solve SCS exactly in time $(2-\varepsilon)^n$?
 It was shown in Section~\ref{sec:intro} that the SCS problem is a special case of the Traveling Salesman Problem. The best known exact algorithms for Traveling Salesman run in time $2^n \poly(|\inp|)$~\cite{B1962, HK1971, KGK1977, K1982, BF1996}. These algorithms stay the best known for the SCS problem as well. The hierarchical graphs were introduced~\cite{scs_exact} for an algorithm solving SCS on strings of length at most $r$ in time $(2-\varepsilon)^n$ (where $\varepsilon$ depends only on $r$). Can one use the hierarchical graph to solve exactly the general case of SCS in time $(2-\varepsilon)^n$ for a constant $\varepsilon$?
@@ -13,7 +15,18 @@ Can one adopt the hierarchical graph for this task? For this, one
 would need to come up with a~compact representation of the graph
 (as datasets in genome assembly are massive) as well as with a~way of
 handling errors in the input data. Cazaux and Rivals~\cite{cazaux2018hierarchical} propose a linear-space counterpart of the hierarchical graph.
-
-\item[Optimal solution and a cycle cover.] A superstring corresponds to a Hamiltonian path in the overlap graph, thus, a minimum-weight cycle cover gives a natural lower bound on its length. 
-The Greedy Conjecture claims that a greedy solution never exceeds twice the length of an optimal solution. It is also  believed (see, e.g., \cite{weinard2006greedy,laube2005conditional}) that the greedy solution does not exceed the length of an optimal solution plus the length of an optimal cycle cover. This suggests an analogous form of the Collapsing Conjecture: start with any solution and a cycle cover, and then apply normalization, this should result in the same set of arcs regardless of what initial solution and cycle cover one starts with. We tested this conjecture and did not find any counter-examples. We believe that exploring this conjecture and its connections to other conjectures would be an interesting further research direction.
 \end{description}
+
+\subsection{Optimal Cycle Covers}
+A superstring corresponds to a Hamiltonian path in the overlap graph, thus, a~minimum-weight cycle cover gives a~natural lower bound on its length. 
+The Greedy Conjecture claims that a greedy solution never exceeds twice the length of an optimal solution. It is also  believed (see, e.g., \cite{weinard2006greedy,laube2005conditional}) that the greedy solution does not exceed the length of an optimal solution plus the length of an optimal cycle cover. 
+%
+This has interesting counterparts in the hierarchical graphs. 
+\begin{itemize}
+\item Note that an optimal cycle cover in the overlap graph can be constructed by a~straightforward greedy algorithm: keep taking heavy edges till the cycle cover is constructed. The proof of correctness of this algorithm relies on the Monge inequality. Interestingly, to construct an optimal cycle cover in the hierarchical graph, it suffices to invoke the Greedy Hierarchical Algorithm with lines 7--11 commented out! In a~sense, the Monge inequality is satisfied in the hierarchical graph automatically as it contains more information about input strings than just its pairwise overlaps. \item As discussed in Section~\ref{subsec:scs3}, for strings of length~3 even a~more general fact than Collapsing Conjecture holds: it suffices to have double edges adjacent to input strings. One simple way to force a~particular solution to satisfy this property is to double every edge of it. At the same time, adding a~shortest cycle cover to it is guaranteed to be as good.
+\item Hence, the more general version of the Collapsing Conjecture is the following: take any solution, add any cycle cover to it, and collapse; the result is always the same. We tested this stronger conjecture and did not find any counter-examples.
+\end{itemize}
+
+%
+%This suggests an analogous form of the Collapsing Conjecture: start with any solution and a cycle cover, and then apply normalization, this should result in the same set of arcs regardless of what initial solution and cycle cover one starts with. We tested this conjecture and did not find any counter-examples. We believe that exploring this conjecture and its connections to other conjectures would be an interesting further research direction.
+

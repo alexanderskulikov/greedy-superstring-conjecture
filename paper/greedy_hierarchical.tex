@@ -1,7 +1,7 @@
 \clearpage
 \section{Greedy Hierarchical Conjecture}
 \label{sec:greedy_hier}
-In this section, we present one more curious property of the Collapsing Algorithm that reveals its intricate connection to greedy algorithms.{\todo{AK: ya dobavil vtoruyu chast' frazi; ne perebor tut? (i curious, i intricate)}} For this, we introduce the so called Greedy Hierarchical Algorithm (GHA) that constructs an Eulerian solution in a~stingy fashion, i.e., tries to add as few arcs as possible:
+In this section, we present one more curious property of the Collapsing Algorithm that reveals its intricate connection to greedy algorithms. For this, we introduce the so called Greedy Hierarchical Algorithm (GHA) that constructs an Eulerian solution in a~stingy fashion, i.e., tries to add as few arcs as possible:
 \begin{quote}
 Proceed nodes from top to bottom. For each node, ensure that it is balanced and connected to the rest of the solution.
 \end{quote}
@@ -76,7 +76,7 @@ While GHA is almost as simple as the standard Greedy Algorithm (GA), GHA has sev
 \item One advantage of GHA over GA is that GHA is more flexible in the following sense. On every step, GA selects two strings and fixes tightly their order. GHA instead works to ensure connectivity. When the resulting set~$D$ is connected, an actual order of input strings is given by the corresponding Eulerian cycle through~$D$. This is best illustrated on the following~toy example. For the~dataset $\mathcal{S}=\{{\tt ae}, {\tt ea}, {\tt ee}\}$, GA might produce a~suboptimal solution {\tt aeaee} if it merges the strings {\tt ae} and {\tt ea} at the first step. At the same time, it is not difficult to see that GHA finds an optimal solution for~$\mathcal{S}$.
 \item Another advantage of GHA is that, in contrast to GA, it solves {\em exactly} two well known polynomially solvable special cases of SCS: when the input strings have length at most two and when the input strings form a~$k$-spectrum of an unknown string (that is, the input strings constitute all
 $k$-substrings of a~string). We prove this formally in Sections~\ref{sec:ghatwo} and~\ref{sec:ghaspectrum}. Informally, this happens because for such datasets there are no connectivity issues for GHA: for $k$-spectrum, after processing the highest level GHA gets a~weakly connected component; for 2-SCS, after processing the level~2, GHA gets several weekly connected components such that different components do not share common letters and therefore are completely independent. Figure~\ref{fig:abnormalzigzag}(b) illustrates this: while GA may produce a~permutation $({\tt ca}, {\tt ae}, {\tt aa})$, GHA constructs an optimal
-permutation $({\tt ca}, {\tt aa}, {\tt ae})$.\todo{AK: this is a new text}
+permutation $({\tt ca}, {\tt aa}, {\tt ae})$.
 
 In Section~\ref{sec:ghatough}, we also show a~dataset where GHA produces a~solution that is almost two times longer than the optimal one.
 
