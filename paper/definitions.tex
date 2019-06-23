@@ -44,9 +44,9 @@ the first and the last $|s|-1$ symbols of~$s$. See Figure~\ref{fig:overlap} for 
 
 
 Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
-the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ on the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a~{\em given order} one just
+the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ in the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a~{\em given order} one just
 overlaps the strings in this order, see Figure~\ref{fig:permutation}. (This simple observation relates SCS to other permutation problems, including various versions of the Traveling Salesman Problem.) It will prove convenient to view the SCS problem as a~problem of finding an optimum permutation.
-It should be noted at the same time that the correspondence between permutations and superstrings is not one-to-one: there are superstrings that do not correspond to any permutation. For example, the concatenation of input strings is clearly a~superstring, but it ignores the fact that neighbor strings may have non-trivial overlaps and for this reason may fail to correspond to a~permutation. Still, clearly, any {\em shortest} superstring corresponds to a~permutation.
+It should be noted at the same time that the correspondence between permutations and superstrings is not one-to-one: there are superstrings that do not correspond to any permutation. For example, the concatenation of input strings is clearly a~superstring, but it ignores the fact that neighbor strings may have non-trivial overlaps and for this reason may fail to correspond to a~permutation. Still, clearly, any {\em shortest} superstring corresponds to a~permutation of the input strtings.
 
 
 \begin{figure}[ht]
@@ -181,9 +181,9 @@ Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from
 \node at (-5.5,-1) {(a)};
 \node at (3,-1) {(b)};
 \end{mypic}
-\label{fig:hgperm}
 \caption{(a)~A~schematic illustration of a~normalized Eulerian solution.
 (b)~Untangled optimal Eulerian solution from Figure~\ref{fig:hgex}(c).}
+\label{fig:hgperm}
 \end{figure}
 
 Not every Eulerian solution in the hierarchical graph has a~nice zig-zag
@@ -193,7 +193,7 @@ that allows us to focus on nice Eulerian solutions only.
 \subsection{Normalizing a~Solution}
 \label{sec:def_normal}
 In this section, we describe a~natural way of normalizing an~Eulerian solution~$D$. Informally, it can be viewed as follows.
-Imagine that all arcs of~$D$ form one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em gravitation} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
+Imagine that all arcs of~$D$ form one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em ``gravitation''} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
 with a~pair $(\pref(v), \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, if there is no nail in~$v$ and if this does not disconnect~$D$. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
 
 \begin{figure}[ht]
@@ -280,7 +280,7 @@ It drops down all pairs of arcs that are not needed for connectivity.
 \end{algorithmic}
 \end{algorithm}
 
-It is easy to show (we prove this formally in Claim~\ref{claim:zigzag} on page~\pageref{claim:zigzag}) that any normalized solution is of the form~\eqref{eq:zigzag}. But it is not true that every zig-zag solution of the form~\eqref{eq:zigzag} is a normalized solution: see Figure~\ref{fig:abnormalzigzag} for an example. The normalization procedure does not just turn a~solution into some standard form, but it may also improve it.
+It is easy to show (we prove this formally in Claim~\ref{claim:zigzag} on page~\pageref{claim:zigzag}) that any normalized solution is of the form~\eqref{eq:zigzag}. But it is not true that every zig-zag solution of the form~\eqref{eq:zigzag} is a normalized solution: see Figure~\ref{fig:abnormalzigzag} for an example. The normalization procedure does not just turn a~solution into some standard form, but it may also decrease its length.
 
 \begin{figure}[ht]
 \begin{mypic}

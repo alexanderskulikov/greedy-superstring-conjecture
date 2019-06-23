@@ -4,11 +4,11 @@ The {\em shortest common superstring problem} (abbreviated as SCS) is:
 given a~set of strings, find a~shortest string that contains all of them as
 substrings. This problem finds applications in genome assembly~\cite{waterman1995introduction, pevzner2001eulerian}, and data compression~\cite{GMS1980, phdthesis, storer1987data}. We refer the reader to the excellent surveys~\cite{gevezes2014shortest, mucha2007tutorial} for an overview of SCS, its applications and algorithms.  SCS is known to be $\mathbf{NP}$-hard~\cite{GMS1980} and even $\mathbf{MAX}$-$\mathbf{SNP}$-hard~\cite{BJLTY1991}, but it admits constant-factor approximation in polynomial time.
 
-The best known approximation ratio is $2\frac{11}{23}$ due to Mucha~\cite{M2013} 
-%and $2\frac{11}{30}$ due to Paluch~\cite{P14} 
+The best known approximation ratios are $2\frac{11}{23}$ due to Mucha~\cite{M2013} 
+and $2\frac{11}{30}$ due to Paluch~\cite{P14} 
 (see \cite[Section~2.1]{GKM13} for an overview of the 
 previous approximation algorithms
-and inapproximability results). While this approximation algorithm uses an algorithm for Maximum Weight Perfect Matching as a~subroutine, the $30$ years old \emph{Greedy Conjecture}~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial \emph{Greedy Algorithm}, whose pseudocode is given in Algorithm~\ref{algo:ga}, is 2-approximate. Ukkonen~\cite{ukkonen1990linear} shows that for a fixed alphabet, the Greedy Algorithm can be implemented in linear time. It should be noted that GA is not deterministic as we do not specify how to break ties in case when there are many pairs of strings with maximum overlap. For this reason, GA may produce different superstrings for the same input.
+and inapproximability results). While these approximation algorithms use an algorithm for Maximum Weight Perfect Matching as a~subroutine, the $30$ years old \emph{Greedy Conjecture}~\cite{storer1987data, TU1988, T1989, BJLTY1991} claims that the trivial \emph{Greedy Algorithm}, whose pseudocode is given in Algorithm~\ref{algo:ga}, is 2-approximate. Ukkonen~\cite{ukkonen1990linear} shows that for a fixed alphabet, the Greedy Algorithm can be implemented in linear time. It should be noted that GA is not deterministic as we do not specify how to break ties in case when there are many pairs of strings with maximum overlap. For this reason, GA may produce different superstrings for the same input.
 
 
 \begin{algorithm}[ht]
@@ -45,14 +45,14 @@ It is known that the Greedy Conjecture holds for the case when all input strings
 Most of the approaches for approximating SCS are based on the
 {\em overlap graph} or the equivalent \emph{suffix graph}. The suffix graph has input strings as nodes, and a pair of nodes 
 is joined by an~arc of weight equal to their suffix (see Section~\ref{sec:def_scs} for formal definitions of overlap and suffix).
-SCS is equivalent to the Traveling Salesman Problem (TSP) in the suffix graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor.\footnote{We remark that SCS is also a special case of Metric TSP which can be approximated within a constant factor~\cite{svensson2018constant}, but this factor is currently much worse than that for SCS.} We do not know the full characterization of the graphs in this special case, but we know some of their properties: Monge inequality~\cite{monge} and Triple inequality~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
+SCS is equivalent to (the asymmetric version of) the Traveling Salesman Problem (TSP) in the suffix graph. While TSP cannot be approximated within any polynomial time computable function unless $\mathbf{P}=\mathbf{NP}$~\cite{SG1976}, its special case corresponding to SCS can be approximated within a constant factor.\footnote{We remark that SCS is also a special case of TSP for costs satisfying the triangle inequaliy. This case of TSP can be approximated within a constant factor~\cite{svensson2018constant}, but this factor is currently much worse than that for SCS.} We do not know the full characterization of the graphs in this special case, but we know some of their properties: Monge inequality~\cite{monge} and Triple inequality~\cite{weinard2006greedy}. These properties are provably not sufficient for proving Greedy Conjecture~\cite{weinard2006greedy, laube2005conditional}. 
 
 While the overlap and suffix graphs give a~convenient graph structure, our current knowledge of their properties is provably not sufficient for showing strong approximation factors. Thus, the known approximation algorithms (including the Greedy Algorithm) estimate the approximation ratio via the overlap graph, and also separately take into account some string properties not represented by the overlap graph. The goal of this work is to develop a simple combinatorial framework which captures all features of the input strings needed for proving approximation ratios of algorithms.
 
 \subsection{Our contributions}
 
 We continue the study of the so-called {\em hierarchical graph}
-introduced by Golovnev et al.~\cite{scs_exact}. This graph is designed specifically 
+introduced by Golovnev et al.~\cite{scs_exact}. (See also~\cite{cr16} for a related notion of the superstring graph.) This graph is designed specifically 
 for the SCS problem, in some sense it generalizes de~Bruijn graph, and it contains more information about the input strings
 than just all pairwise overlaps. Given an instance of SCS, the vertex set of the corresponding hierarchical graph is just the set of substrings of all the input strings. For a string $s$ and two symbols $\alpha, \beta$, the graph contains the arcs: $(s,s\alpha)$ and $(\beta s, s)$. Now, every superstring of the given set of string corresponds to an Eulerian walk in the hierarchical graph (which passes through the vertices corresponding to the input strings), and vice versa. (See Section~\ref{sec:def_hier} for formal definition and statements.)
 
