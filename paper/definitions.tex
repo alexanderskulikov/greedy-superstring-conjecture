@@ -147,6 +147,7 @@ Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from
 
 \begin{figure}[ht]
 \begin{mypic}
+\begin{scope}[yscale=0.8]
 %\draw[help lines] (-7.5,0) grid (7.5,3);
 \foreach \n/\x/\y in {aaa/0/3, cae/4/3, aec/2/3, eee/6/3}
   \node[inputvertex] (\n) at (\x,\y) {\tt \n};
@@ -180,6 +181,7 @@ Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from
 
 \node at (-5.5,-1) {(a)};
 \node at (3,-1) {(b)};
+\end{scope}
 \end{mypic}
 \caption{(a)~A~schematic illustration of a~normalized Eulerian solution.
 (b)~Untangled optimal Eulerian solution from Figure~\ref{fig:hgex}(c).}
@@ -257,6 +259,7 @@ if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of a
 
 Algorithm~\ref{alg:ca}, that we call Collapsing Algorithm (CA), uses the property described above to normalize any solution.
 It drops down all pairs of arcs that are not needed for connectivity.
+\ab{(Recall that a~set of edges is called an Eulerian solution if it is connected and goes through all initial nodes and $\varepsilon$.)}
 
 
 %The normalizing 
@@ -320,7 +323,7 @@ It is easy to show (we prove this formally in Claim~\ref{claim:zigzag} on page~\
   \draw[->] (\f) -- (\t);
 \end{scope}
 \end{mypic}
-\caption{(a)~An~Eulerian solution corresponding to the~permutation $({\tt ae}, {\tt aa}, {\tt ca})$. (b)~The solution from~(a) after normalization results in a shorter solution corresponding to the~permutation~$({\tt ca}, {\tt aa}, {\tt ae})$.}
+\caption{(a)~An~Eulerian solution corresponding to the~permutation $({\tt ae}, {\tt aa}, {\tt ca})$. (b)~The solution from~(a) after normalization results in a shorter solution corresponding to the~permutation~$({\tt ca}, {\tt aa}, {\tt ae})$. \ab{This example also shows that though collapsing a~pair of edges is a~local change in the graph, it may drastically change the resulting superstring. In this case, it replaces a~superstring {\tt aeaaca} with a~shorter superstring {\tt caae}.}}
 \label{fig:abnormalzigzag}
 \end{figure}
 

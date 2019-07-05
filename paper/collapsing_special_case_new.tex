@@ -15,7 +15,7 @@ Before proving Theorem~\ref{thm:cc3}, we introduce some notation and
 prove two auxiliary results. Recall that the Collapsing Algorithm processes the nodes level by level. Denote by $L_i$ an intermediate Eulerian solution right before is starts collapsing the nodes at level~$i$ (that is, in $L_i$ all the nodes at levels $>i$ are already collapsed). 
 For an arbitrary Eulerian solution~$U$, by $\operatorname{above}(U,i)$ denote the part of~$U$ that lies above the level~$i$: 
 $\operatorname{above}(U,i)=\{(u, v) \in U \colon |u|, |v| \ge i\}$.
-We show that $\operatorname{above}(D,i)=\operatorname{above}(L_i, i)$ for every~$i$. This is enough since then \[CSA(\mathcal{S}, L)=\operatorname{above}(L_0,0)=\operatorname{above}(D,0)=GHA(\mathcal{S}) \, .\]
+We show that $\operatorname{above}(D,i)=\operatorname{above}(L_i, i)$ for every~$i$. This is enough since then \[CA(\mathcal{S}, L)=\operatorname{above}(L_0,0)=\operatorname{above}(D,0)=GHA(\mathcal{S}) \, .\]
 
 %Recall that the Collapsing Algorithm replaces a~pair of arcs $(\pref(s), s), (s, \suff(s))$ by a~pair of arcs $(\pref(s), \suff(\pref(s))), (\suff(\pref(s)), \suff(s))$. In this case, we say that the arc $(\pref(s), \suff(\pref(s)))$ is a~{\em collapsing result} of $(\pref(s), s)$ and, correspondingly, that 
 %$(\suff(\pref(s)), \suff(s))$ is a~collapsing result of $(s, \suff(s))$.
