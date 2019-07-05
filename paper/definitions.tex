@@ -51,6 +51,7 @@ It should be noted at the same time that the correspondence between permutations
 
 \begin{figure}[ht]
 \begin{mypic}
+%\begin{scope}[scale=0.85]
 %\draw[help lines] (0,0) grid (16,4);
 
 \foreach \x in {0, 2.5, 5.5, 10, 12.5, 16}
@@ -66,6 +67,7 @@ It should be noted at the same time that the correspondence between permutations
 
 \node at (11,0) {$\dotsb$};
 \node at (10.5,1.75) {$\dotsb$};
+%\end{scope}
 \end{mypic}
 \caption{SCS is a~permutation problem. The length of a~superstring corresponding to a~permutation $(s_{i_1}, \dotsc, s_{i_n})$ is $|s_{i_1}|$ plus the sum of the lengths of suffixes of consecutive pairs of strings. It is also equal to $\sum_{i=1}^n |s_i|-\sum_{j=1}^{n-1}|\overlap(s_{i_j}, s_{i_{j+1}})|$.}
 \label{fig:permutation}
@@ -101,6 +103,7 @@ Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph and shows th
 
 \begin{figure}[!ht]
 \begin{mypic}
+%\begin{scope}[scale=0.85]
 \we{0}{0}{a}{}
 
 \we{57}{0}{b}{
@@ -112,6 +115,7 @@ Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph and shows th
 \foreach \f/\t/\a in {eps/a/10, a/aa/10, aa/aaa/10, aaa/aa/10, aa/a/10, a/ae/0, ae/aec/0, aec/ec/0, ec/c/0, c/ca/0, ca/cae/0, cae/ae/0, ae/e/0, e/ee/10, ee/eee/10, eee/ee/10, ee/e/10, e/eps/10}
   \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
 }
+%\end{scope}
 \end{mypic}
 \caption{(a)~Hierarchical graph for the~dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$. (b)~The~walk $\varepsilon \to {\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec} \to {\tt c} \to {\tt ca} \to {\tt a} \to \varepsilon$ has length (or weight)~4 and spells the~string {\tt aeca} of length~4. (c)~An~optimal superstring for~$\mathcal{S}$ is {\tt aaaecaeee}. It has length~9, corresponds to the~permutation $({\tt aaa}, {\tt aec}, {\tt cae}, {\tt eee})$, and defines the~walk of length~9 shown in black.}
 \label{fig:hgex}
@@ -140,7 +144,9 @@ A solution to SCS defines a permutation $(s_{i_1}, \dotsc, s_{i_n})$ of the inpu
 \begin{align}
 \label{eq:zigzag}
 \varepsilon \to s_{i_1} \to \overlap(s_{i_1}, s_{i_2}) \to s_{i_2} \to
-\overlap(s_{i_2}, s_{i_3}) \to \dotsb \to \overlap(s_{i_{n-1}}, s_{i_n}) \to s_{i_n} \to \varepsilon \, .
+\overlap(s_{i_2}, s_{i_3}) \to \dotsb 
+%\to \overlap(s_{i_{n-1}}, s_{i_n}) 
+\to s_{i_n} \to \varepsilon \, .
 \end{align}
 This Eulerian solution is shown schematically in Figure~\ref{fig:hgperm}(a). This schematic illustration is over simplified as the shown path usually has many self-intersections. Still, this point of view is helpful in understanding the algorithms presented later in the text. 
 Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from Figure~\ref{fig:hgex}(c): by contracting nodes with equal labels into the same node, one gets exactly the solution from Figure~\ref{fig:hgex}(c).
@@ -231,18 +237,6 @@ A~formal pseudocode of the collapsing procedure is given in Algorithm~\ref{alg:c
 if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs $(\pref(v), v)$ and $(v, \suff(v))$.
 
 
-%One simple property of the hierarchical graph is the following. 
-%Let $v$ be a~node of length at least~2
-
-%A~useful property of the hierarchical graph is the following: for any path from~$u$ to~$v$ that first goes up and then goes down, there is a~path from~$u$ to~$v$ that first goes down and then goes up and has exactly the same length. For example, on Figure~\ref{fig:hgex}(a), there is an up-down path ${\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec}$ and 
-%a~down-up path ${\tt a} \to \varepsilon \to {\tt e} \to {\tt ec}$.
-%This may be viewed as a~commutative diagram: to get~$v$ from~$u$, one needs to cut $\pref(u, v)$ and to append $\suff(u,v)$ and these two operations may be performed in any order. 
-%Clearly, the top node of the up-down path is the superstring of~$u$ and~$v$, whereas the bottom node of the down-up path is the overlap of~$u$ and~$v$.
-
-%Formally, after doubling every arc of~$D$, we start processing the nodes of the hierarchical graph level by level in the descending order, and in the lexicographic order on every level. If for the current node~$v$ there is a~pair of arcs $(\pref(v), v), (v, \suff(v)) \in D$, we replace it by a~pair of arcs $(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))$ if $D$~remains to be a~solution (i.e., it is still connected). There is one exception for this: if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs. 
-%A~formal pseudocode of this collapsing procedure is given in Algorithm~\ref{alg:collapse}. This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
-
-
 \begin{algorithm}[!ht]
 \caption{Collapse}\label{alg:collapse}
 \hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, Eulerian solution~$D$, node~$v \in V$.
@@ -266,8 +260,7 @@ It drops down all pairs of arcs that are not needed for connectivity.
 %This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
 
 \begin{algorithm}[!ht]
-\caption{Collapsing Algorithm (CA)}
-\label{alg:ca}
+\caption{Collapsing Algorithm (CA)}\label{alg:ca}
 \hspace*{\algorithmicindent} \textbf{Input:} set of strings~$\mathcal{S}$, Eulerian solution~$D$ in~$HG$.\\
 \hspace*{\algorithmicindent} \textbf{Output:} Eulerian solution $D'\colon |D'|\leq|D|$
 % a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.

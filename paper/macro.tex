@@ -1,0 +1,36 @@
+\usepackage{tikz}
+\usetikzlibrary{calc,arrows,shapes,backgrounds,patterns,fit,decorations,decorations.pathmorphing}
+
+%\usepackage[colorinlistoftodos]{todonotes}
+%\usepackage[hidelinks]{hyperref}
+
+\usepackage[ruled]{algorithm}
+\usepackage[noend]{algpseudocode}
+
+
+
+
+\DeclareMathOperator{\overlap}{overlap}
+\DeclareMathOperator{\pref}{pref}
+\DeclareMathOperator{\suff}{suff}
+\DeclareMathOperator{\ein}{in}
+\DeclareMathOperator{\eout}{out}
+\DeclareMathOperator{\bal}{\Delta}
+\DeclareMathOperator{\lvl}{level}
+\DeclareMathOperator{\defn}{def}
+\DeclareMathOperator{\poly}{poly}
+\DeclareMathOperator{\inp}{input}
+\DeclareMathOperator{\indegree}{indegree}
+\DeclareMathOperator{\outdegree}{outdegree}
+
+\renewcommand{\geq}{\geqslant}
+\renewcommand{\leq}{\leqslant}
+
+\newcommand{\ab}[1]{#1}%{\textcolor{red}{#1}}
+
+\tikzstyle{hgedge}=[->,gray!40!white]
+\tikzstyle{anypath}=[->,dashed]
+\tikzstyle{vertex}=[draw,ellipse,inner sep=0.5mm,minimum size=4mm]
+\tikzstyle{inputvertex}=[draw,rectangle,inner sep=.5mm,minimum size=5mm]
+
+\newenvironment{mypic}{\begin{center}\begin{tikzpicture}[>=latex,line width=.3mm,scale=0.8,transform shape]}{\end{tikzpicture}\end{center}}

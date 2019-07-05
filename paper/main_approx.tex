@@ -1,0 +1,70 @@
+\documentclass[a4paper,UKenglish,cleveref, autoref]{lipics-v2019}
+\bibliographystyle{plainurl}
+\title{Collapsing Superstring Conjecture}
+
+\author{Alexander Golovnev}{Harvard University}{}{}{Supported by a Rabin Postdoctoral Fellowship}
+
+\author{Alexander~S. Kulikov}{Steklov Institute of Mathematics at St.~Petersburg, Russian Academy of Sciences}{}{}{}
+
+\author{Alexander Logunov}{St.~Petersburg State University}{}{}{}
+
+\author{Ivan Mihajlin}{University of California, San Diego}{}{}{}
+
+\author{Maksim Nikolaev}{St.~Petersburg State University}{}{}{}
+
+\authorrunning{A. Golovnev, A. Kulikov, A. Logunov, I. Mihajlin, M. Nikolaev}%TODO mandatory. First: Use abbreviated first/middle names. Second (only in severe cases): Use first author plus 'et al.'
+
+\Copyright{Alexander Golovnev, Alexander~S. Kulikov, Alexander Logunov, Ivan Mihajlin, Maksim Nikolaev}%TODO mandatory, please use full first names. LIPIcs license is "CC-BY";  http://creativecommons.org/licenses/by/3.0/
+
+\ccsdesc{Theory of computation~Design and analysis of algorithms}
+\ccsdesc{Theory of computation~Approximation algorithms analysis}
+
+\keywords{superstring, shortest common superstring, approximation, greedy algorithms, greedy conjecture}%TODO mandatory; please add comma-separated list of keywords
+
+\category{APPROX}%optional, e.g. invited paper
+
+\relatedversion{A full version of the paper is available at \url{https://arxiv.org/abs/1809.08669}.}%optional, e.g. full version hosted on arXiv, HAL, or other respository/website
+%\relatedversion{A full version of the paper is available at \url{...}.}
+
+%\supplement{Source code is available at \url{https://github.com/alexanderskulikov/greedy-superstring-conjecture}.}%optional, e.g. related research data, source code, ... hosted on a repository like zenodo, figshare, GitHub, ...
+
+%\funding{(Optional) general funding statement \dots}%optional, to capture a funding statement, which applies to all authors. Please enter author specific funding statements as fifth argument of the \author macro.
+
+%\acknowledgements{I want to thank \dots}%optional
+
+%\nolinenumbers %uncomment to disable line numbering
+
+%\hideLIPIcs  %uncomment to remove references to LIPIcs series (logo, DOI, ...), e.g. when preparing a pre-final version to be uploaded to arXiv or another public repository
+
+%Editor-only macros:: begin (do not touch as author)%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\EventEditors{Dimitris Achlioptas and L\'{a}szl\'{o} A. V\'{e}gh}
+\EventNoEds{2}
+\EventLongTitle{Approximation, Randomization, and Combinatorial Optimization. Algorithms and Techniques (APPROX/RANDOM 2019)}
+\EventShortTitle{\mbox{\scriptsize APPROX/RANDOM 2019}}
+\EventAcronym{APPROX/RANDOM}
+\EventYear{2019}
+\EventDate{September 20--22, 2019}
+\EventLocation{Massachusetts Institute of Technology, Cambridge, MA, USA}
+\EventLogo{}
+\SeriesVolume{145}
+\ArticleNo{26}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input macro
+
+\begin{document}
+\maketitle
+\input abstract
+
+\input intro
+\input definitions
+\input collapsing
+\input greedy_hierarchical
+\input relations
+\input conclusion
+\bibliography{main}
+
+\appendix
+\input collapsing_special_case_new
+\input greedy_special_case
+\end{document}
