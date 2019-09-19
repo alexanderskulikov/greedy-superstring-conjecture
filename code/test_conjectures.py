@@ -4,5 +4,5 @@ from check_conjectures import print_summary
 
 log_file = 'counter-examples.txt'
 check_dataset(log_file)
-check_random(log_file, 5000)
+check_random(log_file, 50000)
 print_summary()

@@ -215,9 +215,11 @@ def double_and_collapse(strings, drawer, solution_graph):
     nodes.sort(key=lambda z: (-len(z), z))
 
     for v in nodes:
+        # if len(processed_nodes) > 0 and len(v) == len(processed_nodes[-1]) - 1:
+        #     check_property_after_collapsing_level(solution_graph, processed_nodes, drawer)
+
         processed_nodes.append(v)
         drawer.draw(solution_graph, processed_nodes, "process {}".format(v))
-        this_is_first_collapse_for_this_node = True
 
         one_more_try = True
         while one_more_try:
@@ -268,8 +270,6 @@ def double_and_collapse(strings, drawer, solution_graph):
                                 break
 
                     if not nx.is_weakly_connected(mirror):
-                        # if this_is_first_collapse_for_this_node:
-                        #     print("ARGH", v)
                         drawer.draw(solution_graph, processed_nodes,
                             "the pair of edges {}->{}->{} cannot be mirrored as it would break connectivity".format(
                                 pref, v, suf
@@ -281,7 +281,6 @@ def double_and_collapse(strings, drawer, solution_graph):
                         assert __empty_node_name__ not in scc
                     else:
                         one_more_try = True
-                        this_is_first_collapse_for_this_node = False
                         assert nx.is_eulerian(mirror)
                         drawer.draw(solution_graph,
                                     highlighted_nodes=processed_nodes,
@@ -292,8 +291,8 @@ def double_and_collapse(strings, drawer, solution_graph):
                         drawer.draw(solution_graph, processed_nodes)
 
                         # check some property after a successful collapse
-                        # print("we have just collapsed", v)
-                        # check_property_after_collapsing_pair_of_edges(solution_graph, processed_nodes, drawer)
+                        #print("we have just collapsed", v)
+                        #check_property_after_collapsing_pair_of_edges(solution_graph, processed_nodes, drawer)
 
 
 
@@ -304,13 +303,40 @@ def double_and_collapse(strings, drawer, solution_graph):
 def check_property_after_collapsing_pair_of_edges(solution_graph, processed_nodes, drawer):
     test_graph = solution_graph.copy()
     test_graph.remove_nodes_from(processed_nodes)
-    if not nx.is_strongly_connected(test_graph):
-        drawer.draw(test_graph, highlighted_nodes=test_graph.nodes(), color="green")
-        print("ARGH!!")
-        print(list(nx.strongly_connected_components(test_graph)))
-    else:
-        print(".", end="")
-        pass
+    assert nx.is_weakly_connected(test_graph)
+
+    # for z in test_graph.nodes():
+    #     if z == __empty_node_name__:
+    #         continue
+    #
+    #     last_processed_node = processed_nodes[-1]
+    #     if len(z) != len(last_processed_node):
+    #         continue
+    #
+    #     indeg = get_upper_indegree(test_graph, z)
+    #     outdeg = get_upper_outdegree(test_graph, z)
+    #
+    #     if indeg == 0 and outdeg == 0:
+    #         continue
+    #
+    #     if indeg > outdeg:
+    #         assert nx.has_path(test_graph, z, __empty_node_name__)
+    #     elif indeg < outdeg:
+    #         assert nx.has_path(test_graph, __empty_node_name__, z)
+    #     else:
+    #         print("Argh", z)
+    #         assert nx.has_path(test_graph, z, __empty_node_name__)
+    #         assert nx.has_path(test_graph, __empty_node_name__, z)
+
+
+# def check_property_after_collapsing_level(solution_graph, processed_nodes, drawer):
+#     test_graph = solution_graph.copy()
+#     test_graph.remove_nodes_from(processed_nodes)
+#
+#     for c in nx.weakly_connected_components(test_graph):
+#         if nx.is_eulerian(test_graph.subgraph(c).copy()):
+#             print("eulerian")
+
 
 
 def collapse_for_permutation(strings, drawer):
@@ -321,6 +347,9 @@ def collapse_for_permutation(strings, drawer):
 
 if __name__ == '__main__':
     #strings = ["dabababab", "babababad", "abababababab", "babababababa"]
-    strings = ["abab", "baba", "abdd", "ccba"]
+    #strings = ["abc", "bca", "cab"]
+    #strings = ["abcd", "bcde", "cdeb", "debc", "ebcd", "bcda", "cdab", "dabc"]
+    #strings = ["ababba", "abbaaa", "baaaab", "aaabab", "ababab", "cdcddc", "cddccc", "dccccd", "cccdcd", "cdcdcd"]
+    strings = ["ab", "ba"]
     drawer = graph_drawer.GraphDrawer(strings, output_dir="output", print_description=True, disable=False)
     collapse_for_permutation(strings, drawer)

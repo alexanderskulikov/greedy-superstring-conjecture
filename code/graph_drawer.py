@@ -73,6 +73,8 @@ class GraphDrawer:
             self.HG.get_node(string).attr['style'] = 'filled'
             self.HG.get_node(string).attr['fillcolor'] = 'white'
 
+        # self.HG.
+
         self.HG.layout(prog='dot')
 
     def create_output_folders(self):
@@ -85,11 +87,12 @@ class GraphDrawer:
     def __set_default_attributes__(self):
         for (u, v) in self.HG.edges():
             self.HG.get_edge(u, v).attr['color'] = "grey"
-            self.HG.get_edge(u, v).attr['penwidth'] = 1
+            self.HG.get_edge(u, v).attr['penwidth'] = 2
 
         for v in self.HG.nodes():
             self.HG.get_node(v).attr['style'] = 'filled'
             self.HG.get_node(v).attr['fillcolor'] = 'white'
+            self.HG.get_node(v).attr['penwidth'] = 2
 
     def clear(self):
         if self.__disable__:
