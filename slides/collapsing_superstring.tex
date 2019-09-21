@@ -1,0 +1,96 @@
+\documentclass[14pt,xcolor=dvipsnames]{beamer}
+\usetheme{metropolis}
+\setsansfont{Ubuntu}
+\metroset{progressbar=none,numbering=fraction,sectionpage=progressbar,block=fill}
+\setbeamercolor{background canvas}{bg=white}
+\usepackage{graphicx}
+\graphicspath{{images/}}
+\usepackage{booktabs}
+\usetikzlibrary{calc,arrows,shapes,backgrounds,patterns,fit,decorations,decorations.pathmorphing}
+
+
+%\includeonlyframes{relations}
+
+\DeclareMathOperator{\overlap}{overlap}
+
+\colorlet{mc}{mLightBrown}
+
+
+\tikzstyle{hgedge}=[->,line width=.3mm,gray!50]
+\tikzstyle{highhgedge}=[hgedge,mc,line width=2.5pt]
+\tikzstyle{anypath}=[->,dashed]
+\tikzstyle{vertex}=[draw,rectangle,inner sep=0.5mm]
+\tikzstyle{inputvertex}=[draw,rectangle,inner sep=0.5mm,fill=gray!40]
+
+
+%%%%%%
+
+
+\title{Collapsing Superstring Conjecture}
+\date{}%February 15, 2019}
+\author{Alexander Golovnev (Harvard)\\ Alexander S. Kulikov (Steklov Math Inst)\\ Alexander Logunov (St. Petersburg U)\\ Ivan Mihajlin (UCSD)\\ Maksim Nikolaev (St. Petersburg U)\\}
+%\institute{Steklov Mathematical Institute at St. Petersburg\\and\\
+%St. Petersburg State University\\}
+
+\newenvironment{mypic}{\begin{center}\begin{tikzpicture}[line width=1.5pt,>=latex,scale=1.0]}
+{\end{tikzpicture}\end{center}}
+
+\newenvironment{mynewpic}{\begin{center}\begin{tikzpicture}[line width=1.5pt,>=latex]}
+{\end{tikzpicture}\end{center}}
+
+\newcommand{\myproblem}[3]{
+  \begin{block}{#1}
+  \begin{itemize}
+  \item[] Input: \hspace{0mm} #2
+  \item[] Output: #3
+  \end{itemize}
+  \end{block}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+\maketitle
+
+
+
+%\end{document}
+
+%\begin{frame}{Outline}
+%\begin{itemize}
+%\item \alert{Superstring: overview}
+%%Overview of known results for the superstring problem
+%\item \alert{Hierarchical graph}
+%%A~new graph designed specifically for solving superstring
+%\item \alert{Collapsing superstring conjecture} 
+%%A~surprising conjecture implying 2-approx
+%\item \alert{Greedy hierarchical conjecture}
+%%Another~surprising conjecture implying 2-approximability and
+%%relating it to the original greedy conjecture
+%\item \alert{Framework for experiments and visualizations}
+%%A framework for making experiments and visualizations as well as verifying conjectures
+%\end{itemize}
+%\end{frame}
+
+\input overview
+\input hierarchical
+\input collapsing
+\input hierarchical_conjecture
+\input relation
+
+\begin{frame}{Thank you!}
+\vfill
+\centerline{\alert{\bf \large Thank you for your attention!}}
+\vfill
+\begin{itemize}
+\item \alert{Full text:} \url{arxiv.org/abs/1809.08669}
+\item \alert{Visualization:} \url{compsciclub.ru/scs}
+\item \alert{Code:} \url{github.com/alexanderskulikov/greedy-superstring-conjecture}
+\end{itemize}
+\vfill
+\end{frame}
+
+
+\end{document}
+
