@@ -1,5 +1,6 @@
 # ec2 private key
 firstkeypair.pem
+oldkeypair.pem
 
 # idea files
 .idea/
