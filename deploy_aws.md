@@ -9,9 +9,9 @@ chmod 400 firstkeypair.pem
 ```
 
 ## SSH to the server
-Our Public DNS is *ec2-52-15-239-252.us-east-2.compute.amazonaws.com*. Thus, we can ssh to this machine using the command
+Our Public DNS is *ec2-18-191-186-99.us-east-2.compute.amazonaws.com*. Thus, we can ssh to this machine using the command
 ```
-ssh -i "firstkeypair.pem" ubuntu@ec2-52-15-239-252.us-east-2.compute.amazonaws.com
+ssh -i "firstkeypair.pem" ubuntu@ec2-18-191-186-99.us-east-2.compute.amazonaws.com
 ```
 
 ## Install Python 3, pip, and Apache
@@ -70,7 +70,7 @@ sudo chmod -R a+w greedy-superstring-conjecture/web/static/output/
 
 ## Testing
 
-Open in your browser the page `http://ec2-52-15-239-252.us-east-2.compute.amazonaws.com/scs`
+Open in your browser the page `http://ec2-18-191-186-99.us-east-2.compute.amazonaws.com/scs`
 
 You can find Apache's logs here:
 ```
@@ -85,7 +85,7 @@ sudo apachectl restart
 ## Logs, History and Exceptions
 
 ```
-ssh -i "firstkeypair.pem" ubuntu@ec2-52-15-239-252.us-east-2.compute.amazonaws.com
+ssh -i "firstkeypair.pem" ubuntu@ec2-18-191-186-99.us-east-2.compute.amazonaws.com
 ```
 
 Here are the outputs: `greedy-superstring-conjecture/web/static/output/`
