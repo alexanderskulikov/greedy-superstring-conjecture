@@ -1,18 +1,22 @@
 \section{Hierarchical Solution properties}
 In this section we prove some properties of Hierarchical Solution. Namely, in Section~\ref{sec:super} we prove that the Collapsing Algorithm is constant on the set of Eulerian supergraphs of HS. In Section~\ref{sec:gr_im_wcc} we prove that the standard Greedy Conjecture implies Weak Collapsing Conjecutre (which is sufficient for a simple 2-approximate greedy algorithm for SCS). Finally, it is easy to see that Collapsing Conjecture implies its weak version: indeed, if every doubled solution results in HS, then HS does not exceed twice the optimal superstring length. In Figure~\ref{fig:relations}, we show the proven relations between the conjectures, together with 2-approximate algorithm which follow from each of the conjecture.
 
-In both aforementioned Sections we will use the following simple property of HS:
+In both aforementioned Sections we will use the following properties of HS:
 \begin{lemma}\label{lemma:property}
-    Consider arbitrary vertex $v$ such that a pair of arcs $p = ((\pref(v), v), (v, \suff(v)))$ contains in HS. By definition of CA it means that collapsing this pair would disconnect the HS. Denote the component to which $v$ would belong if this disconnection occurred by $\mathcal{C}$. The following claims hold:
+    Consider an arbitrary node $v$ such that a pair of arcs $p = ((\pref(v), v), (v, \suff(v)))$ contained in HS. By definition of CA it means that collapsing this pair would disconnect the HS. Denote by $\mathcal{C}$ the component to which $v$ would belong if this disconnection occurred. The following claims hold:
     \begin{itemize}
         \item[\bf 1.] the arcs of $p$ are the only arcs connecting $v$ with the level $|v|-1$;
-        \item[\bf 2.] the vertex $v$ is the lexicographically largest among all shortest nodes in $\mathcal{C}$.
+        \item[\bf 2.] the node $v$ is the lexicographically largest among all shortest nodes in $\mathcal{C}$.
     \end{itemize}    
 \end{lemma}
 \begin{proof}
-    Denote by $t$ the moment right before CA finished processing $v$. Suppose that at this moment there was at least one arc $e$ of the form $(\pref(v), v)$ or $(v, \suff(v))$ in addition to the pair $p$. Note, that then, after collapsing $p$, HS would remain Eulerian and $v$ would remain weakly connected to both vertices $\pref(v)$ and $\suff(v)$ by $e$ and collapsed $p$. As the weak connectivity in Eulerian graphs tantamount the strong connectivity, then collapsing $p$ would not disconnect HS, so CA could collapse it, which contradicts the definition of $t$. This contradiction completes the proof of {\bf 1}.
+    Denote by $t$ the moment right before CA finished processing $v$.
     
-    Now suppose that in $\mathcal{C}$ there was a node on the level less than $|v|$ or on the level $|v|$ but lexicographically larger than $v$. Then at the moment $t$ this node was immediately connected to $\varepsilon$, as it holds in $T(\mathcal{S})$, so $p$ could be safely collapsed, which again contradicts the definition of $t$. Thus, the proof of {\bf 2} is complete.
+    First, we prove that $\varepsilon \notin \mathcal{C}$, i.e. there was no component $\mathcal{C}'$, which was connected to $\varepsilon$ through the $v$ only. Indeed, consider the shortest node $w$ of $\mathcal{C}'$. Note that $|w| < |v|$, since $v \notin \mathcal{C}'$ but $\pref(v), \suff(v) \in \mathcal{C}'$. By construction of CA, HS has the zig-zag form, so $w$ is actually an overlap of some strings from $\mathcal{S}$ and hence $T(\mathcal{S})$ has a subgraph $\varepsilon \to w \to \varepsilon$. Note that at the moment $t$ this subgraph remained untouched by CA and so $\mathcal{C}'$ could not be disconnected by collapsing $p$. Thus, the disconnected component was actually $\mathcal{C}$.
+    
+    Now suppose that at the moment $t$ there was at least one arc $e$ of the form $(\pref(v), v)$ or $(v, \suff(v))$ in addition to the pair $p$. Note, that then, after collapsing $p$, HS would remain Eulerian and $v$ would remain weakly connected to both nodes $\pref(v)$ and $\suff(v)$ by $e$ and collapsed $p$. As the weak connectivity in Eulerian graphs is tantamount to the strong connectivity, then collapsing $p$ would not disconnect HS, so CA could collapse it, which contradicts the definition of $t$. This contradiction completes the proof of {\bf 1}.
+    
+    Now suppose that in $\mathcal{C}$ there was a node on the level less than $|v|$ or on the level $|v|$ but lexicographically larger than $v$. Then at the moment $t$ this node was immediately connected to $\varepsilon$, thanks to the argument from the beginning of the proof. So $p$ could be safely collapsed, which again contradicts the definition of $t$. Thus, the proof of {\bf 2} is complete.
 \end{proof}
 %\begin{figure}
 %\begin{mypic}
@@ -87,7 +91,7 @@ It remains to show that all blue pairs at level $k$ are collapsed. This triviall
 \begin{corollary}
     HS is the only Eulerian solution enjoys the property described in theorem.
 \end{corollary}
-Indeed, an arbitrary normalized solution is subgraph of $T(\mathcal{S})$.
+Indeed, for any solution $D$ with this property consider the graph $HS \sqcup D$.
 
 \subsection{Greedy Implies Weak Collapsing}
 \label{sec:gr_im_wcc}
