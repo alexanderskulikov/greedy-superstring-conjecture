@@ -1,0 +1,170 @@
+\section{Hierarchical Solution properties}
+In this section we prove some properties of Hierarchical Solution. Namely, in Section~\ref{sec:super} we prove that the Collapsing Algorithm is constant on the set of Eulerian supergraphs of HS. In Section~\ref{sec:gr_im_wcc} we prove that the standard Greedy Conjecture implies Weak Collapsing Conjecutre (which is sufficient for a simple 2-approximate greedy algorithm for SCS). Finally, it is easy to see that Collapsing Conjecture implies its weak version: indeed, if every doubled solution results in HS, then HS does not exceed twice the optimal superstring length. In Figure~\ref{fig:relations}, we show the proven relations between the conjectures, together with 2-approximate algorithm which follow from each of the conjecture.
+
+In both aforementioned Sections we will use the following simple property of HS:
+\begin{lemma}\label{lemma:property}
+    Consider arbitrary vertex $v$ such that a pair of arcs $p = ((\pref(v), v), (v, \suff(v)))$ contains in HS. By definition of CA it means that collapsing this pair would disconnect the HS. Denote the component to which $v$ would belong if this disconnection occurred by $\mathcal{C}$. The following claims hold:
+    \begin{itemize}
+        \item[\bf 1.] the arcs of $p$ are the only arcs connecting $v$ with the level $|v|-1$;
+        \item[\bf 2.] the vertex $v$ is the lexicographically largest among all shortest nodes in $\mathcal{C}$.
+    \end{itemize}    
+\end{lemma}
+\begin{proof}
+    Denote by $t$ the moment right before CA finished processing $v$. Suppose that at this moment there was at least one arc $e$ of the form $(\pref(v), v)$ or $(v, \suff(v))$ in addition to the pair $p$. Note, that then, after collapsing $p$, HS would remain Eulerian and $v$ would remain weakly connected to both vertices $\pref(v)$ and $\suff(v)$ by $e$ and collapsed $p$. As the weak connectivity in Eulerian graphs tantamount the strong connectivity, then collapsing $p$ would not disconnect HS, so CA could collapse it, which contradicts the definition of $t$. This contradiction completes the proof of {\bf 1}.
+    
+    Now suppose that in $\mathcal{C}$ there was a node on the level less than $|v|$ or on the level $|v|$ but lexicographically larger than $v$. Then at the moment $t$ this node was immediately connected to $\varepsilon$, as it holds in $T(\mathcal{S})$, so $p$ could be safely collapsed, which again contradicts the definition of $t$. Thus, the proof of {\bf 2} is complete.
+\end{proof}
+%\begin{figure}
+%\begin{mypic}
+%\tikzstyle{r}=[rectangle,inner sep=2mm,draw,text centered]
+%
+%\node[r] (w) at (5,3) {Weak Greedy Hierarchical Conjecture};
+%\node[r] (cc) at (0,5) {Collapsing Conjecture}; 
+%\node[r] (gc) at (10,5) {Greedy Conjecture}; 
+%
+%\node[r] (ca) at (0,1) {CA is 2-approximate};
+%\node[r] (gha) at (5,1) {GHA is 2-approximate};
+%\node[r] (ga) at (10,1) {GA is 2-approximate};
+%
+%%\draw[help lines] (0,0) grid (14,6);
+%
+%\foreach \f/\t in {cc/ca, cc/w, gc/ga, gc/w, w/gha, ga/gha}
+%  \draw[->] (\f) -- (\t);
+%\end{mypic}
+%\caption{Collapsing and Greedy Hierarchical Conjectures are equivalent. They imply the weak version of the Greedy Hierarchical Conjecture, which also follows from the standard Greedy Conjecture. Each conjecture implies that the corresponding algorithm finds a $2$-approximate solution for SCS.}
+%\label{fig:relations}
+%\end{figure}
+\begin{figure}
+\begin{mypic}
+\tikzstyle{r}=[rectangle,inner sep=2mm,draw,text centered, text width=40mm]
+
+\node[r] (w) at (5.5,3) {Weak Collapsing\\Conjecture};
+\node[r] (cc) at (0,5) {Collapsing Conjecture}; 
+\node[r] (gc) at (0,1) {Greedy Conjecture};
+% \node[r] (ghc) at (0,3) {Greedy Hierarchical Conjecture}; 
+
+\node[r] (ca) at (12,5) {CA is 2-approximate};
+\node[r] (gha) at (12,3) {HS is 2-approximate};
+\node[r] (ga) at (12,1) {GA is 2-approximate};
+
+%\draw[help lines] (0,0) grid (14,6);
+
+\foreach \f/\t in {cc.east/w, gc.east/w}
+  \draw[->] (\f) -- (\t);
+\foreach \f/\t in {cc/ca, w/gha, gc/ga}
+  \draw[dashed,->] (\f) -- (\t);
+ 
+
+%\foreach \f/\t in {cc/ca, cc/w, gc/ga, gc/w, w/gha, ga/gha}
+ % \draw[->] (\f) -- (\t);
+\end{mypic}
+\caption{Relations between the conjectures (left), and the 2-approximate algorithms they imply (right). 
+Collapsing and Greedy Conjectures imply the weak version of the Collapsing Conjecture. Each conjecture implies that the corresponding algorithm finds a $2$-approximate solution for SCS.}
+\label{fig:relations}
+\end{figure}
+
+\subsection{Constancy of Collapsing Algorithm on the set of HS supergraphs}
+\label{sec:super}
+
+ \begin{theorem}
+For any set of strings $\mathcal{S}$ and any Eulerian graph $G$ which is also supergraph of $HS(\mathcal{S})$,
+\[
+			CA(\mathcal{S}, G) = HS(\mathcal{S}) \, .
+\]
+\end{theorem}
+\begin{proof}
+Let us denote the complement $G \setminus HS$ by $\overline{HS}$. We will prove the theorem statement by showing that $CA(HS \sqcup \overline{HS})$ collapses all arcs of $\overline{HS}$ and keeps untouched the arcs of $HS$.  For clarity, we color the arcs of $HS$ in red and the arcs of $\overline{HS}$ in blue and without loss of generality assume that the Collapsing Algorithm collapses blue arcs first, that is, if for a vertex $v$, $CA$ can collapse a blue pair of arcs $(\pref(v), v), (v, \suff(v))$, it does so. Recall that $CA$ processes vertices in the descending order of levels (Algorithm~\ref{alg:ca}, line~\ref{alg:ca_for}). We will prove that before processing level $l$, all the arcs above it (i.e., the arcs with at least one vertex at a level  $>l$) do satisfy the desired property: all blue arcs are collapsed, and all red arcs are untouched.
+
+The base case trivially holds for $l := \max\{|s| \, : \, s\in\mathcal{S}\}$, since the set of arcs above the level $l$ is empty. Assume the claim is true for the level $k > 0$, and let us prove the claim for the level $k - 1$. Note that regardless of the number of collapse operations applied to $\overline{HS}$, $\overline{HS}$ remains a set of walks: indeed, the collapse procedure keeps the balance of incoming and outgoing arcs for each vertex. By the induction hypothesis all the blue arcs above the level $k$ are collapsed, so we have that if for a vertex $v$ at level $k$ there is an arc $(\pref(v), v)$ in $\overline{HS}$, then there is also an arc $(v, \suff(v))$ in $\overline{HS}$, and vice versa. Recall that $CA$ collapses blue arcs when possible, and since every vertex has the same number of blue incoming and outgoing arcs, all pairs collapsed at the level $k$ are monotone. 
+	
+Now let us show that no red pair can be collapsed. Indeed, if for some vertex $v$ at level $k$ there is a red pair $(\pref(v), v)$, $(v, \suff(v))$, then by construction of $HS$ $v$ is either in $\mathcal{S}$ or is the last chance of the corresponding component $\mathcal{C} \ni v$ to be connected to the remaining arcs in $HS$ (note that the first case is a subcase of the second one, as then $\mathcal{C}$ contains only one vertex). It follows that if $CA$ collapses such a pair of arcs, then $v$ has no blue arcs (as they have been collapsed before the red arcs), and all other vertices in the component $\mathcal{C}$ at the level $k$ collapsed all arcs (since $v$ is the last vertex in $\mathcal{C}$ in lexicographic order, thanks to the lemma~\ref{lemma:property}). Therefore, this pair is also the last chance of $\mathcal{C}$ to be connected to the rest of the arcs in $HS$, thus, $CA$ cannot collapse it.
+	
+It remains to show that all blue pairs at level $k$ are collapsed. This trivially holds because no red pair is collapsed, and, thus, the connectivity of $HS \sqcup \overline{HS}$ is maintained by $HS$. This finishes the proof.
+\end{proof}
+\begin{corollary}
+    $CA(\mathcal{S}, HS(\mathcal{S})\sqcup HS(\mathcal{S})) = HS(\mathcal{S})$, so the Collapsing Conjecture holds at least for~HS.
+\end{corollary}
+
+
+\subsection{Greedy Implies Weak Collapsing}
+\label{sec:gr_im_wcc}
+Consider a~permutation of the input strings. We say that it is a~{\em valid greedy permutation} if it can be constructed by the Greedy Algorithm: there exist $n-1$ merges of the $n$~input strings that lead to this permutation such that at every step the two merged strings have the largest overlap. We will prove that HS is always a solution which corresponds to a greedy permutation of the input string. That is, while the standard Greedy Algorithm does not determine how to break ties, the Collapsing Algorithm applied to the trivial superstring is a specific instantiation of the Greedy Algorithm with some tie-breaking rule.
+
+%We will use the following simple property of solutions constructed by the GHA algorithm.
+%\begin{claim}
+%\label{claim:zigzag}
+%Let $D$ be an Eulerian solution constrtucted by GHA. Then $D$ has a ``zig-zag'' form as in~\eqref{eq:zigzag}. 
+%\end{claim}
+%\begin{proof}
+%First we prove that $D$ is normalized, that is, any application of the collapsing procedure of Algorithm~\ref{alg:collapse} to $D$ will violate the property of Eulerian solution. Indeed, Algorithm~\ref{alg:collapse} can only collapse pairs of arcs of the form $(\pref(s), s), (s, \suff(s))$. The Greedy Hierarchical Algorithm adds such pairs to its solution in two cases: (i) $s$ is an input string (line~\ref{alg:gha_init} of Algorithm~\ref{algo:gha}); (ii) $s$ is the the lexicographically largest among the shortest strings in its Eulerian component (line~\ref{alg:last} of Algorithm~\ref{algo:gha}). Now note that in the former case, the collapsing procedure applied to $s$ would violate the property that $D$ must contain all input strings, and in the latter case, the collapsing procedure would violate the connectivity property of $D$.
+%
+%We finish the proof by showing that every normalized solution is of the form~\eqref{eq:zigzag}. Let $\pi=(s_1, \dots, s_n)$ be  the permutation of the input strings corresponding to a normalized Eulerian solution~$D$. Let us follow the arcs of~$D$ in the order of the permutation $\pi$, and let $P$ be the set of arcs between the input strings $s_i$ and $s_{i+1}$. We will prove that $P$ is the union of the sets of arcs of the paths $s_i \to \overlap(s_i,s_{i+1})$ and $\overlap(s_i,s_{i+1})\to s_{i+1}$. If $P$ contains a pair of consecutive up- and down-arcs, that is, there exists a pair of arcs $(\pref(s), s), (s, \suff(s))$ in $P$, then this pair would have been collapsed by Algorithm~\ref{alg:collapse}, line~\ref{alg:col}. Therefore, the path $P$ consists of a number of down-arcs followed by a number of up-arcs. It remains to show that the number of down-arcs in $P$ is $d=|s_i|-|\overlap(s_i,s_{i+1})|$. Note that by the definition of $\overlap(\cdot,\cdot)$, the number of down-arcs in~$P$ is at least~$d$. On the other hand, if the number of down-arcs in~$P$ is strictly greater than~$d$, then both the down-path and up-path in~$P$ contain the vertex $\overlap(s_i, s_{i+1})$. This implies that the pair of arcs  $(\pref(s), s), (s, \suff(s))$ for $s=\overlap(s_i, s_{i+1})$ would have been collapsed by Algorithm~\ref{alg:collapse}, line~\ref{alg:col}, as it does not violate the connectivity of the solution. Therefore, the number of down-arcs in $P$ is exactly $d$, which implies that $P$ is the path $s_i \to \overlap(s_i,s_{i+1})$ followed by the path $\overlap(s_i,s_{i+1})\to s_{i+1}$.
+%\end{proof}
+
+\begin{theorem}
+\label{thm:gr_im_wghc}
+Every permutation $\pi=(s_1, \dots, s_n)$ of the input strings constructed according to HS is a~valid greedy permutation.
+\end{theorem}
+\begin{proof}
+Consider the following algorithm~$A$: it starts with the sequence $(s_1, \dots, s_n)$ obtained from HS, and at every step it merges two neighboring strings in this sequence that have the largest overlap. It is a~greedy algorithm, but instead of considering all pairwise overlaps, it only considers overlaps of neighboring strings in the sequence. Of course, in the end, this algorithm constructs exactly the permutation~$\pi$. To show that $\pi$ is a~valid greedy permutation, we show that at every iteration of~$A$ no two strings have longer overlap than the two strings merged by~$A$.
+
+Consider, for the sake of contradiction, the first iteration when the algorithm $A$~merges some pair of neighboring strings with overlap of length~$k$ whereas there are non-neighboring strings~$p$ and~$q$ with $v=\overlap(p,q)$, $|v|>k$. 
+%Further assume that this is the earliest such iteration. 
+At this point, $p$~is a~merger of input strings $s_a, s_{a+1}, \dotsc, s_b$
+and $q$~is a~merger of input strings $s_c, s_{c+1}, \dotsc, s_d$. 
+Then, from the assumption that no input string contains another input string, we have that $v=\overlap(p,q)=\overlap(s_b,s_c)$. Since the algorithm~$A$
+merges neighboring strings in the decreasing order of overlap lengths, we have that $|\overlap(s_b,s_{b+1})| \le k <|v|$ and $|\overlap(s_{c-1},c_c)| \le k < |v|$.\footnote{In the case when $s_b$ is the last string in the solution (or $s_c$ is the first string in the solution) we think of it being followed by $\varepsilon$, and $|\overlap(s_b,\varepsilon)|=0<|v|$ still holds.} 
+
+By definition of CA, HS has a ``zig-zag'' form, thus, it contains all arcs from the path $s_b\to\overlap(s_{b}, s_{b+1}) \to s_{b+1}$, and all arcs from the path $s_{c-1}\to\overlap(s_{c-1}, s_{c}) \to s_{c}$. Recall that $v=\overlap(s_b,s_c)$, and that $|\overlap(s_b,s_{b+1})| <|v|$ and $|\overlap(s_{c-1},s_c)|< |v|$. In particular, the paths $s_b\to\overlap(s_{b}, s_{b+1})$ and $\overlap(s_{c-1}, s_{c}) \to s_{c}$ pass through the vertex $v$, which implies that the vertex $v$ in HS has at least one incoming arc from the previous level and at least one outgoing arc to the previous level (see~Figure~\ref{fig:gagha}(a)). Such a~pair of arcs in HS may only occur when~$v$ is the last chance of its connected component to be connected to the rest of the solution. By the lemma~\ref{lemma:property}, this, in turn, implies that right before the pair of arcs $(\pref(v), v)$ and $(v, \suff(v))$ was processed, there was an~Eulerian component where $v$~was the lexicographically largest among all shortest nodes (this component is shown schematically in~Figure~\ref{fig:gagha}(b)) and thus all overlap-nodes (the nodes which are equal to $\overlap(s_i,s_{i+1})$) of this component lie on levels~$\geq k$. Note that the pair $(\pref(v), v)$ and $(v, \suff(v))$ is contained in HS in a single copy. Therefore, any path following the arcs of HS, after going through the arc $(\pref(v), v)$ must traverse the overlying component containing $s_b$ and $s_c$ (as otherwise the path could not reach the overlying component). In turn, this implies that after considering all overlaps of length $|v|>k$, $s_b$ and $s_c$ are already merged into one string, so they cannot be merged at this stage.
+%It will be proven later (in Lemma~\ref{lem:edgecases}) that the resulting solution will include only one copy of arcs $(\pref(v), v)$ and $(v, \suff(v))$. Summing up, the vertex $v$ can be firstly traversed by any Eulerian path only using the arc $(\pref(v), v)$, and after this the overlying component containing $s_b$ and $s_c$ will be fully traversed, otherwise the graph will be disconnected.
+%In turn, this means that after considering all overlaps of length $|v|$ $s_b$ and $s_c$ will be already merged into some string, so they can't be merged once more.
+%This contradicts the assumption that the strings~$p$ and~$q$ can be merged.
+
+\begin{figure}
+\begin{mypic}
+%\draw[help lines] (0,0) grid (14,6);
+\node[inputvertex] (b) at (0,6) {$s_b$}; 
+\node[inputvertex] (c) at (4,6) {$s_c$}; 
+\node[vertex] (v) at (2,3) {$v$};
+\node[vertex] (pv) at (1,2) {};
+\node[vertex] (sv) at (3,2) {};
+\draw[->] (pv) -- (v);
+\draw[->] (v) -- (sv);
+\draw[->,anypath] (b) -- (v);
+\draw[->,anypath] (v) -- (c);
+
+\node at (2,1) {(a)};
+
+\begin{scope}[xshift=100mm]
+\node[inputvertex] (b) at (0,6) {$s_b$}; 
+\node[inputvertex] (c) at (4,6) {$s_c$}; 
+\node[inputvertex] (d) at (2,6) {}; 
+\node[inputvertex] (e) at (-2,6) {}; 
+\node[vertex] (f) at (4,4) {};
+\node[vertex] (g) at (0,3) {};
+\node[vertex] (h) at (-0.5,5) {};
+\node[vertex] (v) at (2,3) {$v$};
+\node[vertex] (pv) at (1,2) {};
+\node[vertex] (sv) at (3,2) {};
+\draw[->] (pv) -- (v);
+\draw[->] (v) -- (sv);
+
+\foreach \f/\t in {b/v, v/c, c/f, f/d, d/g, g/e, e/h, h/b}
+  \draw[->,anypath] (\f) -- (\t); 
+
+\node at (2,1) {(b)};
+\end{scope}
+\end{mypic}
+\caption{(a)~In the Eulerian solution the node $v=\overlap(s_b,s_c)$ has a~pair of lower arcs. (b)~For this reason, above~$v$, there is an~Eulerian component.}
+\label{fig:gagha}
+\end{figure}
+\end{proof}
+
+Theorem~\ref{thm:gr_im_wghc} has two immediate corollaries.
+\begin{corollary}
+The Greedy Conjecture implies the Weak Collapsing Conjecture: if the Greedy Algorithm is 2-approximate, then so is the Hierarchical Solution.
+\end{corollary}
+Since every valid greedy permutation is a $3.5$-approximation to the Shortest Common Superstring problem~\cite{KS2005}, we have the following corollary.
+\begin{corollary}
+HS is a factor $3.5$ approximate solution for the Shortest Common Superstring problem.
+\end{corollary}
