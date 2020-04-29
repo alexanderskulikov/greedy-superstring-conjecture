@@ -1,7 +1,7 @@
 \section{Hierarchical Solution properties}
 In this section we prove some properties of Hierarchical Solution. Namely, in Section~\ref{sec:super} we prove that the Collapsing Algorithm is constant on the set of Eulerian supergraphs of $HS$. In Section~\ref{sec:gr_im_wcc} we prove that the standard Greedy Conjecture implies Weak Collapsing Conjecutre (which is sufficient for a simple 2-approximate greedy algorithm for SCS). Finally, it is easy to see that Collapsing Conjecture implies its weak version: indeed, if every doubled solution results in $HS$, then $HS$ does not exceed twice the optimal superstring length. In Figure~\ref{fig:relations}, we show the proven relations between the conjectures, together with 2-approximate algorithm which follow from each of the conjecture.
 
-In both aforementioned Sections we will use the following properties of $HS$:
+In both aforementioned Sections we will use the following structural properties of $HS$:
 \begin{lemma}\label{lemma:property}
     Consider an arbitrary node $v$ such that a pair of arcs $p = ((\pref(v), v), (v, \suff(v)))$ contained in HS. By definition of CA it means that collapsing this pair would disconnect the HS. Denote by $\mathcal{C}$ the component to which $v$ would belong if this disconnection occurred. The following claims hold:
     \begin{itemize}
@@ -72,7 +72,8 @@ Collapsing and Greedy Conjectures imply the weak version of the Collapsing Conje
 \subsection{Constancy of Collapsing Algorithm on the set of HS supergraphs}
 \label{sec:super}
 
- \begin{theorem}
+The following result shows that collapsing procedure is stable at $HS$. Namely, if you disturb $HS$ by adding an arbitrary Eulerian graph and then normalize it, the result will always be $HS$.
+\begin{theorem}
 For any set of strings $\mathcal{S}$ and any Eulerian graph $G$ which is also supergraph of $HS(\mathcal{S})$,
 \[
 			CA(\mathcal{S}, G) = HS(\mathcal{S}) \, .
@@ -88,7 +89,7 @@ Now let us show that no red pair can be collapsed. Indeed, if for some vertex $v
 It remains to show that all blue pairs at level $k$ are collapsed. This trivially holds because no red pair is collapsed, and, thus, the connectivity of $HS \sqcup \overline{HS}$ is maintained by $HS$. This finishes the proof.
 \end{proof}
 \begin{corollary}
-    $CA(\mathcal{S}, HS(\mathcal{S})\sqcup HS(\mathcal{S})) = HS(\mathcal{S})$, so the Collapsing Conjecture holds at least for~HS.
+    The Collapsing Conjecture holds at least for~HS.
 \end{corollary}
 \begin{corollary}
     HS is the only Eulerian solution enjoys the property described in theorem.
