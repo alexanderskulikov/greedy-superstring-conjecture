@@ -1,7 +1,7 @@
 \section{Hierarchical Solution properties}
-In this section we prove some properties of Hierarchical Solution. Namely, in Section~\ref{sec:super} we prove that the Collapsing Algorithm is constant on the set of Eulerian supergraphs of $HS$. In Section~\ref{sec:gr_im_wcc} we prove that the standard Greedy Conjecture implies Weak Collapsing Conjecutre (which is sufficient for a simple 2-approximate greedy algorithm for SCS). Finally, it is easy to see that Collapsing Conjecture implies its weak version: indeed, if every doubled solution results in $HS$, then $HS$ does not exceed twice the optimal superstring length. In Figure~\ref{fig:relations}, we show the proven relations between the conjectures, together with 2-approximate algorithm which follow from each of the conjecture.
+In this section we prove some properties of Hierarchical Solution. Namely, in Section~\ref{sec:super} we prove that the Collapsing Algorithm is constant on the set of Eulerian supergraphs of $HS$. In Section~\ref{sec:gr_im_wcc} we prove that the standard Greedy Conjecture implies Weak Collapsing Conjecutre (which is sufficient for a simple 2-approximate greedy algorithm for SCS). Finally, it is easy to see that Collapsing Conjecture implies its weak version: indeed, if every doubled solution results in $HS$, then $HS$ does not exceed twice the optimal superstring length. In Figure~\ref{fig:relations}, we show the proven relations between the conjectures, together with 2-approximate algorithm which follow from each of the conjecture. In Section~\ref{sec:sprout} we introduce another way of constructing $HS$.
 
-In both aforementioned Sections we will use the following structural properties of $HS$:
+In all aforementioned Sections we will use the following structural properties of $HS$:
 \begin{lemma}\label{lemma:property}
     Consider an arbitrary node $v$ such that a pair of arcs $p = ((\pref(v), v), (v, \suff(v)))$ contained in HS. By definition of CA it means that collapsing this pair would disconnect the HS. Denote by $\mathcal{C}$ the component to which $v$ would belong if this disconnection occurred. The following claims hold:
     \begin{itemize}
@@ -12,7 +12,7 @@ In both aforementioned Sections we will use the following structural properties 
 \begin{proof}
     Denote by $t$ a moment right before $CA$ finished processing $v$.
     
-    First, we prove the following property of $HS$: any intermediate solution $D$ obtained at some moment (e.g. $t$) during the collapsing of $T(\mathcal{S})$ is a supergraph of $HS$. Indeed, by definition of $CA$ $HS$ has a zig-zag form, so all its arcs contains in $T(\mathcal{S})$. Hence at the moment $t$ any arc of $HS$ either is incident to already processed node and so contained in $HS$ as in final result or isn't and so contained in $HS$, since so does $T(\mathcal{S})$.
+    First, we prove the following property of $HS$: any intermediate solution $D$ obtained at some moment (e.g. $t$) during the collapsing of $T(\mathcal{S})$ is a supergraph of $HS$. Indeed, by definition of $CA$ $HS$ has a zig-zag form, so all its arcs contains in $T(\mathcal{S})$. Hence at the moment $t$ any arc of $HS$ either is incident to already processed node and so contained in $HS$ as in final result (i.e. $CA$ will never process this arcs again) or isn't and so contained in $HS$, since so does $T(\mathcal{S})$.
     
     Second, we prove that at the moment $t$ $\varepsilon \notin \mathcal{C}$, i.e. there is no component $\mathcal{C}' \not\ni v$, which can be disconnected by collapsing $p$. Indeed, consider on the contrary the shortest node $w$ of $\mathcal{C}'$. Note that $|w| < |v|$, since $v \notin \mathcal{C}'$ but $\pref(v), \suff(v) \in \mathcal{C}'$. As $HS$ has the zig-zag form, $w$ is actually an overlap of some strings from $\mathcal{S}$ and hence $T(\mathcal{S})$ has a subgraph $\varepsilon \to w \to \varepsilon$. Note that at the moment $t$ this subgraph remains untouched by $CA$ and so $\mathcal{C}'$ cannot be disconnected by collapsing $p$, which contradicts the definition of $\mathcal{C}'$.
     
@@ -178,3 +178,46 @@ Since every valid greedy permutation is a $3.5$-approximation to the Shortest Co
 \begin{corollary}
 HS is a factor $3.5$ approximate solution for the Shortest Common Superstring problem.
 \end{corollary}
+
+\subsection{One more way to construct HS}
+\label{sec:sprout}
+
+We've seen that the Collapsing Algorithm builds HS trying to collapse as many arcs as possible, leaving only necessary ones. In fact, there is a ``dual'' approach to build it. For this, we introduce the so called {\em Sprouting Algorithm} (SA) that constructs an Eulerian solution in a~stingy fashion, i.e., tries to add as few arcs as possible:
+\begin{quote}
+    Proceed nodes from top to bottom. For each node, ensure that it is balanced and connected to the rest of the solution.
+\end{quote}
+
+More formally, SA first considers the input strings~${\cal S}$. The algorithm adds all of them to the constructed Eulerian solution~$(V,E)$ and starts processing all the nodes level by level, from top to bottom. At each level, we process the nodes in the lexicographic order. If the degree of the current node~$v$ is imbalanced, we balance it by adding an appropriate number of incoming (i.e., $(\pref(v),v)$) or outgoing (i.e., $(v, \suff(v))$) arcs from the previous (i.e., lower) level. In the case when $v$~is balanced, we just skip it. The only exception when we cannot skip it is when {\em $v$~lies in an Eulerian component and $v$ is the last chance of this component to be connected to the rest of the arcs in~$(V,E)$} The pseudocode is given in~Algorithm~\ref{algo:sa}.
+
+\begin{algorithm}[!ht]
+    \caption{Sprouting Algorithm (SA)}\label{algo:sa}
+    \hspace*{\algorithmicindent} \textbf{Input:} set of strings~${\cal S}$.\\
+    \hspace*{\algorithmicindent} \textbf{Output:} Eulerian solution~$(V, E)$.
+    \begin{algorithmic}[1]
+        \State $V \gets \mathcal{S}$
+        \State\label{alg:gha_init}$E \gets \{\}$
+        \For{level $l$ from $\max\{|s| \colon s \in {\cal S}\}$ downto 1}\label{alg:for}
+        \For{node $v \in V$ with $|v|=l$ in the lexicographic order}
+        %\If{$\operatorname{upper-indegree}(v, D) \neq \operatorname{upper-outdegree}(v, D)$}
+        \If{$|\{(u,v) \in E \colon |u|=l+1\}| \neq |\{(v,w) \in E \colon |w|=l+1\}| $}
+        \State\label{alg:step6} balance the degree of $v$ in~$(V,E)$ by adding an appropriate number of lower arcs
+        \Else
+        \State\label{alg:else} ${\cal C} \gets \text{weakly connected component of $v$ in $(V,E)$}$
+        \State $u \gets \text{the lexicographically largest string among shortest strings in ${\cal C}$}$
+        \If{${\cal C}$ is Eulerian, $\varepsilon \not \in {\cal C}$, and $v = u$}
+        \State\label{alg:last1} $V \gets V \cup \{\pref(v), \suff(v)\}$
+        \State\label{alg:last2} $E \gets E \cup \{(\pref(v), v), (v, \suff(v))\}$
+        \EndIf
+        \EndIf
+        \EndFor
+        \EndFor
+        \State return $(V,E)$
+    \end{algorithmic}
+\end{algorithm}
+
+\begin{theorem}
+    $SA(\mathcal{S}) = HS(\mathcal{S})$.
+\end{theorem}
+\begin{proof}
+    Obviously.
+\end{proof}
