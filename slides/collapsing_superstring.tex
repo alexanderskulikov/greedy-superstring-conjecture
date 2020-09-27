@@ -9,7 +9,7 @@
 \usetikzlibrary{calc,arrows,shapes,backgrounds,patterns,fit,decorations,decorations.pathmorphing}
 
 
-%\includeonlyframes{relations}
+%\includeonlyframes{tight}
 
 \DeclareMathOperator{\overlap}{overlap}
 
@@ -53,25 +53,10 @@
 \begin{document}
 \maketitle
 
-
-
-%\end{document}
-
-%\begin{frame}{Outline}
-%\begin{itemize}
-%\item \alert{Superstring: overview}
-%%Overview of known results for the superstring problem
-%\item \alert{Hierarchical graph}
-%%A~new graph designed specifically for solving superstring
-%\item \alert{Collapsing superstring conjecture} 
-%%A~surprising conjecture implying 2-approx
-%\item \alert{Greedy hierarchical conjecture}
-%%Another~surprising conjecture implying 2-approximability and
-%%relating it to the original greedy conjecture
-%\item \alert{Framework for experiments and visualizations}
-%%A framework for making experiments and visualizations as well as verifying conjectures
-%\end{itemize}
-%\end{frame}
+\begin{frame}[label=in]{Overview by an Anonymous Reviewer}
+\emph{This conjecture seems shockingly strong, since it claims that a certain natural transformation has a
+specific solution as its fixed point. Intuitively, it seems to be the kind of conjecture that is either false or relatively easy to prove. Quite surprisingly, the authors' experiments \alert{failed} to produce a counterexample and the conjecture actually holds for some simple cases, but the authors \alert{also failed} to produce a proof for the general case.}
+\end{frame}
 
 \input overview
 \input hierarchical

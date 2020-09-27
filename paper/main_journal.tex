@@ -1,0 +1,53 @@
+\documentclass[11pt]{article}
+\usepackage{fullpage}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath, amsfonts, amssymb, amsthm}
+\usepackage{url}
+
+\input macro
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{claim}{Claim}
+\newtheorem{corollary}{Corollary}
+\newtheorem{definition}{Definition}
+\newtheorem*{statement}{Statement}
+\newtheorem*{remark}{Remark}
+
+
+\begin{document}
+
+\sloppy
+\begin{titlepage}
+%\date{}
+\title{Collapsing Superstring Conjecture}
+\author{
+Alexander Golovnev\thanks{Harvard University. Supported by a Rabin Postdoctoral Fellowship.}
+\and
+Alexander~S.~Kulikov\thanks{Steklov Institute of Mathematics at St.~Petersburg, Russian Academy of Sciences}
+\and
+Alexander Logunov\footnotemark[2]
+\and
+Ivan Mihajlin\thanks{University of California, San Diego}
+\and 
+Maksim Nikolaev\thanks{St.~Petersburg State University}
+}
+\maketitle
+\thispagestyle{empty}
+
+
+\end{titlepage}
+
+\input intro
+\input definitions_new
+\input collapsing_new
+\input relations_new
+\input conclusion
+
+\appendix
+\input collapsing_3_strings
+\input greedy_special_case
+
+\end{document}

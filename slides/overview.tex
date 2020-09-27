@@ -8,96 +8,96 @@ Practical applications: data
 storage, data compression, genome assembly
 \end{frame}
 
-%\begin{frame}{Overlap}
-%\begin{mypic}
-%%\draw[help lines] (0,-3) grid (10,3);
-%\useasboundingbox (-1,-3) rectangle (11,4);
-%\draw[line width=2pt] (0,2.5) -- (6,2.5);
-%\draw[line width=2pt] (10,1.5) -- (2,1.5);
-%
-%\node[rectangle,anchor=east] at (0,2.5)  {$s$};
-%\node[rectangle,anchor=west] at (10,1.5) {$t$};
-%
-%\foreach \x in {2, 6}
-%  \draw[dashed,gray,line width=1pt] (\x,3) -- (\x,-0.5);
-%
-%\foreach \f/\s/\y/\t in {
-%  %0/3/0.5/{$\text{prefix}(s,t)$}, 
-%  %6/10/0.5/{$\text{suffix}(s,t)$}, 
-%  2/6/0/{$\text{overlap}(s,t)$}}
-%\path[<->,draw,line width=1pt] (\f,\y) -- node[fill=white,inner sep=1pt,rectangle] {\t} (\s,\y);
-%
-%\node<2->[rectangle,text width=70mm] at (4.5, -2) 
-%{$\text{overlap}(\text{DAB}, \text{ABE})=2$\\
-% $\text{overlap}(\text{DAB}, \text{ADE})=0$};
-%\end{mypic}
-%\end{frame}
-%
-%\begin{frame}{SCS: permutation problem}
-%\begin{mypic}
-%\begin{scope}[scale=0.9]
-%   \useasboundingbox (0,0) rectangle (12,7);
-%   
-%   \node<3-> (s) at (6,2) {\bf DABECACBDFA};
-%   
-%   \node<4-> at (6,0) {Thus, can be solved in time $n!$};
-%   
-%   \foreach \s/\x/\z in {ABE/1/3, DFA/3/11, DAB/5/1, CBD/9/9, ECA/7/5, ACB/11/7} {
-%     \node[rectangle,inner sep=.5mm] (\s) at (\x,6) {\bf \s}; 
-%     \node<2->[rectangle,inner sep=.5mm] (a\s) at (\z,4) {\bf \s}; 
-%     \path<2-> (\s) edge[-,mc] (a\s);
-%     
-%     \path<3-> (a\s) edge[->,mc] (s);
-%   }
-%\end{scope}
-%\end{mypic}
-%\end{frame}
-%
-%\begin{frame}[label=complete]{Overlap graph: SCS$\to$MAX-ATSP}
-%  %CDEB, BCDE, DBCD, CDBC, BCDB
-%
-%  \begin{mypic}
-%  \begin{scope}[scale=0.9]
-%    \useasboundingbox (0,-1) rectangle (12,7);
-%    %draw[help lines] (0,0) grid (16,9);
-%    
-%    \node<1-> (top) at (6,7) {\bf ABE DFA DAB CBD ECA ACB};
-%    
-%    
-%    
-%	\begin{scope}[xshift=6cm,yshift=3cm]
-%	  \foreach \n/\a in {DFA/0, DAB/60, ABE/120, CBD/180, ECA/240, ACB/300}
-%	    \node<2->[draw,rectangle,inner sep=.5mm] (\n) at (\a:30mm) {\bf \n};
-%	\end{scope}
-%	
-%	%\pause
-%	
-%	\foreach \s/\t/\w in {ACB/CBD/2,  ACB/DAB/0,  ACB/ECA/0,  ACB/DFA/0,  ACB/ABE/0,  CBD/ACB/0,  CBD/DAB/1,  CBD/ECA/0,  CBD/DFA/1,  CBD/ABE/0,  DAB/ACB/0,  DAB/CBD/0,  DAB/ECA/0,  DAB/DFA/0,  DAB/ABE/2,  ECA/ACB/1,  ECA/CBD/0,  ECA/DAB/0,  ECA/DFA/0,  ECA/ABE/1,  DFA/ACB/1,  DFA/CBD/0,  DFA/DAB/0,  DFA/ECA/0,  DFA/ABE/1,  ABE/ACB/0,  ABE/CBD/0,  ABE/DAB/0,  ABE/ECA/1,  ABE/DFA/0
-%	}
-%		\path<3-5>[->,draw=gray] (\s) edge[bend left=10] node[near start,fill=white,rectangle,inner sep=0.5mm] {\small \textcolor{gray}{\w}} (\t);
-%		
-%	\foreach \s/\t/\w in {ACB/CBD/2, DAB/ACB/0, CBD/DAB/1}
-%		\path<4>[->,draw=mc,line width=3pt] (\s) edge[bend left=10] node[near start,fill=white,rectangle,inner sep=0.5mm] {\bf \alert{\w}} (\t);
-%		
-%		
-%	\foreach \s/\t/\w in {DAB/ABE/2, ABE/ECA/1, ECA/ACB/1, ACB/CBD/2, CBD/DFA/1}
-%		\path<6->[->,draw=mc,line width=3pt] (\s) edge node[near start,fill=white,rectangle,inner sep=0.5mm] {\bf \alert{\w}} (\t);	
-%	
-%	%\node<7> at (6,-1) {\bf DAB ABE ECA ACB CBD DFA $\to$ DABECACBDFA};
-%	\node<7> (s) at (6,-1) {\bf \alert{DABECACBDFA}};
-%	
-%	\node<8> (s) at (6,-1) {Hence, can be solved in $2^n$};
-%	
-%	%\path<7-> (top) edge[out=180,in=180,gray,->] (CBD);
-%	%\path<7-> (DFA) edge[out=0,in=0,gray,->] (s);
-%	\end{scope}
-%  \end{mypic}
-%\end{frame}
+\begin{frame}{Overlap}
+\begin{mypic}
+%\draw[help lines] (0,-3) grid (10,3);
+\useasboundingbox (-1,-3) rectangle (11,4);
+\draw[line width=2pt] (0,2.5) -- (6,2.5);
+\draw[line width=2pt] (10,1.5) -- (2,1.5);
+
+\node[rectangle,anchor=east] at (0,2.5)  {$s$};
+\node[rectangle,anchor=west] at (10,1.5) {$t$};
+
+\foreach \x in {2, 6}
+  \draw[dashed,gray,line width=1pt] (\x,3) -- (\x,-0.5);
+
+\foreach \f/\s/\y/\t in {
+  %0/3/0.5/{$\text{prefix}(s,t)$}, 
+  %6/10/0.5/{$\text{suffix}(s,t)$}, 
+  2/6/0/{$\text{overlap}(s,t)$}}
+\path[<->,draw,line width=1pt] (\f,\y) -- node[fill=white,inner sep=1pt,rectangle] {\t} (\s,\y);
+
+\node<2->[rectangle,text width=70mm] at (4.5, -2) 
+{$\text{overlap}(\text{DAB}, \text{ABE})=2$\\
+ $\text{overlap}(\text{DAB}, \text{ADE})=0$};
+\end{mypic}
+\end{frame}
+
+\begin{frame}{SCS: permutation problem}
+\begin{mypic}
+\begin{scope}[scale=0.9]
+   \useasboundingbox (0,0) rectangle (12,7);
+   
+   \node<3-> (s) at (6,2) {\bf DABECACBDFA};
+   
+   \node<4-> at (6,0) {Thus, can be solved in time $n!$};
+   
+   \foreach \s/\x/\z in {ABE/1/3, DFA/3/11, DAB/5/1, CBD/9/9, ECA/7/5, ACB/11/7} {
+     \node[rectangle,inner sep=.5mm] (\s) at (\x,6) {\bf \s}; 
+     \node<2->[rectangle,inner sep=.5mm] (a\s) at (\z,4) {\bf \s}; 
+     \path<2-> (\s) edge[-,mc] (a\s);
+     
+     \path<3-> (a\s) edge[->,mc] (s);
+   }
+\end{scope}
+\end{mypic}
+\end{frame}
+
+\begin{frame}[label=complete]{Overlap graph: SCS$\to$MAX-ATSP}
+  %CDEB, BCDE, DBCD, CDBC, BCDB
+
+  \begin{mypic}
+  \begin{scope}[scale=0.9]
+    \useasboundingbox (0,-1) rectangle (12,7);
+    %draw[help lines] (0,0) grid (16,9);
+    
+    \node<1-> (top) at (6,7) {\bf ABE DFA DAB CBD ECA ACB};
+    
+    
+    
+	\begin{scope}[xshift=6cm,yshift=3cm]
+	  \foreach \n/\a in {DFA/0, DAB/60, ABE/120, CBD/180, ECA/240, ACB/300}
+	    \node<2->[draw,rectangle,inner sep=.5mm] (\n) at (\a:30mm) {\bf \n};
+	\end{scope}
+	
+	%\pause
+	
+	\foreach \s/\t/\w in {ACB/CBD/2,  ACB/DAB/0,  ACB/ECA/0,  ACB/DFA/0,  ACB/ABE/0,  CBD/ACB/0,  CBD/DAB/1,  CBD/ECA/0,  CBD/DFA/1,  CBD/ABE/0,  DAB/ACB/0,  DAB/CBD/0,  DAB/ECA/0,  DAB/DFA/0,  DAB/ABE/2,  ECA/ACB/1,  ECA/CBD/0,  ECA/DAB/0,  ECA/DFA/0,  ECA/ABE/1,  DFA/ACB/1,  DFA/CBD/0,  DFA/DAB/0,  DFA/ECA/0,  DFA/ABE/1,  ABE/ACB/0,  ABE/CBD/0,  ABE/DAB/0,  ABE/ECA/1,  ABE/DFA/0
+	}
+		\path<3-5>[->,draw=gray] (\s) edge[bend left=10] node[near start,fill=white,rectangle,inner sep=0.5mm] {\small \textcolor{gray}{\w}} (\t);
+		
+	\foreach \s/\t/\w in {ACB/CBD/2, DAB/ACB/0, CBD/DAB/1}
+		\path<4>[->,draw=mc,line width=3pt] (\s) edge[bend left=10] node[near start,fill=white,rectangle,inner sep=0.5mm] {\bf \alert{\w}} (\t);
+		
+		
+	\foreach \s/\t/\w in {DAB/ABE/2, ABE/ECA/1, ECA/ACB/1, ACB/CBD/2, CBD/DFA/1}
+		\path<6->[->,draw=mc,line width=3pt] (\s) edge node[near start,fill=white,rectangle,inner sep=0.5mm] {\bf \alert{\w}} (\t);	
+	
+	%\node<7> at (6,-1) {\bf DAB ABE ECA ACB CBD DFA $\to$ DABECACBDFA};
+	\node<7> (s) at (6,-1) {\bf \alert{DABECACBDFA}};
+	
+	\node<8> (s) at (6,-1) {Hence, can be solved in $2^n$};
+	
+	%\path<7-> (top) edge[out=180,in=180,gray,->] (CBD);
+	%\path<7-> (DFA) edge[out=0,in=0,gray,->] (s);
+	\end{scope}
+  \end{mypic}
+\end{frame}
 
 \begin{frame}{Known approximation algorithms}
 \small
 \begin{tabular}{lll}
-$3.000$ & Blum, Jiang, Li, Tromp and Yannakakis~ & 1991\\
+$3.000$ & Blum, Jiang, Li, Tromp, Yannakakis~ & 1991\\
 $2.889$ & Teng, Yao & 1993\\
 $2.834$ & Czumaj, Gasieniec, Piotrow, Rytter~ & 1994\\
 $2.794$ & Kosaraju, Park, Stein & 1994\\
@@ -127,11 +127,21 @@ $1.00302$ & {Karpinski, Schmied} & 2012\\
 \begin{frame}{Greedy algorithm}
 \begin{itemize}[<+->]
 \item While there is more than one string, take two strings with maximum overlap and replace them with their superstring
-\item Greedy conjecture: the greedy algorithm is 2-approximate [Storer 1987]
+\item \alert{Greedy conjecture:} the greedy algorithm is 2-approximate [Storer 1987]
+\item Known to be 3.5-approximate [Blum et al., 1991]
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Tight example}
+%\begin{frame}[label=tight]{Tight example}
+%\begin{mypic}
+%\draw[help lines] (0,0) grid (10,6);
+%\node[right] at (0,5) {\tt caeaeaeae};
+%
+%\draw[fill=red,draw=none] (0,5) rectangle (4,5.5);
+%\end{mypic}
+%\end{frame}
+
+\begin{frame}[label=tight]{Tight example}
 %\begin{align*}
 %s_1&={\tt cc}({\tt ae})^n\\
 %s_2&= ({\tt ea})^{n+1}\\
@@ -139,8 +149,8 @@ $1.00302$ & {Karpinski, Schmied} & 2012\\
 %\end{align*}
 \begin{itemize}[<+->]
 \item ${\tt cc}({\tt ae})^n$, $({\tt ea})^{n+1}$, $ ({\tt ae})^n{\tt cc}$
-\item The optimal superstring ${\tt cc}({\tt ae})^{n+2}{\tt cc}$ has length $2n+8$
-\item The greedy algorithm produces a superstring ${\tt cc}({\tt ae})^n{\tt cc}({\tt ea})^{n+1}$ of length $4n+6$
+\item The optimal superstring \[{\tt cc}({\tt ae})^{n+2}{\tt cc}\] has length $2n+8$
+\item The greedy algorithm produces a~superstring \[{\tt cc}({\tt ae})^n{\tt cc}({\tt ea})^{n+1}\] of length $4n+6$
 \end{itemize}
 \end{frame}
 

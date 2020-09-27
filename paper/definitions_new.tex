@@ -1,0 +1,335 @@
+\section{Definitions}
+\subsection{Shortest Common Superstring Problem}
+\label{sec:def_scs}
+For a string $s$, by $|s|$ we denote the length of $s$. 
+For strings~$s$ and~$t$, by $\overlap(s,t)$
+we denote the longest suffix of~$s$ that is also 
+a~prefix of~$t$. By $\pref(s,t)$
+we denote the first $|s|-|\overlap(s,t)|$ symbols of $s$.
+Similarly, $\suff(s,t)$ is the last
+$|t|-|\overlap(s,t)|$ symbols of~$t$. 
+By $\pref(s)$ and $\suff(s)$ we denote, respectively,
+the first and the last $|s|-1$ symbols of~$s$. See Figure~\ref{fig:overlap} for a~visual explanation. We denote the empty string by $\varepsilon$.
+
+
+\begin{figure}[ht]
+\begin{mypic}
+\begin{scope}
+%\draw[help lines,step=5mm] (0,0) grid (14,3);
+
+\draw (0,2) rectangle (6,2.5);
+\draw[step=5mm] (0,2) grid (6,2.5);
+\node[left] at (0,2.25) {$s$};
+\draw (3,0.5) rectangle (10,1);
+\draw[step=5mm] (3,0.5) grid (10,1);
+\node[right] at (10,0.75) {$t$};
+
+\foreach \x in {3.25, 3.75, ..., 5.75}
+  \draw[gray,thick] (\x,2) -- (\x,1);
+
+\foreach \f/\t/\y/\lab in {0/3/1.5/{\pref(s,t)}, 
+3/6/0/{\overlap(s,t)}, 6/10/0/{\suff(s,t)}, 0/5.5/3/\pref(s),
+0.5/6/3.5/\suff(s)}
+  \path (\f,\y) edge[<->] node[rectangle,inner sep=0.5mm,fill=white] {\strut $\lab$} (\t,\y);
+  
+\foreach \x/\a in {0/b, 0.5/a, 1/a, 1.5/c, 2/a, 2.5/b, 3/b, 3.5/c, 4/a, 4.5/a, 5/c, 5.5/b}
+  \node at (\x+0.25,2.25) {\tt \a};
+\foreach \x/\a in {3/b, 3.5/c, 4/a, 4.5/a, 5/c, 5.5/b, 6/a, 6.5/c, 7/a, 7.5/a, 8/a, 8.5/b, 9/c, 9.5/a}
+  \node at (\x+0.25,0.75) {\tt \a};
+\end{scope}
+\end{mypic}
+\caption{Pictorial explanations of $\pref$, $\suff$, and $\overlap$ functions.}
+\label{fig:overlap}
+\end{figure}
+
+
+Throughout the paper by ${\cal S}=\{s_1, \dots, s_n\}$ we denote
+the set of~$n$ input strings. We assume that no input string is a~substring of another (such a~substring can be removed from $\mathcal{S}$ in the preprocessing stage). Note that SCS is a~{\em permutation problem}: to find a~shortest string containing all $s_i$'s in a~{\em given order} one just
+overlaps the strings in this order, see Figure~\ref{fig:permutation}. (This simple observation relates SCS to other permutation problems, including various versions of the Traveling Salesman Problem.) It will prove convenient to view the SCS problem as a~problem of finding an optimum permutation.
+It should be noted at the same time that the correspondence between permutations and superstrings is not one-to-one: there are superstrings that do not correspond to any permutation. For example, the concatenation of input strings is clearly a~superstring, but it ignores the fact that neighbor strings may have non-trivial overlaps and for this reason may fail to correspond to a~permutation. Still, clearly, any {\em shortest} superstring corresponds to a~permutation of the input strtings.
+
+
+\begin{figure}[ht]
+\begin{mypic}
+%\begin{scope}[scale=0.85]
+%\draw[help lines] (0,0) grid (16,4);
+
+\foreach \x in {0, 2.5, 5.5, 10, 12.5, 16}
+  \draw[dashed,gray,thin] (\x,-0.5) -- (\x,4);
+
+\foreach \x/\y/\len/\label in {0/3/5/s_{i_1}, 1/2.5/9/s_{i_2}, 2/2/16/s_{i_3}, 10.5/1/4/s_{i_{n-1}}, 12/0.5/8/s_{i_n}} {
+  \draw (\x,\y) rectangle (\x+0.5*\len,\y+0.5);
+  \node at (\x+0.25*\len,\y+0.25) {$\label$};
+}
+
+\foreach \f/\t/\label in {0/2.5/{s_{i_1}}, 2.5/5.5/{\suff(s_{i_1}, s_{i_2})}, 5.5/10/{\suff(s_{i_2}, s_{i_3})}, 12.5/16/{\suff(s_{i_{n-1}}, s_{i_n})}}
+  \path (\f,0) edge[<->] node[rectangle,inner sep=0.5mm,fill=white] {\strut $\label$} (\t,0);
+
+\node at (11,0) {$\dotsb$};
+\node at (10.5,1.75) {$\dotsb$};
+%\end{scope}
+\end{mypic}
+\caption{SCS is a~permutation problem. The length of a~superstring corresponding to a~permutation $(s_{i_1}, \dotsc, s_{i_n})$ is $|s_{i_1}|$ plus the sum of the lengths of suffixes of consecutive pairs of strings. It is also equal to $\sum_{i=1}^n |s_i|-\sum_{j=1}^{n-1}|\overlap(s_{i_j}, s_{i_{j+1}})|$.}
+\label{fig:permutation}
+\end{figure}
+
+
+\subsection{Hierarchical Graph}
+\label{sec:def_hier}
+%\begin{definition}[hierarchical graph]
+For a~set of strings~${\cal S}$, the~\emph{hierarchical graph} $HG=(V,E)$ is a~weighted directed graph with $V=\{v \colon \text{$v$ is a~substring of some $s \in {\cal S}$}\}$. For every $v \in V,\, v \neq \varepsilon$, the set of arcs~$E$ contains an {\em up-arc} $(\pref(v), v)$ of weight~1 and a {\em down-arc} $(v, \suff(v))$ of weight~0. The meaning of an up-arc is appending one symbol to the end of the current string (and that is why it has weight~1), whereas the meaning of a down-arc is cutting down one symbol from the beginning of the current string.
+%\end{definition}
+%
+Figure~\ref{fig:hgex}(a) gives an example of the hierarchical graph and shows that the terminology of up- and down-arcs comes from placing all the strings of the same length at the same level, where the $i$-th level contains strings of length~$i$.  In all the figures in this paper, the input strings are shown in rectangles, while all other vertices are ellipses.
+
+\newcommand{\we}[4]{
+\begin{scope}[xshift=#1mm,yshift=#2mm]
+\foreach \n/\x/\y in {aaa/0/3, cae/1/3, aec/3/3, eee/4/3}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+%  
+\foreach \n/\x/\y in {aa/0/2, ca/1/2, ae/2/2, ec/3/2, ee/4/2, a/1/1, c/2/1, e/3/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \n};
+%
+\node[vertex] (eps) at (2,0) {$\varepsilon$};
+%
+\foreach \f/\t/\a in {eps/e/10, e/eps/10, eps/c/10, c/eps/10, eps/a/10, a/eps/10, a/aa/10, aa/a/10, aa/aaa/10, aaa/aa/10, c/ca/0, ca/cae/0, cae/ae/0, ae/aec/0, aec/ec/0, ee/eee/10, eee/ee/10, e/ee/10, ee/e/10, ca/a/0, a/ae/0, ae/e/0, e/ec/0, ec/c/0}
+  \path (\f) edge[hgedge,bend left=\a] (\t);
+  
+\node at (2,-1) {(#3)};
+
+#4
+\end{scope}
+}
+
+\begin{figure}[!ht]
+\begin{mypic}
+%\begin{scope}[scale=0.85]
+\we{0}{0}{a}{}
+
+\we{57}{0}{b}{
+\foreach \f/\t/\a in {eps/a/10, a/ae/0, ae/aec/0, aec/ec/0, ec/c/0, c/ca/0, ca/a/0, a/eps/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+
+\we{114}{0}{c}{
+\foreach \f/\t/\a in {eps/a/10, a/aa/10, aa/aaa/10, aaa/aa/10, aa/a/10, a/ae/0, ae/aec/0, aec/ec/0, ec/c/0, c/ca/0, ca/cae/0, cae/ae/0, ae/e/0, e/ee/10, ee/eee/10, eee/ee/10, ee/e/10, e/eps/10}
+  \path (\f) edge[hgedge,bend left=\a,draw=black,thick] (\t);
+}
+%\end{scope}
+\end{mypic}
+\caption{(a)~Hierarchical graph for the~dataset $\mathcal{S}=\{{\tt aaa}, {\tt cae}, {\tt aec}, {\tt eee}\}$. (b)~The~walk $\varepsilon \to {\tt a} \to {\tt ae} \to {\tt aec} \to {\tt ec} \to {\tt c} \to {\tt ca} \to {\tt a} \to \varepsilon$ has length (or weight)~4 and spells the~string {\tt aeca} of length~4. (c)~An~optimal superstring for~$\mathcal{S}$ is {\tt aaaecaeee}. It has length~9, corresponds to the~permutation $({\tt aaa}, {\tt aec}, {\tt cae}, {\tt eee})$, and defines the~walk of length~9 shown in black.}
+\label{fig:hgex}
+\end{figure}
+
+What we are looking for in this graph is a shortest
+walk from $\varepsilon$ to $\varepsilon$ going
+through all the nodes from~$\mathcal{S}$.
+It is not difficult to see that the length of a~walk 
+from $\varepsilon$ to $\varepsilon$ equals the 
+length of the string spelled by this walk. 
+This is just because each up-arc has 
+weight~$1$ and adds one symbol to 
+the current string. See Figure~\ref{fig:hgex}(b) for an~example.
+%For example, in the graph of Fiure.~\ref{fig:hgexfirst} 
+%a~walk $\varepsilon\to{\tt b}\to{\tt ba}
+%\to{\tt bab}\to{\tt ab}\to{\tt abc}
+%\to{\tt abca}\to{\tt bca}\to{\tt ca}\to{\tt a}
+%\to\varepsilon$ has length $5$ and spells 
+%a~string {\tt babca} 
+%of length~$5$ in a~natural way.\todo{Update this when you update the figure.}
+
+Hence, the SCS problem is equivalent to finding a~shortest closed walk from $\varepsilon$ to $\varepsilon$ that visits all nodes from~${\cal S}$. Note that a walk may contain repeated nodes and arcs. The multiset of arcs of such a~walk must be Eulerian (each vertex must have the same in- and out-degree, and the set of arcs must be connected). It will prove convenient to define an~{\em Eulerian solution} in a~hierarchical graph as an~Eulerian multiset of arcs~$D$ that goes through $\varepsilon$ and all nodes from~${\cal S}$. Given such a~solution~$D$, one can easily recover an Eulerian cycle (that might not be unique). This cycle spells a~superstring of~${\cal S}$ of the same length as~$D$. Figure~\ref{fig:hgex}(c) shows an~optimal Eulerian solution.
+
+A solution to SCS defines a permutation $(s_{i_1}, \dotsc, s_{i_n})$ of the input strings, and this permutation naturally gives a~``zig-zag'' Eulerian solution in the hierarchical graph:
+\begin{align}
+\label{eq:zigzag}
+\varepsilon \to s_{i_1} \to \overlap(s_{i_1}, s_{i_2}) \to s_{i_2} \to
+\overlap(s_{i_2}, s_{i_3}) \to \dotsb 
+%\to \overlap(s_{i_{n-1}}, s_{i_n}) 
+\to s_{i_n} \to \varepsilon \, .
+\end{align}
+This Eulerian solution is shown schematically in Figure~\ref{fig:hgperm}(a). This schematic illustration is over simplified as the shown path usually has many self-intersections. Still, this point of view is helpful in understanding the algorithms presented later in the text. 
+Figure~\ref{fig:hgperm}(b) shows an ``untangled'' optimal Eulerain solution from Figure~\ref{fig:hgex}(c): by contracting nodes with equal labels into the same node, one gets exactly the solution from Figure~\ref{fig:hgex}(c).
+
+\begin{figure}[ht]
+\begin{mypic}
+\begin{scope}[yscale=0.8]
+%\draw[help lines] (-7.5,0) grid (7.5,3);
+\foreach \n/\x/\y in {aaa/0/3, cae/4/3, aec/2/3, eee/6/3}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+
+\foreach \n/\t/\x/\y in {aa1/aa/-0.5/2, aa2/aa/0.5/2, ae1/ae/1.5/2, ec/ec/2.5/2, ca/ca/3.5/2, ae2/ae/4.5/2, ee1/ee/5.5/2, ee2/ee/6.5/2, a1/a/0/1, a2/a/1/1, c/c/3/1, e1/e/5/1, e2/e/6/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \t};
+
+\node[vertex] (eps) at (3,0) {$\varepsilon$};
+
+\foreach \f/\t in {aa1/aaa, aaa/aa2, ae1/aec, aec/ec, ca/cae, cae/ae2, ee1/eee, eee/ee2, a1/aa1, aa2/a2, a2/ae1, ec/c, c/ca, ae2/e1, e1/ee1, ee2/e2}
+  \draw[->] (\f) -- (\t);
+  
+\path (eps) edge[->,out=180,in=-45] (a1);
+\path (e2) edge[->,out=-135,in=0] (eps);
+
+
+\foreach \n/\x in {1/-8, 2/-7, 3/-6, n/-3}
+  \node[inputvertex] (\n) at (\x,3) {$s_{i_{\n}}$}; 
+  
+\node at (-4.5,3) {$\dotsb$};
+
+\foreach \n/\x/\y in {12/-7.5/2, 23/-6.5/1, 34/-5.5/1.5, 67/-3.5/2}
+  \node[vertex] (\n) at (\x,\y) {}; 
+  
+\foreach \f/\t in {1/12, 12/2, 2/23, 23/3, 3/34, 67/n}
+  \draw[->,anypath] (\f) -- (\t);
+  
+\node[vertex] (eps) at (-5.5,0) {$\varepsilon$};
+\path (eps) edge[anypath,->,out=180,in=-90] (1);
+\path (n) edge[anypath,->,out=-90,in=0] (eps);
+
+\node at (-5.5,-1) {(a)};
+\node at (3,-1) {(b)};
+\end{scope}
+\end{mypic}
+\caption{(a)~A~schematic illustration of a~normalized Eulerian solution.
+(b)~Untangled optimal Eulerian solution from Figure~\ref{fig:hgex}(c).}
+\label{fig:hgperm}
+\end{figure}
+
+Not every Eulerian solution in the hierarchical graph has a~nice zig-zag
+structure described above. Later, we introduce a~normalization procedure (that we call collapsing)
+that allows us to focus on nice Eulerian solutions only.
+
+\subsection{Trivial Superstring}
+
+We use the following notation: If $U$ and $V$ are two multisets, then $U\sqcup V$ is the multiset~$W$ such that each $w\in W$ has multiplicity equal to the sum of multiplicities it has in sets $U$ and $V$.
+
+For any set of strings $\mathcal{S}$ a {\em trivial superstring} is just a concatenation of strings from ${\cal S}$ and its Eulerian solution $T({\cal S})$ is equal to $\bigsqcup_{s\in{\cal S}} T(\{ s \})$, where $T(\{ s \})$ is a zig-zag $\varepsilon \to s \to \varepsilon$. Note that despite the fact that the concatenation order may be arbitrary, the Eulerian solution remains the same. This shows that the correspondence between superstring and its Eulerian solution is many-to-one.
+
+Although this solution is far from optimal, it has an important property:
+\begin{quote}
+    $T(\mathcal{S})$ is a supergraph of any zig-zag Eulerian solution.
+\end{quote}
+Indeed, any part of type $\overlap(s, s') \to s' \to \overlap(s', s'')$ clearly lies in the corresponding zig-zag $\varepsilon \to s' \to \varepsilon$.
+
+Since an arbitrary Eulerian solution lies in $T(\mathcal{S})$ but in general doesn't coincide it, we can treat the trivial solution as a solution with ``extra arcs'', and so the search for the optimal solution can be perceived as the search for the maximum subset of arcs of the $T(\mathcal{S})$, without which it remains Eulerian. It's interesting that aforementioned normalization procedure also clean up extra arcs in some way.
+
+\subsection{Normalizing a~Solution}
+\label{sec:def_normal}
+In this section, we describe a~natural way of normalizing an~Eulerian solution~$D$. Informally, it can be viewed as follows.
+Imagine that all arcs of~$D$ form one~circular thread, and that there is a~nail in every node~$s \in {\cal S}$ corresponding to an input string. We apply {\em ``gravitation''} to the thread, i.e., we replace every pair of arcs $(\pref(v), v)$, $(v, \suff(v))$ 
+with a~pair $(\pref(v), \pref(\suff(v)))$, $(\pref(\suff(v)), \suff(v))$, if there is no nail in~$v$ and if this does not disconnect~$D$. We call this {\em collapsing}, see Figure~\ref{fig:collapsing}.
+
+\begin{figure}[ht]
+\begin{mypic}
+\begin{scope}[minimum size=6mm]
+%\draw[help lines] (0,0) grid (14,3);
+\node[vertex] (a) at (0, 1.5) {$\pref(v)$};
+\node[vertex,inner sep=1mm] (b) at (1.5, 2.5) {$v$};
+\node[vertex] (c) at (3, 1.5) {$\suff(v)$};
+\node[vertex] (d) at (1.5, 0.5) {$ \pref(\suff(v))$};
+\draw[->,dashed] (a) -- (b);
+\draw[->,dashed] (b) -- (c);
+\draw[->] (a) -- (d);
+\draw[->] (d) -- (c);
+
+\begin{scope}[xshift=80mm]
+\node[vertex] (a) at (0, 1.5) {\tt aba};
+\node[vertex,inner sep=1mm] (b) at (1.5, 2.5) {\tt abac};
+\node[vertex] (c) at (3, 1.5) {\tt bac};
+\node[vertex] (d) at (1.5, 0.5) {\tt ba};
+\draw[->,dashed] (a) -- (b);
+\draw[->,dashed] (b) -- (c);
+\draw[->] (a) -- (d);
+\draw[->] (d) -- (c);
+\end{scope}
+\end{scope}
+\end{mypic}
+\caption{Collapsing a~pair of arcs is replacing a~pair of dashed arcs with a~pair of solid arcs: general case (left) and example (right). The~``physical meaning'' of this transformation is that to get {\tt bac} from {\tt aba} one needs to cut~{\tt a} from the beginning and append~{\tt c} to the end and these two operations commute.}
+\label{fig:collapsing}
+\end{figure}
+
+A~formal pseudocode of the collapsing procedure is given in Algorithm~\ref{alg:collapse}. The pseudocode, in particular, reveals an important exception (not covered in Figure~\ref{fig:collapsing}):
+if $|v|=1$, then $\pref(\suff(v))$ is undefined and we just remove the pair of arcs $(\pref(v), v)$ and $(v, \suff(v))$.
+
+
+\begin{algorithm}[!ht]
+\caption{Collapse}\label{alg:collapse}
+\hspace*{\algorithmicindent} \textbf{Input:} hierarchical graph $HG(V,E)$, Eulerian solution~$D$, node~$v \in V$.
+%\hspace*{\algorithmicindent} \textbf{Output:} a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
+\begin{algorithmic}[1]
+\If{$(\pref(v), v), (v, \suff(v)) \in D$}
+\State\label{alg:col} $D \gets D \setminus \{(\pref(v), v), (v, \suff(v))\}$
+\If{$|v| > 1$}
+\State $D \gets D \cup \{(\pref(v), \pref(\suff(v))), (\pref(\suff(v)), \suff(v))\}$
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+Algorithm~\ref{alg:ca}, that we call Collapsing Algorithm (CA), uses the property described above to normalize any solution.
+It drops down all pairs of arcs that are not needed for connectivity.
+\ab{(Recall that a~set of edges is called an Eulerian solution if it is connected and goes through all initial nodes and $\varepsilon$.)}
+
+
+%The normalizing 
+%This way, the algorithm drops down all arcs of the doubled set~$D$ that are not needed for connectivity. See Algorithm~\ref{alg:ca} for a~formal pseudocode.
+
+\begin{algorithm}[!ht]
+\caption{Collapsing Algorithm (CA)}\label{alg:ca}
+\hspace*{\algorithmicindent} \textbf{Input:} set of strings~$\mathcal{S}$, Eulerian solution~$D$ in~$HG$.\\
+\hspace*{\algorithmicindent} \textbf{Output:} Eulerian solution $D'\colon |D'|\leq|D|$
+% a~superstring of~${\cal S}$ as a~path $D$~in the hierarchical graph.
+\begin{algorithmic}[1]
+\For{level~$l$ in $HG$ in descending order}\label{alg:ca_for}
+\For{all $v \in V$ s.t. $|v|=l$ in lexicographic order:}
+\While{$(\pref(v), v), (v, \suff(v)) \in D$ and collapsing it keeps~$D$ an Eulerian solution}
+\State $\text{\sc Collapse}(HG, D, v)$
+\EndWhile
+\EndFor
+\EndFor
+\State return $D$
+\end{algorithmic}
+\end{algorithm}
+
+It is easy to show (we prove this formally in Claim~\ref{claim:zigzag} on page~\pageref{claim:zigzag}) that any normalized solution is of the form~\eqref{eq:zigzag}. But it is not true that every zig-zag solution of the form~\eqref{eq:zigzag} is a normalized solution: see Figure~\ref{fig:abnormalzigzag} for an example. The normalization procedure does not just turn a~solution into some standard form, but it may also decrease its length.
+
+\begin{figure}[ht]
+\begin{mypic}
+\foreach \n/\x/\y in {ae/1/2, aa/2/2, ca/3/2}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+
+\foreach \n/\x/\y in {a/2/1, e/1/1, c/3/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \n};
+
+\node[vertex] (eps) at (2,0) {$\varepsilon$};
+\node at (2,-1) {(a)};
+
+\path (aa) edge[->,bend left] (a);
+\path (a)    edge[->,bend left] (aa);
+\path (eps) edge[->,bend left] (a);
+\path (a)    edge[->,bend left] (eps);
+\path (eps) edge[->,bend left=10] (a);
+\path (a)    edge[->,bend left=10] (eps);
+
+\foreach \f/\t in {a/ae, ae/e, e/eps, eps/c, c/ca, ca/a}
+  \draw[->] (\f) -- (\t);
+  
+\begin{scope}[xshift=50mm]
+\foreach \n/\x/\y in {ae/1/2, aa/2/2, ca/3/2}
+  \node[inputvertex] (\n) at (\x,\y) {\tt \n};
+
+\foreach \n/\x/\y in {a/2/1, e/1/1, c/3/1}
+  \node[vertex] (\n) at (\x,\y) {\tt \n};
+
+\node[vertex] (eps) at (2,0) {$\varepsilon$};
+\node at (2,-1) {(b)};
+
+\path (aa) edge[->,bend left] (a);
+\path (a)    edge[->,bend left] (aa);
+
+\foreach \f/\t in {a/ae, ae/e, e/eps, eps/c, c/ca, ca/a}
+  \draw[->] (\f) -- (\t);
+\end{scope}
+\end{mypic}
+\caption{(a)~An~Eulerian solution corresponding to the~permutation $({\tt ae}, {\tt aa}, {\tt ca})$. (b)~The solution from~(a) after normalization results in a shorter solution corresponding to the~permutation~$({\tt ca}, {\tt aa}, {\tt ae})$. \ab{This example also shows that although collapsing a~pair of edges is a~local change in the graph, it may drastically change the resulting superstring. In this case, it replaces a~superstring {\tt aeaaca} with a~shorter superstring {\tt caae}.}}
+\label{fig:abnormalzigzag}
+\end{figure}
