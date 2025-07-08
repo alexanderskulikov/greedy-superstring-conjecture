@@ -24,4 +24,6 @@ To run a web-interface, install flask and then, in the folder web:
     
 Then proceed to http://localhost:5000/scs
 
+Update (July 8, 2025). The conjecture turned out to be false. Counterexample: accaccaccaccaccb, accaccaccbccaccac, accaccbccaccaccbccac, bccaccaccbccaccacc, accbccaccaccaccacc.
+
 
